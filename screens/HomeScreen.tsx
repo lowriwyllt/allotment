@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const HomeScreen = () => {
+const HomeScreen = (): JSX.Element => {
   return (
     <View>
       <Text>HomeScreen</Text>
