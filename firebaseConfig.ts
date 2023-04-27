@@ -12,6 +12,13 @@ const firebaseConfig = {
   storageBucket: "allotment-cc7dd.appspot.com",
   messagingSenderId: "278887415667",
   appId: "1:278887415667:web:99112784c2b8df4f760f06",
+
+  // apiKey: "AIzaSyBmGseQCUrKX3yzgp5AKJuZwcTrnbsEzrs",
+  // authDomain: "auth-test-8a4e7.firebaseapp.com",
+  // projectId: "auth-test-8a4e7",
+  // storageBucket: "auth-test-8a4e7.appspot.com",
+  // messagingSenderId: "893471506567",
+  // appId: "1:893471506567:web:22988c15ef28a852a53822",
 };
 //initalise the app
 const app = initializeApp(firebaseConfig);
