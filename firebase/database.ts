@@ -50,3 +50,19 @@ export const getUserByEmail = async (email: string) => {
     console.log(err);
   }
 };
+
+// GET ALL PLANTimages
+export const getAllPlantImages = async () => {
+  const result: string[] = [];
+  try {
+    const plants = await getDocs(collection(db, "plants"));
+    plants.forEach((plantDoc) => {
+      result.push(plantDoc.data().img);
+  
+    });
+    return result;
+
+  } catch (err) {
+    console.log("did not work");
+  }
+};
