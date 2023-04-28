@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
+import CalendarSinglePlant from "../Calendar";
 
 const HomeScreen = (): JSX.Element => {
   const navigation = useNavigation<any>();
@@ -17,6 +18,7 @@ const HomeScreen = (): JSX.Element => {
 
   return (
     <View style={homeStyles.container}>
+      <CalendarSinglePlant></CalendarSinglePlant>
       <Text style={homeStyles.homeHeader}>allotment</Text>
       <Text>Email: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut} style={homeStyles.button}>
