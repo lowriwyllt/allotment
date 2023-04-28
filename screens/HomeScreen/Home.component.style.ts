@@ -20,4 +20,7 @@ export const homeStyles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
+  homeHeader: {
+    fontSize: 30
+  }
 });

@@ -46,6 +46,19 @@ const LoginStyle = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
+  avatarsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 15,
+    paddingBottom:20,
+  },
+  avatars: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    resizeMode: "cover",
+  },
 });
 
 export default LoginStyle;

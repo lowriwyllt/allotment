@@ -15,10 +15,9 @@ const HomeScreen = (): JSX.Element => {
       .catch((err) => alert(err.message));
   };
 
-  // console.log("consolelog:", auth.currentUser);
-
   return (
     <View style={homeStyles.container}>
+      <Text style={homeStyles.homeHeader}>allotment</Text>
       <Text>Email: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut} style={homeStyles.button}>
         <Text style={homeStyles.buttonText}>Sign Out</Text>
