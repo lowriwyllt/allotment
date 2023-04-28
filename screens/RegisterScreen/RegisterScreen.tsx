@@ -107,12 +107,6 @@ import {
             onChangeText={(text) => setName(text)}
             style={LoginStyle.input}
           />
-          {/* <TextInput
-            placeholder="Avatar URL"
-            value={avatarUrl}
-            onChangeText={(text) => setAvatarUrl(text)}
-            style={LoginStyle.input}
-          /> */}
           <TextInput
             placeholder="Email"
             value={email}
@@ -129,9 +123,6 @@ import {
         </View>
   
         <View style={LoginStyle.buttonContainer}>
-          {/* <TouchableOpacity onPress={handleLogin} style={LoginStyle.button}>
-            <Text style={LoginStyle.buttonText}>Login</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={handleRegister}
             style={LoginStyle.button}
