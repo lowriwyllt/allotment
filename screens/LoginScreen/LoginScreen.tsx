@@ -1,5 +1,6 @@
 import {
   KeyboardAvoidingView,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -21,21 +22,21 @@ import { createUser, getAvatars } from "../../firebase/database";
 import theme from "../../styles/theme.style";
 
 const LoginScreen = (): JSX.Element => {
-  const [name, setName] = useState<string>("");
+  // const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [avatarUrl, setAvatarUrl] = useState<string>(
-    "https://img.freepik.com/premium-vector/little-plant-soil-pixel-art-style_475147-1002.jpg"
-  );
-  const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
+  // const [avatarUrl, setAvatarUrl] = useState<string>(
+  //   "https://img.freepik.com/premium-vector/little-plant-soil-pixel-art-style_475147-1002.jpg"
+  // );
+  // const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
 
   const navigation = useNavigation<any>();
 
-  useEffect(() => {
-    getAvatars().then((res) => {
-      setAvatarsArr(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getAvatars().then((res) => {
+  //     setAvatarsArr(res);
+  //   });
+  // }, []);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -46,19 +47,19 @@ const LoginScreen = (): JSX.Element => {
     return unsubscribe;
   }, []);
 
-  const handleSignUp = async () => {
-    try {
-      const { user }: { user: User } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      await updateProfile(user, { displayName: name });
-      await createUser({ name, email, avatarUrl });
-    } catch (error: any) {
-      alert(error.message);
-    }
-  };
+  // const handleSignUp = async () => {
+  //   try {
+  //     const { user }: { user: User } = await createUserWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     await updateProfile(user, { displayName: name });
+  //     await createUser({ name, email, avatarUrl });
+  //   } catch (error: any) {
+  //     alert(error.message);
+  //   }
+  // };
 
   const handleLogin = async () => {
     try {
@@ -69,12 +70,17 @@ const LoginScreen = (): JSX.Element => {
     }
   };
 
+  const handleRegister = async () => {
+      navigation.replace("register");
+  }
+
   return (
+    <ScrollView>
     <KeyboardAvoidingView style={LoginStyle.container} behavior="padding">
-      <Text style={{ color: theme.feature, paddingBottom: 10 }}>
+      {/* <Text style={{ color: theme.feature, paddingBottom: 10 }}>
         Choose an avatar:
-      </Text>
-      <View style={LoginStyle.avatarsContainer}>
+      </Text> */}
+      {/* <View style={LoginStyle.avatarsContainer}>
         {avatarsArr?.map((avatar) => {
           return (
             <Pressable
@@ -91,14 +97,14 @@ const LoginScreen = (): JSX.Element => {
             </Pressable>
           );
         })}
-      </View>
+      </View> */}
       <View style={LoginStyle.inputContainer}>
-        <TextInput
+        {/* <TextInput
           placeholder="Name"
           value={name}
           onChangeText={(text) => setName(text)}
           style={LoginStyle.input}
-        />
+        /> */}
         {/* <TextInput
           placeholder="Avatar URL"
           value={avatarUrl}
@@ -125,13 +131,14 @@ const LoginScreen = (): JSX.Element => {
           <Text style={LoginStyle.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={handleRegister}
           style={[LoginStyle.button, LoginStyle.buttonOutline]}
         >
           <Text style={LoginStyle.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

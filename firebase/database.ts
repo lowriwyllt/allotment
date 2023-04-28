@@ -12,17 +12,19 @@ import { UserType } from "../types/Users.types";
 const db = getFirestore(app);
 
 // CREATE USER
-export const createUser = async ({ name, email, avatarUrl }: UserType) => {
+export const createUser = async ({ name, email, avatarUrl, allotment}: UserType) => {
   try {
-    await setDoc(doc(db, "Lemons", email), {
+    await setDoc(doc(db, "users", email), {
       name,
       email,
       avatarUrl,
+      allotment,
     });
   } catch (err) {
     console.error(err);
   }
 };
+
 
 // GET AVATARS
 export const getAvatars = async () => {
