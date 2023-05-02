@@ -10,6 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import { UserType } from "../types/Users.types";
+import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 
 const db = getFirestore(app);
 
