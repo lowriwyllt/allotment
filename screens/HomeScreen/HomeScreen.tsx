@@ -22,7 +22,6 @@ const HomeScreen = (): JSX.Element => {
 
   return (
     <View style={homeStyles.container}>
-      <CalendarSinglePlant></CalendarSinglePlant>
       <Text style={homeStyles.homeHeader}>allotment</Text>
       <Text>Email: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut} style={homeStyles.button}>
