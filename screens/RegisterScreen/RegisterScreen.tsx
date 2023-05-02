@@ -38,6 +38,9 @@ import {
         setAvatarsArr(res);
       });
     }, []);
+
+    console.log(email);
+
   
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -55,10 +58,14 @@ import {
           email,
           password
         );
+
+
         await updateProfile(user, { displayName: name });
         await createUser({ name, email, avatarUrl, allotment })
         setCurrentUser(user.email);
 
+        navigation.replace("home");
+        
       } catch (error: any) {
         alert(error.message);
       }
@@ -76,7 +83,7 @@ import {
   
     const handleRegister = async () => {
         handleSignUp();
-        navigation.replace("home");
+        
     }
   
     return (
