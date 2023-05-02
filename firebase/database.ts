@@ -81,7 +81,7 @@ export const getPlantByName = async (name: string) => {
     querySnapshot.forEach((doc) => {
       result = doc.data();
     });
-    return result;
+    return result as PlantType;
   } catch (err) {
     console.log(err);
   }
