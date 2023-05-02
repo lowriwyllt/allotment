@@ -1,56 +1,44 @@
-import { Pressable, Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { getAllPlantImages } from '../../firebase/database';
-import { useEffect, useState } from 'react';
-
-
+import { Pressable, Image, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { getAllPlantImages } from "../../firebase/database";
+import { useEffect, useState } from "react";
+import PlantButton from "./Component/PlantButton";
+import { PlantTypeForAll } from "../../types/Plants.types";
 
 const PlantsScreen = () => {
+  const [plants, setPlants] = useState<PlantTypeForAll[] | undefined>([]);
 
-    const [ plantImages, setPlantImages ] = useState<string[] | undefined>([]);
-
-    useEffect(() => {
-
-        getAllPlantImages().then((response) => {
-
-            setPlantImages(response)
-
-        })
-
-    }, []);
-
-    const handlePress = () => {
-
-        
-    }
+  useEffect(() => {
+    getAllPlantImages().then((response) => {
+      setPlants(response);
+    });
+  }, []);
 
   return (
-
-    <View>
-      <Text>Plants</Text>
-      <View>
-        { plantImages?.map( ( plantImage ) => { 
-            
-            return (
-                <Pressable onPress={ handlePress } key={ plantImage }>
-                    <Image style={ styles.plantImages } source={ { uri:plantImage } }></Image>
-                </Pressable>
-            ) 
-
-          } ) 
-        }
-        </View>
+    <View style={styles.container}>
+      <Text style={styles.header}>Plants</Text>
+      <View style={styles.buttons}>
+        {plants?.map((plant) => {
+          return <PlantButton key={plant.name} plant={plant} />;
+        })}
+      </View>
     </View>
-
-  )
-
+  );
 };
 
 export default PlantsScreen;
 
-const styles = StyleSheet.create({plantImages: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-    resizeMode: "cover",
-  },});
+const styles = StyleSheet.create({
+  header: {
+    fontSize: 20,
+  },
+  container: {
+    width: "100%",
+    flex: 1,
+    alignItems: "center",
+  },
+  buttons: {
+    flex: 0.5,
+    flexWrap: "wrap",
+  },
+});
