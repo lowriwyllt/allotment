@@ -16,8 +16,8 @@ const HomeScreen = (): JSX.Element => {
   };
 
   const handlePlants = () => {
-    navigation.replace("plants");
-  }
+    navigation.navigate("plants");
+  };
 
   return (
     <View style={homeStyles.container}>
