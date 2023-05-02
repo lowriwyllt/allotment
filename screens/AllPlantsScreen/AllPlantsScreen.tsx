@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import PlantButton from "./Component/PlantButton";
 import { PlantTypeForAll } from "../../types/Plants.types";
 
-const PlantsScreen = () => {
+const AllPlantsScreen = () => {
   const [plants, setPlants] = useState<PlantTypeForAll[] | undefined>([]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const PlantsScreen = () => {
   );
 };
 
-export default PlantsScreen;
+export default AllPlantsScreen;
 
 const styles = StyleSheet.create({
   header: {
