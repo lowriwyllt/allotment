@@ -4,7 +4,7 @@ import { getPlantByName } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
 
 //--------------------------------need to change any----------------------------------------
-const PlantScreen = ({ route }: any) => {
+const SinglePlantScreen = ({ route }: any) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
   const { plantName } = route.params;
 
@@ -35,7 +35,7 @@ const PlantScreen = ({ route }: any) => {
   );
 };
 
-export default PlantScreen;
+export default SinglePlantScreen;
 
 const styles = StyleSheet.create({
   header: {
