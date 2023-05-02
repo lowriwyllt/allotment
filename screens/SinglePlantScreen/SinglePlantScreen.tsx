@@ -13,7 +13,6 @@ const PlantScreen = ({ route }: any) => {
     getPlantByName(plantName).then((response) => {
       //response type needs to be changed
       setPlant(response);
-      console.log(response);
     });
   }, []);
 
@@ -34,9 +33,8 @@ const PlantScreen = ({ route }: any) => {
             </Text>
             <Text>Sunlight needed: {plant.sunLight}</Text>
             <Text>Watering needed: {plant.watering}</Text>
-            <CalendarSinglePlant plant={plant}>
+            <CalendarSinglePlant plant={plant} />
 
-            </CalendarSinglePlant>
             <Text>{plant.sowingInstructions.split(".").join("\n\n")}</Text>
           </>
         ) : null}

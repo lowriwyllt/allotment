@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import { Calendar } from "react-native-calendars";
+import { Calendar, ExpandableCalendar } from "react-native-calendars";
 import { AllPlantProps } from "../types/Plants.types";
 type Marked = {
   [date: string]: {
@@ -44,6 +44,7 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
   } = plant;
 
   let harvestFromDate = new Date(`${currentYear}${sowingStartDate}`);
+
   harvestFromDate.setDate(harvestFromDate.getDate() + minDaysUntilHarvest);
 
   const testDates = [
@@ -56,21 +57,22 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
       event: "harvest-window",
       fromDate: `${harvestFromDate.getFullYear()}-${String(
         harvestFromDate.getMonth() + 1
-      ).padStart(2, "0")}-${harvestFromDate.getDate()}`,
+      ).padStart(2, "0")}-${String(harvestFromDate.getDate()).padStart(
+        2,
+        "0"
+      )}`,
       numberOfDays:
         maxDaysUntilHarvest - minDaysUntilHarvest + sowingWindowDays,
     },
   ];
 
-  console.log(testDates);
-
   const getMarked = () => {
     let marked: Marked = {};
     let color = "";
     testDates.forEach(({ event, fromDate, numberOfDays }) => {
-      if (event === "sowing window") {
+      if (event === "sowing-window") {
         color = "blue";
-      } else if (event === "harvesting window") {
+      } else if (event === "harvest-window") {
         color = "green";
       }
       const from = new Date(fromDate);
