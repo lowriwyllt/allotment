@@ -9,7 +9,7 @@ const PlantScreen = ({ route }: any) => {
   const { plantName } = route.params;
 
   useEffect(() => {
-    getPlantByName(plantName).then((response: PlantType) => {
+    getPlantByName(plantName).then((response: PlantType) => { //response type needs to be changed
       setPlant(response);
     });
   }, []);

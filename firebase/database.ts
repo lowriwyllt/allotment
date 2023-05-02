@@ -14,7 +14,7 @@ import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 
 const db = getFirestore(app);
 
-// CREATE USER
+// CREATE USER - the feilds that are filled out by the user to create a profile
 export const createUser = async ({
   name,
   email,
@@ -33,7 +33,7 @@ export const createUser = async ({
   }
 };
 
-// GET AVATARS
+// GET AVATARS - A list of themed avatars which the user can chose from to use as their profile pic/avatar
 export const getAvatars = async () => {
   const result: string[] = [];
   try {
@@ -47,7 +47,7 @@ export const getAvatars = async () => {
   }
 };
 
-// GET USER BY EMAIL
+// GET USER BY EMAIL - The user object is found by the email, but only on reciept of password - redering the users hoempage once they've made an account or logged in
 export const getUserByEmail = async (email: string) => {
   try {
     const docRef = doc(db, "users", email);
@@ -58,7 +58,7 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-// GET ALL PLANT IMAGES
+// GET ALL PLANT IMAGES - renders all the plant avatars from each plant object to represent all the plants in the database on one page
 export const getAllPlantImages = async () => {
   const result: PlantTypeForAll[] = [];
   try {
@@ -72,7 +72,7 @@ export const getAllPlantImages = async () => {
   }
 };
 
-//GET ALL PLANT DETAILS BY NAME
+//GET ALL PLANT DETAILS BY NAME - once user clicks on a plant avatar it takes you to the page for all the info on that plant
 export const getPlantByName = async (name: string) => {
   try {
     const q = query(collection(db, "plants"), where("name", "==", name));

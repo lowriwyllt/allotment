@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
-import PlantsScreen from "./screens/PlantsScreen/PlantsScreen";
-import PlantScreen from "./screens/PlantScreen/PlantScreen";
+import PlantsScreen from "./screens/AllPlantsScreen/AllPlantsScreen";
+import PlantScreen from "./screens/SinglePlantScreen/SinglePlantScreen";
 
 const Stack = createNativeStackNavigator();
 
