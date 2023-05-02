@@ -5,14 +5,21 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { UserType } from "../types/Users.types";
 
 const db = getFirestore(app);
 
 // CREATE USER
-export const createUser = async ({ name, email, avatarUrl, allotment}: UserType) => {
+export const createUser = async ({
+  name,
+  email,
+  avatarUrl,
+  allotment,
+}: UserType) => {
   try {
     await setDoc(doc(db, "users", email), {
       name,
@@ -24,7 +31,6 @@ export const createUser = async ({ name, email, avatarUrl, allotment}: UserType)
     console.error(err);
   }
 };
-
 
 // GET AVATARS
 export const getAvatars = async () => {
@@ -51,18 +57,31 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-// GET ALL PLANTimages
+// GET ALL PLANT IMAGES
 export const getAllPlantImages = async () => {
-  const result: string[] = [];
+  const result: PlantTypeForAll[] = [];
   try {
     const plants = await getDocs(collection(db, "plants"));
     plants.forEach((plantDoc) => {
-      result.push(plantDoc.data().img);
-  
+      result.push({ img: plantDoc.data().img, name: plantDoc.data().name });
     });
     return result;
-
   } catch (err) {
     console.log("did not work");
+  }
+};
+
+//GET ALL PLANT DETAILS BY NAME
+export const getPlantByName = async (name: string) => {
+  try {
+    const q = query(collection(db, "plants"), where("name", "==", name));
+    const querySnapshot = await getDocs(q);
+    let result: PlantType | {} = {};
+    querySnapshot.forEach((doc) => {
+      result = doc.data();
+    });
+    return result;
+  } catch (err) {
+    console.log(err);
   }
 };
