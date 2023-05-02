@@ -16,6 +16,10 @@ const HomeScreen = (): JSX.Element => {
       .catch((err) => alert(err.message));
   };
 
+  const handlePlants = () => {
+    navigation.navigate("plants");
+  };
+
   return (
     <View style={homeStyles.container}>
       <CalendarSinglePlant></CalendarSinglePlant>
@@ -23,6 +27,9 @@ const HomeScreen = (): JSX.Element => {
       <Text>Email: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut} style={homeStyles.button}>
         <Text style={homeStyles.buttonText}>Sign Out</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handlePlants}>
+        <Text>Plants</Text>
       </TouchableOpacity>
     </View>
   );
