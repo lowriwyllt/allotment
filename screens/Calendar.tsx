@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Calendar, ExpandableCalendar } from "react-native-calendars";
 import { AllPlantProps } from "../types/Plants.types";
 type Marked = {
@@ -7,32 +7,21 @@ type Marked = {
     periods: { startingDay: boolean; endingDay: boolean; color: string }[];
   };
 };
-// const testDates = [
-//   {
-//     event: "sowing window",
-//     sowingWindowDate: "2023-05-01",
-//     numberOfDays: 10,
-//   },
-//   {
-//     event: "harvesting window",
-//     fromDate: "2023-05-08",
-//     numberOfDays: 12,
-//   },
-// ];
+
 const currentYear = new Date().getFullYear();
 const currentMonth = String(new Date().getMonth() + 1).padStart(2, "0");
 
-interface Sowing {
-  event: string;
-  sowingWindow: string;
-  numberOfDays: number;
-}
+// interface Sowing {
+//   event: string;
+//   sowingWindow: string;
+//   numberOfDays: number;
+// }
 
-interface Harvest {
-  event: string;
-  fromDate: string;
-  numberOfDays: number;
-}
+// interface Harvest {
+//   event: string;
+//   fromDate: string;
+//   numberOfDays: number;
+// }
 
 const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
   const {
@@ -71,7 +60,7 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
     let color = "";
     testDates.forEach(({ event, fromDate, numberOfDays }) => {
       if (event === "sowing-window") {
-        color = "blue";
+        color = "orange";
       } else if (event === "harvest-window") {
         color = "green";
       }
@@ -148,6 +137,14 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
   //   console.log(currentMonth);
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.key}>
+        <Text>Sowing</Text>
+        <View style={styles.sowing}></View>
+      </View>
+      <View style={styles.key}>
+        <Text>Harvesting</Text>
+        <View style={styles.harvesting}></View>
+      </View>
       <Calendar
         initialDate={`${currentYear}-${currentMonth}-01`}
         markingType="multi-period"
@@ -155,7 +152,7 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
         style={{
           borderWidth: 1,
           borderColor: "grey",
-          height: 350,
+          // height: 350,
         }}
       />
     </SafeAreaView>
@@ -166,6 +163,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     width: "90%",
+  },
+  sowing: {
+    marginLeft: 10,
+    width: 30,
+    borderTopWidth: 4,
+    borderTopColor: "orange",
+  },
+  harvesting: {
+    marginLeft: 10,
+    width: 30,
+    borderTopWidth: 4,
+    borderTopColor: "green",
+  },
+  key: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 export default CalendarSinglePlant;
