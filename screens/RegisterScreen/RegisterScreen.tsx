@@ -21,7 +21,7 @@ import {
   import { createUser, getAvatars } from "../../firebase/database";
   import theme from "../../styles/theme.style";
   
-  export const RegisterScreen = (): JSX.Element => {
+  export const RegisterScreen = ({setCurrentUser}: any): JSX.Element => {
     const [name, setName] = useState<string>("");
     const [allotment, setAllotment] = useState<Array<Object>>([]);
     const [email, setEmail] = useState<string>("");
@@ -56,7 +56,9 @@ import {
           password
         );
         await updateProfile(user, { displayName: name });
-        await createUser({ name, email, avatarUrl, allotment });
+        await createUser({ name, email, avatarUrl, allotment })
+        setCurrentUser(user.email);
+
       } catch (error: any) {
         alert(error.message);
       }
@@ -66,6 +68,7 @@ import {
       try {
         const { user } = await signInWithEmailAndPassword(auth, email, password);
         console.log("logged in with: ", user.email);
+
       } catch (error: any) {
         alert(error.message);
       }
@@ -88,7 +91,6 @@ import {
               <Pressable
                 onPress={() => {
                   setAvatarUrl(avatar);
-                  console.log(avatar);
                 }}
               >
                 <Image

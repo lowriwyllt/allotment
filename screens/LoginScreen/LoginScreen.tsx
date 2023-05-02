@@ -15,17 +15,20 @@ import {
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import LoginStyle from "./Login.component.style";
+import UserType from "../../types/Users.types"
 
-const LoginScreen = (): JSX.Element => {
+
+export default function LoginScreen(): JSX.Element {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
 
   const navigation = useNavigation<any>();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("home");
+        navigation.navigate("home", { /* params go here */ });
       }
     });
     return unsubscribe;
@@ -35,6 +38,7 @@ const LoginScreen = (): JSX.Element => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       console.log("logged in with: ", user.email);
+      // setCurrentUser(user.email);
     } catch (error: any) {
       alert(error.message);
     }
@@ -78,5 +82,3 @@ const LoginScreen = (): JSX.Element => {
     </ScrollView>
   );
 };
-
-export default LoginScreen;

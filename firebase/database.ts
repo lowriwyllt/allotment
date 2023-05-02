@@ -7,7 +7,7 @@ import {
   getFirestore,
   setDoc,
 } from "firebase/firestore";
-import { UserType } from "../types/Users.types";
+import UserType from "../types/Users.types";
 
 const db = getFirestore(app);
 

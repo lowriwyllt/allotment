@@ -3,7 +3,8 @@ import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 
-const HomeScreen = (): JSX.Element => {
+export default function  HomeScreen({currentUser, setCurrentUser}: any): JSX.Element {
+
   const navigation = useNavigation<any>();
 
   const handleSignOut = () => {
@@ -11,6 +12,7 @@ const HomeScreen = (): JSX.Element => {
       .signOut()
       .then(() => {
         navigation.replace("login");
+        setCurrentUser('');
       })
       .catch((err) => alert(err.message));
   };
@@ -25,5 +27,3 @@ const HomeScreen = (): JSX.Element => {
     </View>
   );
 };
-
-export default HomeScreen;
