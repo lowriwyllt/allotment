@@ -13,7 +13,7 @@ const DateModal = ({
   setModalVisible: (bool: boolean) => void;
   plantName: string;
 }) => {
-  const [date, setDate] = useState(getCurrentDate());
+  const [date, setDate] = useState(new Date(getCurrentDate()));
 
   return (
     <Modal
@@ -30,8 +30,8 @@ const DateModal = ({
           <Text style={SinglePlantStyles.modalText}>
             Enter the date you planted the {plantName.toLowerCase()}
           </Text>
-          <Text>selected: {date}</Text>
-          {/* <DateTimePicker /> */}
+          <Text>selected: {date.toLocaleString()}</Text>
+          <DateTimePicker value={date} mode="date" display="spinner" />
           <Pressable
             style={SinglePlantStyles.button}
             onPress={() => setModalVisible(!modalVisible)}
