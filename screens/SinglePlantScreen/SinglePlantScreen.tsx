@@ -1,14 +1,25 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Modal,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { getPlantByName } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "../Calendar";
+import theme from "../../styles/theme.style";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route }: any) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [error, setError] = useState<any>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { plantName } = route.params;
 
   useEffect(() => {
@@ -28,9 +39,36 @@ const SinglePlantScreen = ({ route }: any) => {
       });
   }, []);
 
+  const addPlant = () => {
+    setModalVisible(true);
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                Enter the date you planted the {plantName.toLowerCase()}
+              </Text>
+              <Pressable
+                style={styles.button}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>x</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
         <Text style={styles.header}>{plantName}</Text>
         {isLoading ? (
           <Text>Loading...</Text>
@@ -41,6 +79,9 @@ const SinglePlantScreen = ({ route }: any) => {
               style={styles.plantImage}
               source={{ uri: plant.img }}
             ></Image>
+            <Pressable style={styles.button} onPress={addPlant}>
+              <Text style={styles.buttonText}>+</Text>
+            </Pressable>
             <Text>
               Minimum Temperature in Celcius: {plant.minTempCelcius}
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
@@ -80,4 +121,52 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // padding: 50,
   },
+  button: {
+    backgroundColor: theme.feature,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    borderRadius: 20,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    width: "80%",
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  // buttonClose: {
+  //   backgroundColor: "#2196F3",
+  // },
 });
