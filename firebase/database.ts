@@ -93,13 +93,15 @@ export const getPlantByName = async (name: string) => {
   }
 };
 
-export const patchUser = (email, name) => {
+export const patchUser = (email: string, name: string, newEmail: string, avatarUrl: string) => {
   try {
     const nameRef = doc(db, "users", email);
 
     // Set the "capital" field of the city 'DC'
     updateDoc(nameRef, {
       name: name,
+      email: newEmail,
+      avatarUrl: avatarUrl
     });
     return "patched successfully";
   } catch (err) {

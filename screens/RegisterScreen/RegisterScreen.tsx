@@ -40,8 +40,6 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
     });
   }, []);
 
-  console.log(email);
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
