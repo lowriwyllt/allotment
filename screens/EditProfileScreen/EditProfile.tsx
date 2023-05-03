@@ -1,7 +1,7 @@
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Modal, Pressable, Alert } from "react-native";
 import { homeStyles } from "../HomeScreen/Home.component.style";
 import { useEffect, useState } from "react";
-import { getUserByEmail } from "../../firebase/database";
+import { getUserById } from "../../firebase/database";
 import LoginStyle from "../LoginScreen/Login.component.style";
 import EditProfileStyles from './EditProfile.component.style';
 import { useNavigation } from "@react-navigation/native";
@@ -22,15 +22,17 @@ export default function EditProfileScreen({ currentUser }: any): JSX.Element {
   const auth = getAuth();
   const navigation = useNavigation<any>();
 
-
 useEffect(() => {
-
-  getUserByEmail(currentUser).then((response) => {
+  console.log(currentUser);
+  getUserById(currentUser)
+  .then((response) => {
     setEmail(response.email);
-    setOldEmail(response.email);
     setName(response.name);
-    setAvatarUrl(response.avatarUrl);
-  });
+    setOldEmail(response.email);
+    setAvatarUrl(response.avatarUrl)
+  }).catch(err => {
+    console.log(err);
+  })
 }, [])
   
   useEffect(() => {
@@ -44,7 +46,7 @@ useEffect(() => {
   // };
 
   const handleSubmit = (name: string, email: string, avatarUrl: string) => {
-    patchUser(oldEmail, name, email, avatarUrl);
+    patchUser(currentUser, name, email, avatarUrl);
     updateEmail(auth.currentUser, `${email}`).then(() => {
       // Email updated!
       // ...

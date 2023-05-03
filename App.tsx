@@ -25,7 +25,6 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     const userEmail = user.email;
-    setCurrentUser(userEmail)
     // ...
   } else {
     // User is signed out

@@ -43,7 +43,7 @@ export default function LoginScreen(): JSX.Element {
   };
 
   const handleRegister = async () => {
-    navigation.replace("register");
+    navigation.navigate("register");
   };
 
   return (

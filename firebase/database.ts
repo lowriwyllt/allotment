@@ -83,11 +83,11 @@ export const getPlantByName = async (name: string) => {
   try {
     const q = query(collection(db, "plants"), where("name", "==", name));
     const querySnapshot = await getDocs(q);
-    let result: PlantType | {} = {};
+    let result: UserType | {} = {};
     querySnapshot.forEach((doc) => {
       result = doc.data();
     });
-    return result as PlantType;
+    return result as UserType;
   } catch (err) {
     console.log(err);
   }
@@ -104,6 +104,20 @@ export const patchUser = (email: string, name: string, newEmail: string, avatarU
       avatarUrl: avatarUrl
     });
     return "patched successfully";
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getUserById = async (email: string) => {
+  try {
+    const q = query(collection(db, "users"), where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    let result: UserType | {} = {};
+    querySnapshot.forEach((doc) => {
+      result = doc.data();
+    });
+    return result as UserType;
   } catch (err) {
     console.log(err);
   }
