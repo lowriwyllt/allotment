@@ -7,21 +7,35 @@ import CalendarSinglePlant from "../Calendar";
 //--------------------------------need to change any----------------------------------------
 const PlantScreen = ({ route }: any) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [error, setError] = useState<any>(false);
   const { plantName } = route.params;
 
   useEffect(() => {
-    getPlantByName(plantName).then((response) => {
-      //response type needs to be changed
-      setPlant(response);
-    });
+    setIsLoading(true);
+    setError(false);
+    getPlantByName(plantName)
+      .then((response) => {
+        //response type needs to be changed
+        setPlant(response);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        const { message, code } = error;
+        setIsLoading(false);
+        setError({ message, code });
+      });
   }, []);
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        {plant ? (
+        <Text style={styles.header}>{plantName}</Text>
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : plant && !error ? (
           <>
-            <Text style={styles.header}>{plant.name}</Text>
             <Text>{plant.scientificName}</Text>
             <Image
               style={styles.plantImage}
@@ -37,7 +51,12 @@ const PlantScreen = ({ route }: any) => {
 
             <Text>{plant.sowingInstructions.split(".").join("\n\n")}</Text>
           </>
-        ) : null}
+        ) : (
+          <>
+            <Text>{error.code}</Text>
+            <Text>{error.message}</Text>
+          </>
+        )}
       </View>
     </ScrollView>
   );
