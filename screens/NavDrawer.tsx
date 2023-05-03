@@ -10,7 +10,7 @@ export const NavDrawer = (): JSX.Element => {
     <Drawer.Navigator initialRouteName='My Allotment'>
       <Drawer.Screen name="My Allotment" component={HomeScreen} />
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />
-      <Drawer.Screen name="Account" component={EditProfile} /> 
+      <Drawer.Screen name="Account" component={HomeScreen} /> 
      <SignOutButton/>
     </Drawer.Navigator>
   );
