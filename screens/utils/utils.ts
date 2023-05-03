@@ -1,4 +1,4 @@
-export const getCurrentDate = (date: Date) => {
+export const formatDate = (date: Date) => {
   return (
     date.getFullYear() +
     "-" +
