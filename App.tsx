@@ -37,11 +37,19 @@ onAuthStateChanged(auth, (user) => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="login" component={LoginScreen} />
-        <Stack.Screen name="register" component={RegisterScreen} />
-        <Stack.Screen name="home" component={HomeScreen} />
-        <Stack.Screen name="plants" component={PlantsScreen} />
-        <Stack.Screen name="plant" component={PlantScreen} />
+      <Stack.Screen name="login" component={LoginScreen} />
+        <Stack.Screen name="register">
+        {(props) => <RegisterScreen {...props} setCurrentUser={setCurrentUser}/>}
+        </Stack.Screen>
+        <Stack.Screen name="home">
+          {(props) => <HomeScreen {...props} currentUser={currentUser} setCurrentUser={setCurrentUser}/>}
+        </Stack.Screen>
+        <Stack.Screen name="plants" component={AllPlantsScreen} />
+        <Stack.Screen name="plant" component={SinglePlantScreen} />
+        <Stack.Screen name="edit-profile">
+        {(props) => <EditProfileScreen {...props} currentUser={currentUser}/>}
+        </Stack.Screen>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
