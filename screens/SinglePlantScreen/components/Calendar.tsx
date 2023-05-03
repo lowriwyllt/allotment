@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { AllPlantProps } from "../types/Plants.types";
+import { AllPlantProps } from "../../../types/Plants.types";
 
 type Marked = {
   [date: string]: {
