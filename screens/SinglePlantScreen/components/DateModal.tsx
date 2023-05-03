@@ -1,8 +1,16 @@
-import { Alert, Modal, Pressable, Text, View } from "react-native";
+import {
+  Alert,
+  Modal,
+  Pressable,
+  Text,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SinglePlantStyles } from "../SinglePlantScreen";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
-import { getCurrentDate } from "../../utils/utils";
+import { formatDate } from "../../utils/utils";
 
 const DateModal = ({
   modalVisible,
@@ -13,7 +21,14 @@ const DateModal = ({
   setModalVisible: (bool: boolean) => void;
   plantName: string;
 }) => {
-  const [date, setDate] = useState(new Date(getCurrentDate()));
+  const defaultDate = new Date();
+  const [date, setDate] = useState<string>(formatDate(defaultDate));
+
+  const handleOnChange = (event: any, selectedDate?: Date) => {
+    if (selectedDate) {
+      setDate(formatDate(selectedDate));
+    }
+  };
 
   return (
     <Modal
@@ -30,8 +45,16 @@ const DateModal = ({
           <Text style={SinglePlantStyles.modalText}>
             Enter the date you planted the {plantName.toLowerCase()}
           </Text>
-          <Text>selected: {date.toLocaleString()}</Text>
-          <DateTimePicker value={date} mode="date" display="spinner" />
+          <Text>{date.toLocaleString()}</Text>
+          <DateTimePicker
+            value={new Date(date)}
+            mode="date"
+            display="spinner"
+            onChange={handleOnChange}
+          />
+          <TouchableOpacity>
+            <Text style={{ fontWeight: "bold" }}>Add to my allotment</Text>
+          </TouchableOpacity>
           <Pressable
             style={SinglePlantStyles.button}
             onPress={() => setModalVisible(!modalVisible)}
