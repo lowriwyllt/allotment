@@ -7,6 +7,7 @@ import AllPlantsScreen from "./screens/AllPlantsScreen/AllPlantsScreen";
 import SinglePlantScreen from "./screens/SinglePlantScreen/SinglePlantScreen";
 import "react-native-gesture-handler";
 import { NavDrawer } from "./screens/NavDrawer";
+import Loggedin from "./screens/LOGGEDIN/Loggedin";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,14 +15,19 @@ export default function App(): JSX.Element {
   return (
     <>
       <NavigationContainer>
-        <NavDrawer />
-      </NavigationContainer>
-      <NavigationContainer>
         <Stack.Navigator>
+          {false ? null : (
+            <Stack.Screen
+              name="LoggedIn"
+              component={Loggedin}
+              options={{ headerShown: false }}
+            />
+          )}
+
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="register" component={RegisterScreen} />
-          <Stack.Screen name="home" component={HomeScreen} />
-          <Stack.Screen name="plants" component={AllPlantsScreen} />
+          {/* <Stack.Screen name="home" component={HomeScreen} /> */}
+          {/* <Stack.Screen name="plants" component={AllPlantsScreen} /> */}
           <Stack.Screen name="plant" component={SinglePlantScreen} />
         </Stack.Navigator>
       </NavigationContainer>

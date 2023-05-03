@@ -3,14 +3,11 @@ import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 
-
 const HomeScreen = (): JSX.Element => {
   const navigation = useNavigation<any>();
 
-  
-
   const handlePlants = () => {
-    navigation.navigate("plants");
+    navigation.navigate("Plants");
   };
 
   return (

@@ -9,12 +9,11 @@ import {
   Pressable,
 } from "react-native";
 import { useState, useEffect } from "react";
-import {
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import LoginStyle from "./Login.component.style";
+import { NavDrawer } from "../NavDrawer";
 
 const LoginScreen = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
@@ -41,40 +40,41 @@ const LoginScreen = (): JSX.Element => {
   };
 
   const handleRegister = async () => {
-      navigation.replace("register");
-  }
+    navigation.replace("register");
+  };
 
   return (
     <ScrollView>
-    <KeyboardAvoidingView style={LoginStyle.container} behavior="padding">
-      <View style={LoginStyle.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={LoginStyle.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          style={LoginStyle.input}
-          secureTextEntry //changes what you type into dots
-        />
-      </View>
+      <KeyboardAvoidingView style={LoginStyle.container} behavior="padding">
+        <NavDrawer />
+        <View style={LoginStyle.inputContainer}>
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={LoginStyle.input}
+          />
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            style={LoginStyle.input}
+            secureTextEntry //changes what you type into dots
+          />
+        </View>
 
-      <View style={LoginStyle.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={LoginStyle.button}>
-          <Text style={LoginStyle.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleRegister}
-          style={[LoginStyle.button, LoginStyle.buttonOutline]}
-        >
-          <Text style={LoginStyle.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+        <View style={LoginStyle.buttonContainer}>
+          <TouchableOpacity onPress={handleLogin} style={LoginStyle.button}>
+            <Text style={LoginStyle.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleRegister}
+            style={[LoginStyle.button, LoginStyle.buttonOutline]}
+          >
+            <Text style={LoginStyle.buttonOutlineText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 };
