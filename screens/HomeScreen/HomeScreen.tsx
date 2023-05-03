@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
+import CalendarSinglePlant from "../Calendar";
 
 const HomeScreen = (): JSX.Element => {
   const navigation = useNavigation<any>();

@@ -25,3 +25,19 @@ export type PlantProps = {
     img: string;
   };
 };
+
+export type AllPlantProps = {
+  plant: {
+  img: string;
+  maxDaysUntilHarvest: number;
+  minDaysUntilHarvest: number;
+  minTempCelcius: number;
+  name: string;
+  scientificName: string;
+  sowingInstructions: string;
+  sowingStartDate: string;
+  sowingWindowDays: number;
+  sunLight: string;
+  watering: string;
+  }
+};
