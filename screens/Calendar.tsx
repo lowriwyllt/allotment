@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { Calendar, ExpandableCalendar } from "react-native-calendars";
+import { Calendar } from "react-native-calendars";
 import { AllPlantProps } from "../types/Plants.types";
+
 type Marked = {
   [date: string]: {
     periods: { startingDay: boolean; endingDay: boolean; color: string }[];
@@ -17,7 +18,6 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
     minDaysUntilHarvest,
     sowingStartDate,
     sowingWindowDays,
-    name,
   } = plant;
 
   const [edge, setEdge] = useState<String>("");
@@ -32,34 +32,33 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
     harvestFromDate.getMonth() + 1
   ).padStart(2, "0")}-${String(harvestFromDate.getDate()).padStart(2, "0")}`;
 
-  const testDates: { event: string; fromDate: string; numberOfDays: number }[] =
-    [
-      {
-        event: `sowing-window`,
-        fromDate: `${currentYear + 1}${sowingStartDate}`,
-        numberOfDays: sowingWindowDays,
-      },
-      {
-        event: `sowing-window`,
-        fromDate: `${currentYear}${sowingStartDate}`,
-        numberOfDays: sowingWindowDays,
-      },
-      {
-        event: "harvest-window",
-        fromDate: `${harvestFromDate.getFullYear() + 1}${startDateHarvesting}`,
-        numberOfDays: harvestWindowDays,
-      },
-      {
-        event: "harvest-window",
-        fromDate: `${harvestFromDate.getFullYear()}${startDateHarvesting}`,
-        numberOfDays: harvestWindowDays,
-      },
-    ];
+  const events: { event: string; fromDate: string; numberOfDays: number }[] = [
+    {
+      event: `sowing-window`,
+      fromDate: `${currentYear + 1}${sowingStartDate}`,
+      numberOfDays: sowingWindowDays,
+    },
+    {
+      event: `sowing-window`,
+      fromDate: `${currentYear}${sowingStartDate}`,
+      numberOfDays: sowingWindowDays,
+    },
+    {
+      event: "harvest-window",
+      fromDate: `${harvestFromDate.getFullYear() + 1}${startDateHarvesting}`,
+      numberOfDays: harvestWindowDays,
+    },
+    {
+      event: "harvest-window",
+      fromDate: `${harvestFromDate.getFullYear()}${startDateHarvesting}`,
+      numberOfDays: harvestWindowDays,
+    },
+  ];
 
   const getMarked = () => {
     let marked: Marked = {};
     let color = "";
-    testDates.forEach(({ event, fromDate, numberOfDays }) => {
+    events.forEach(({ event, fromDate, numberOfDays }) => {
       if (event === "sowing-window") {
         color = "orange";
       } else if (event === "harvest-window") {
@@ -82,7 +81,7 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
         marked[`${year}-${month}-${day}`].periods.push({
           startingDay: currentDate.getTime() === from.getTime(),
           endingDay: currentDate.getTime() === to.getTime(),
-          color: color, // Set your desired color here
+          color: color,
         });
         currentDate.setDate(currentDate.getDate() + 1);
       }
@@ -130,7 +129,7 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
         style={{
           borderWidth: 1,
           borderColor: "grey",
-          // height: 350,
+          height: 440,
         }}
       />
     </SafeAreaView>
