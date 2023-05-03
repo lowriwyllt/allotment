@@ -11,8 +11,9 @@ import {
 import React, { useEffect, useState } from "react";
 import { getPlantByName } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
-import CalendarSinglePlant from "../Calendar";
+import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
+import DateModal from "./components/DateModal";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route }: any) => {
@@ -45,42 +46,20 @@ const SinglePlantScreen = ({ route }: any) => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>
-                Enter the date you planted the {plantName.toLowerCase()}
-              </Text>
-              <Pressable
-                style={styles.button}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>x</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        <Text style={styles.header}>{plantName}</Text>
+      <View style={SinglePlantStyles.container}>
+        <DateModal modalVisible={modalVisible} setModalVisible={setModalVisible} plantName={plantName} />
+        <Text style={SinglePlantStyles.header}>{plantName}</Text>
         {isLoading ? (
           <Text>Loading...</Text>
         ) : plant && !error ? (
           <>
             <Text>{plant.scientificName}</Text>
             <Image
-              style={styles.plantImage}
+              style={SinglePlantStyles.plantImage}
               source={{ uri: plant.img }}
             ></Image>
-            <Pressable style={styles.button} onPress={addPlant}>
-              <Text style={styles.buttonText}>+</Text>
+            <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
+              <Text style={SinglePlantStyles.buttonText}>+</Text>
             </Pressable>
             <Text>
               Minimum Temperature in Celcius: {plant.minTempCelcius}
@@ -105,7 +84,7 @@ const SinglePlantScreen = ({ route }: any) => {
 
 export default SinglePlantScreen;
 
-const styles = StyleSheet.create({
+export const SinglePlantStyles = StyleSheet.create({
   header: {
     fontSize: 20,
     textAlign: "center",
