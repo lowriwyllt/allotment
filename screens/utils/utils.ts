@@ -1,9 +1,10 @@
-export const getCurrentDate = () => {
+export const getCurrentDate = (date: Date) => {
   return (
-    new Date().getFullYear() +
+    date.getFullYear() +
     "-" +
-    String(new Date().getMonth() + 1).padStart(2, "0") +
+    String(date.getMonth() + 1).padStart(2, "0") +
     "-" +
-    String(new Date().getDate()).padStart(2, "0")
+    String(date.getDate()).padStart(2, "0")
   );
 };
+
