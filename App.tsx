@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import {RegisterScreen} from "./screens/RegisterScreen/RegisterScreen"
-import PlantsScreen from "./screens/AllPlantsScreen/AllPlantsScreen";
-import PlantScreen from "./screens/SinglePlantScreen/SinglePlantScreen";
+import AllPlantsScreen from "./screens/AllPlantsScreen/AllPlantsScreen";
+import SinglePlantScreen from "./screens/SinglePlantScreen/SinglePlantScreen";
 import { SetStateAction, useState } from "react";
 import { View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -37,18 +37,11 @@ onAuthStateChanged(auth, (user) => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="login" component={LoginScreen} />
-        <Stack.Screen name="register">
-        {(props) => <RegisterScreen {...props} setCurrentUser={setCurrentUser}/>}
-        </Stack.Screen>
-        <Stack.Screen name="home">
-          {(props) => <HomeScreen {...props} currentUser={currentUser} setCurrentUser={setCurrentUser}/>}
-        </Stack.Screen>
+        <Stack.Screen name="login" component={LoginScreen} />
+        <Stack.Screen name="register" component={RegisterScreen} />
+        <Stack.Screen name="home" component={HomeScreen} />
         <Stack.Screen name="plants" component={PlantsScreen} />
         <Stack.Screen name="plant" component={PlantScreen} />
-        <Stack.Screen name="edit-profile">
-        {(props) => <EditProfileScreen {...props} currentUser={currentUser}/>}
-        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
