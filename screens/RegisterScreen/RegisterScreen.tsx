@@ -102,7 +102,6 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
   const handleLogin = async () => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-      console.log("logged in with: ", user.email);
     } catch (error: any) {
       alert(error.message);
     }

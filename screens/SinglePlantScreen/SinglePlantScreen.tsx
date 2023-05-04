@@ -39,8 +39,6 @@ const SinglePlantScreen = ({ route }: any) => {
     addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant, "test Date");
   };
 
-  console.log(plant);
-
   return (
     <ScrollView>
       <TouchableOpacity onPress={handleOnPress}>

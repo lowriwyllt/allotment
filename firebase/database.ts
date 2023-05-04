@@ -10,7 +10,6 @@ import {
   where,
   updateDoc,
   arrayUnion,
-
 } from "firebase/firestore";
 import { UserType } from "../types/Users.types";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
@@ -65,7 +64,7 @@ export const getAvatars = async () => {
     });
     return result;
   } catch (err) {
-    console.log("did not work");
+    console.log(err);
   }
 };
 
@@ -94,7 +93,7 @@ export const getAllPlantImages = async () => {
     });
     return result;
   } catch (err) {
-    console.log("did not work");
+    console.log(err);
   }
 };
 

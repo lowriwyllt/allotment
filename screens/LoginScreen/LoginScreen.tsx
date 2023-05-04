@@ -35,8 +35,6 @@ export default function LoginScreen(): JSX.Element {
   const handleLogin = async () => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-      console.log("user", user);
-      console.log("logged in with: ", user.email);
       // setCurrentUser(user.email);
     } catch (error: any) {
       alert(error.message);

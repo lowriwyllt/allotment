@@ -20,7 +20,10 @@ import { patchUser, getAvatars } from "../../firebase/database";
 import { getAuth, updateEmail, sendPasswordResetEmail } from "firebase/auth";
 import UserType from "../../types/Users.types";
 
-export default function EditProfileScreen({ currentUser }: any): JSX.Element {
+export default function EditProfileScreen({
+  currentUser,
+  setCurrentUserEmail,
+}: any): JSX.Element {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,13 +32,12 @@ export default function EditProfileScreen({ currentUser }: any): JSX.Element {
   const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
 
   const navigation = useNavigation<any>();
+  const auth = getAuth();
 
   useEffect(() => {
-    console.log("currentUser", currentUser);
+    console.log("currentUser *** ", currentUser);
     getUserById(currentUser)
       .then((response) => {
-        console.log("sausages", response);
-
         setEmail(response.email);
         setName(response.name);
         setOldEmail(response.email);
@@ -57,7 +59,6 @@ export default function EditProfileScreen({ currentUser }: any): JSX.Element {
   // };
 
   const handleSubmit = (name: string, email: string, avatarUrl: string) => {
-    const auth = getAuth();
     const user: any = auth.currentUser;
 
     updateEmail(user, email)
@@ -69,7 +70,7 @@ export default function EditProfileScreen({ currentUser }: any): JSX.Element {
       });
 
     patchUser(currentUser, name, email, avatarUrl);
-
+    setCurrentUserEmail(email);
     navigation.replace("home");
   };
 
@@ -152,7 +153,7 @@ export default function EditProfileScreen({ currentUser }: any): JSX.Element {
                   Alert.alert(
                     "Password Reset",
                     `An email has been sent to ${email} containing password reset instructions`,
-                    [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+                    [{ text: "OK", onPress: () => console.log("ok pressed") }]
                   );
 
                   // ..

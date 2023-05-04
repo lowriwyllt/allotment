@@ -11,11 +11,13 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import EditProfileScreen from "./screens/EditProfileScreen/EditProfile";
 import { getUserByEmail } from "./firebase/database";
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function App(): JSX.Element {
   const [currentUser, setCurrentUser] = useState<string | null>("");
+  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("");
 
   const Stack = createNativeStackNavigator();
   const auth = getAuth();
@@ -27,6 +29,7 @@ export default function App(): JSX.Element {
 
       getUserByEmail(user.email).then((response) => {
         setCurrentUser(response.id);
+        setCurrentUserEmail(response.email);
       });
       // ...
     } else {
@@ -50,6 +53,7 @@ export default function App(): JSX.Element {
               {...props}
               currentUser={currentUser}
               setCurrentUser={setCurrentUser}
+              currentUserEmail={currentUserEmail}
             />
           )}
         </Stack.Screen>
@@ -57,7 +61,11 @@ export default function App(): JSX.Element {
         <Stack.Screen name="plant" component={SinglePlantScreen} />
         <Stack.Screen name="edit-profile">
           {(props) => (
-            <EditProfileScreen {...props} currentUser={currentUser} />
+            <EditProfileScreen
+              {...props}
+              currentUser={currentUser}
+              setCurrentUserEmail={setCurrentUserEmail}
+            />
           )}
         </Stack.Screen>
       </Stack.Navigator>
