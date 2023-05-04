@@ -51,7 +51,7 @@ const LoginStyle = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 15,
-    paddingBottom:20,
+    paddingBottom: 20,
   },
   avatars: {
     width: 70,

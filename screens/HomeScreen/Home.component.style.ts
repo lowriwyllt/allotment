@@ -21,6 +21,6 @@ export const homeStyles = StyleSheet.create({
     fontSize: 16,
   },
   homeHeader: {
-    fontSize: 30
-  }
+    fontSize: 30,
+  },
 });

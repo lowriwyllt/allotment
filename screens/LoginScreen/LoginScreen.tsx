@@ -5,15 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
-  Pressable,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import LoginStyle from "./Login.component.style";
-import UserType from "../../types/Users.types";
 
 export default function LoginScreen(): JSX.Element {
   const [email, setEmail] = useState<string>("");
@@ -34,16 +31,14 @@ export default function LoginScreen(): JSX.Element {
 
   const handleLogin = async () => {
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-      console.log("logged in with: ", user.email);
-      // setCurrentUser(user.email);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       alert(error.message);
     }
   };
 
   const handleRegister = async () => {
-    navigation.replace("register");
+    navigation.navigate("register");
   };
 
   return (
@@ -56,7 +51,6 @@ export default function LoginScreen(): JSX.Element {
             onChangeText={(text) => setEmail(text.toLowerCase())}
             style={LoginStyle.input}
             autoCapitalize="none"
-            secureTextEntry={true}
             keyboardType={"visible-password"}
           />
           <TextInput
