@@ -13,11 +13,16 @@ const Loggedin = ({
 }: any) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        // options={{ headerShown: false }}
-      > 
-        { (props) => (<NavDrawer {...props} setCurrentUser={setCurrentUser} currentUser={currentUser} currentUserEmail={currentUserEmail} setCurrentUserEmail={setCurrentUserEmail}/>)}
+      <Stack.Screen name="Root" options={{ headerShown: false }}>
+        {(props) => (
+          <NavDrawer
+            {...props}
+            setCurrentUser={setCurrentUser}
+            currentUser={currentUser}
+            currentUserEmail={currentUserEmail}
+            setCurrentUserEmail={setCurrentUserEmail}
+          />
+        )}
       </Stack.Screen>
     </Stack.Navigator>
   );

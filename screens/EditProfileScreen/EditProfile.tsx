@@ -55,7 +55,11 @@ export default function EditProfileScreen({
     });
   }, []);
 
-  const handleSubmit = (name: string | undefined, email: string, avatarUrl: string) => {
+  const handleSubmit = (
+    name: string | undefined,
+    email: string,
+    avatarUrl: string
+  ) => {
     const user: any = auth.currentUser;
 
     updateEmail(user, email).catch((err) => {
@@ -95,13 +99,13 @@ export default function EditProfileScreen({
                   {avatarsArr?.map((avatar) => {
                     return (
                       <Pressable
+                        key={avatar}
                         onPress={() => {
                           setAvatarUrl(avatar);
                         }}
                       >
                         <Image
                           style={LoginStyle.avatars}
-                          key={avatar}
                           source={{ uri: avatar }}
                         ></Image>
                       </Pressable>
