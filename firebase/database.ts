@@ -8,6 +8,7 @@ import {
   query,
   setDoc,
   where,
+  updateDoc,
 } from "firebase/firestore";
 import { UserType } from "../types/Users.types";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
@@ -17,14 +18,14 @@ const db = getFirestore(app);
 // CREATE USER - the feilds that are filled out by the user to create a profile
 export const createUser = async ({
   name,
-  email,
+  emailLowerCase,
   avatarUrl,
   allotment,
 }: UserType) => {
   try {
-    await setDoc(doc(db, "users", email), {
+    await setDoc(doc(db, "users", emailLowerCase), {
       name,
-      email,
+      email: emailLowerCase,
       avatarUrl,
       allotment,
     });
@@ -52,7 +53,12 @@ export const getUserByEmail = async (email: string) => {
   try {
     const docRef = doc(db, "users", email);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
   } catch (err) {
     console.log(err);
   }
@@ -82,6 +88,22 @@ export const getPlantByName = async (name: string) => {
       result = doc.data();
     });
     return result as PlantType;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const patchUser = (email: string, name: string, newEmail: string, avatarUrl: string) => {
+  try {
+    const nameRef = doc(db, "users", email);
+
+    // Set the "capital" field of the city 'DC'
+    updateDoc(nameRef, {
+      name: name,
+      email: newEmail,
+      avatarUrl: avatarUrl
+    });
+    return "patched successfully";
   } catch (err) {
     console.log(err);
   }
