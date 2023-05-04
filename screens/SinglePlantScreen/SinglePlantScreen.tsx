@@ -1,6 +1,13 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { getPlantByName } from "../../firebase/database";
+import { addPlantToAllotment, getPlantByName } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "../Calendar";
 
@@ -28,8 +35,17 @@ const SinglePlantScreen = ({ route }: any) => {
       });
   }, []);
 
+  const handleOnPress = () => {
+    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant, "test Date");
+  };
+
+  console.log(plant);
+
   return (
     <ScrollView>
+      <TouchableOpacity onPress={handleOnPress}>
+        <Text>Test add to allotment</Text>
+      </TouchableOpacity>
       <View style={styles.container}>
         <Text style={styles.header}>{plantName}</Text>
         {isLoading ? (

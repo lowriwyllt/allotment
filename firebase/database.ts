@@ -9,6 +9,8 @@ import {
   setDoc,
   where,
   updateDoc,
+  arrayUnion,
+
 } from "firebase/firestore";
 import { UserType } from "../types/Users.types";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
@@ -33,6 +35,25 @@ export const createUser = async ({
     console.error(err);
   }
 };
+
+// PATCH to update users allotment
+
+export const addPlantToAllotment = async (
+  userId: string,
+  plant: PlantType | undefined,
+  datePlanted: string
+) => {
+  try {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      allotment: arrayUnion({ ...plant, datePlanted }),
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// allotment [{plantName: Carrot, sown: false, dateSowed: 2023-05-03},{plantName: Onion, sown: false, dateSowed: 2023-05-03}]
 
 // GET AVATARS - A list of themed avatars which the user can chose from to use as their profile pic/avatar
 export const getAvatars = async () => {
