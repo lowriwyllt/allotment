@@ -1,24 +1,22 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 
-const HomeScreen = (): JSX.Element => {
+export default function HomeScreen({
+  currentUserEmail,
+}: any): JSX.Element {
   const navigation = useNavigation<any>();
-
-  const handlePlants = () => {
-    navigation.navigate("Plants");
-  };
 
   return (
     <View style={homeStyles.container}>
       <Text style={homeStyles.homeHeader}>allotment</Text>
-      <Text>Email: {auth.currentUser?.email}</Text>
-      <TouchableOpacity onPress={handlePlants}>
+      <Text>Email: {currentUserEmail}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Plants")}>
         <Text>Plants</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Account")}>
+        <Text>Edit Profile</Text>
       </TouchableOpacity>
     </View>
   );
-};
-
-export default HomeScreen;
+}
