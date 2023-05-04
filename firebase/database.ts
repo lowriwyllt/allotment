@@ -10,7 +10,6 @@ import {
   where,
   updateDoc,
   arrayUnion,
-
 } from "firebase/firestore";
 import { UserType } from "../types/Users.types";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
@@ -65,21 +64,20 @@ export const getAvatars = async () => {
     });
     return result;
   } catch (err) {
-    console.log("did not work");
+    console.log(err);
   }
 };
 
 // GET USER BY EMAIL - The user object is found by the email, but only on reciept of password - redering the users hoempage once they've made an account or logged in
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string | null) => {
   try {
-    const docRef = doc(db, "users", email);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
-    }
+    const q = query(collection(db, "users"), where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    let result: UserType | {} = {};
+    querySnapshot.forEach((doc) => {
+      result = doc.data();
+    });
+    return result as UserType;
   } catch (err) {
     console.log(err);
   }
@@ -95,7 +93,7 @@ export const getAllPlantImages = async () => {
     });
     return result;
   } catch (err) {
-    console.log("did not work");
+    console.log(err);
   }
 };
 
@@ -114,7 +112,12 @@ export const getPlantByName = async (name: string) => {
   }
 };
 
-export const patchUser = (email: string, name: string, newEmail: string, avatarUrl: string) => {
+export const patchUser = (
+  email: string,
+  name: string,
+  newEmail: string,
+  avatarUrl: string
+) => {
   try {
     const nameRef = doc(db, "users", email);
 
@@ -122,9 +125,23 @@ export const patchUser = (email: string, name: string, newEmail: string, avatarU
     updateDoc(nameRef, {
       name: name,
       email: newEmail,
-      avatarUrl: avatarUrl
+      avatarUrl: avatarUrl,
     });
     return "patched successfully";
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getUserById = async (id: string) => {
+  try {
+    const q = query(collection(db, "users"), where("id", "==", id));
+    const querySnapshot = await getDocs(q);
+    let result: UserType | {} = {};
+    querySnapshot.forEach((doc) => {
+      result = doc.data();
+    });
+    return result as UserType;
   } catch (err) {
     console.log(err);
   }

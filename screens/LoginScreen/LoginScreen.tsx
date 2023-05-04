@@ -35,7 +35,6 @@ export default function LoginScreen(): JSX.Element {
   const handleLogin = async () => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-      console.log("logged in with: ", user.email);
       // setCurrentUser(user.email);
     } catch (error: any) {
       alert(error.message);
@@ -43,7 +42,7 @@ export default function LoginScreen(): JSX.Element {
   };
 
   const handleRegister = async () => {
-    navigation.replace("register");
+    navigation.navigate("register");
   };
 
   return (
@@ -56,7 +55,6 @@ export default function LoginScreen(): JSX.Element {
             onChangeText={(text) => setEmail(text.toLowerCase())}
             style={LoginStyle.input}
             autoCapitalize="none"
-            secureTextEntry={true}
             keyboardType={"visible-password"}
           />
           <TextInput

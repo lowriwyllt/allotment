@@ -4,8 +4,11 @@ import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 import CalendarSinglePlant from "../Calendar";
 
-export default function  HomeScreen({currentUser, setCurrentUser}: any): JSX.Element {
-
+export default function HomeScreen({
+  currentUser,
+  setCurrentUser,
+  currentUserEmail,
+}: any): JSX.Element {
   const navigation = useNavigation<any>();
 
   const handleSignOut = () => {
@@ -13,27 +16,27 @@ export default function  HomeScreen({currentUser, setCurrentUser}: any): JSX.Ele
       .signOut()
       .then(() => {
         navigation.replace("login");
-        setCurrentUser('');
+        //setCurrentUser("");
       })
       .catch((err) => alert(err.message));
   };
 
   const handlePlants = () => {
     navigation.navigate("plants");
-  };  
+  };
 
   const handleEditProfile = () => {
     navigation.navigate("edit-profile");
-  }; 
-  
+  };
+
   return (
     <View style={homeStyles.container}>
       <Text style={homeStyles.homeHeader}>allotment</Text>
-      <Text>Email: {auth.currentUser?.email}</Text>
+      <Text>Email: {currentUserEmail}</Text>
       <TouchableOpacity onPress={handleSignOut} style={homeStyles.button}>
         <Text style={homeStyles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
-       <TouchableOpacity onPress={handlePlants}>
+      <TouchableOpacity onPress={handlePlants}>
         <Text>Plants</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleEditProfile}>
@@ -41,4 +44,4 @@ export default function  HomeScreen({currentUser, setCurrentUser}: any): JSX.Ele
       </TouchableOpacity>
     </View>
   );
-};
+}
