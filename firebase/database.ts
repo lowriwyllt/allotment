@@ -47,7 +47,7 @@ export const addPlantToAllotment = async (
       const allotmentPath = doc(db, "users", userId, "allotment", plant.name);
       await setDoc(allotmentPath, {
         id: plant.name,
-        datePlanted: "Not ",
+        datePlanted: "TBC",
         ...plant,
       });
     }
