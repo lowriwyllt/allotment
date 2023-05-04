@@ -122,7 +122,7 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
         <View style={LoginStyle.avatarsContainer}>
           {avatarsArr?.map((avatar) => {
             return (
-              <Pressable
+              <Pressable key={avatar}
                 onPress={() => {
                   setAvatarUrl(avatar);
                 }}

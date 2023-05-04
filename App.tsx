@@ -1,13 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
-import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
-import AllPlantsScreen from "./screens/AllPlantsScreen/AllPlantsScreen";
-import SinglePlantScreen from "./screens/SinglePlantScreen/SinglePlantScreen";
-import { SetStateAction, useState } from "react";
-import { View } from "react-native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import "react-native-gesture-handler";
+import Loggedin from "./screens/LOGGEDIN/Loggedin";
+import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import EditProfileScreen from "./screens/EditProfileScreen/EditProfile";
 import { getUserByEmail, addTask } from "./firebase/database";
@@ -28,47 +25,39 @@ export default function App(): JSX.Element {
       const userEmail = user.email;
 
       getUserByEmail(user.email).then((response) => {
-        setCurrentUser(response.id);
-        setCurrentUserEmail(response.email);
+        setCurrentUser(response?.id);
+        setCurrentUserEmail(response?.email || "");
       });
       // ...
     } else {
       // User is signed out
-      // ...
+      // ... ??????
     }
   });
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="login" component={LoginScreen} />
-        <Stack.Screen name="register">
-          {(props) => (
-            <RegisterScreen {...props} setCurrentUser={setCurrentUser} />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="home">
-          {(props) => (
-            <HomeScreen
-              {...props}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
-              currentUserEmail={currentUserEmail}
-            />
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="plants" component={AllPlantsScreen} />
-        <Stack.Screen name="plant" component={SinglePlantScreen} />
-        <Stack.Screen name="edit-profile">
-          {(props) => (
-            <EditProfileScreen
-              {...props}
-              currentUser={currentUser}
-              setCurrentUserEmail={setCurrentUserEmail}
-            />
-          )}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="login" component={LoginScreen} />
+          <Stack.Screen name="register">
+            {(props) => (
+              <RegisterScreen {...props} setCurrentUser={setCurrentUser} />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="home" options={{ headerShown: false }}>
+            {(props) => (
+              <Loggedin
+                {...props}
+                setCurrentUser={setCurrentUser}
+                currentUser={currentUser}
+                currentUserEmail={currentUserEmail}
+                setCurrentUserEmail={setCurrentUserEmail}
+              />
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }

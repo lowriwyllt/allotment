@@ -5,15 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Image,
-  Pressable,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import LoginStyle from "./Login.component.style";
-import UserType from "../../types/Users.types";
 
 export default function LoginScreen(): JSX.Element {
   const [email, setEmail] = useState<string>("");
@@ -34,8 +31,7 @@ export default function LoginScreen(): JSX.Element {
 
   const handleLogin = async () => {
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
-      // setCurrentUser(user.email);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       alert(error.message);
     }

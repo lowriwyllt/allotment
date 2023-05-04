@@ -18,17 +18,18 @@ import EditProfileStyles from "./EditProfile.component.style";
 import { useNavigation } from "@react-navigation/native";
 import { patchUser, getAvatars } from "../../firebase/database";
 import { getAuth, updateEmail, sendPasswordResetEmail } from "firebase/auth";
-import UserType from "../../types/Users.types";
 
 export default function EditProfileScreen({
   currentUser,
   setCurrentUserEmail,
 }: any): JSX.Element {
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [oldEmail, setOldEmail] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  console.log(currentUser);
+
+  const [avatarUrl, setAvatarUrl] = useState<string | undefined>("");
+  const [name, setName] = useState<string | undefined>("");
+  const [email, setEmail] = useState<string | null | undefined>("");
+  const [oldEmail, setOldEmail] = useState<string | null | undefined>("");
+  const [modalVisible, setModalVisible] = useState<boolean | undefined>(false);
   const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
 
   const navigation = useNavigation<any>();
@@ -38,10 +39,10 @@ export default function EditProfileScreen({
     console.log("currentUser *** ", currentUser);
     getUserById(currentUser)
       .then((response) => {
-        setEmail(response.email);
-        setName(response.name);
-        setOldEmail(response.email);
-        setAvatarUrl(response.avatarUrl);
+        setEmail(response?.email);
+        setName(response?.name);
+        setOldEmail(response?.email);
+        setAvatarUrl(response?.avatarUrl);
       })
       .catch((err) => {
         console.log(err);
@@ -54,20 +55,16 @@ export default function EditProfileScreen({
     });
   }, []);
 
-  // const handleChange = (event) => {
-  //   setName(event);
-  // };
-
-  const handleSubmit = (name: string, email: string, avatarUrl: string) => {
+  const handleSubmit = (
+    name: string | undefined,
+    email: string,
+    avatarUrl: string
+  ) => {
     const user: any = auth.currentUser;
 
-    updateEmail(user, email)
-      .then(() => {
-        //email updated
-      })
-      .catch((err) => {
-        //handle error
-      });
+    updateEmail(user, email).catch((err) => {
+      console.log(err);
+    });
 
     patchUser(currentUser, name, email, avatarUrl);
     setCurrentUserEmail(email);
@@ -102,13 +99,13 @@ export default function EditProfileScreen({
                   {avatarsArr?.map((avatar) => {
                     return (
                       <Pressable
+                        key={avatar}
                         onPress={() => {
                           setAvatarUrl(avatar);
                         }}
                       >
                         <Image
                           style={LoginStyle.avatars}
-                          key={avatar}
                           source={{ uri: avatar }}
                         ></Image>
                       </Pressable>
@@ -136,18 +133,19 @@ export default function EditProfileScreen({
         </View>
         <View style={homeStyles.container}>
           <TextInput
-            placeholder={name}
+            placeholder={name || ""}
             onChangeText={(newText) => setName(newText)}
-            value={name}
+            value={name || ""}
           />
+
           <TextInput
-            placeholder={email}
+            placeholder={email || ""}
             onChangeText={(newText) => setEmail(newText)}
-            value={email}
+            value={email || ""}
           />
           <TouchableOpacity
             onPress={() => {
-              sendPasswordResetEmail(auth, email)
+              sendPasswordResetEmail(auth, email || "")
                 .then(() => {
                   // Password reset email sent!
                   Alert.alert(
@@ -155,38 +153,21 @@ export default function EditProfileScreen({
                     `An email has been sent to ${email} containing password reset instructions`,
                     [{ text: "OK", onPress: () => console.log("ok pressed") }]
                   );
-
-                  // ..
                 })
                 .catch((error) => {
                   const errorCode = error.code;
                   const errorMessage = error.message;
-                  // ..
+                  console.log(errorMessage);
                 });
             }}
           >
             <Text>Reset Password</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => handleSubmit(name, email, avatarUrl)}
+            onPress={() => handleSubmit(name, email || "", avatarUrl || "")}
           >
             <Text>Submit</Text>
           </TouchableOpacity>
-
-          {/* <TextInput
-        placeholder={email}
-        onChangeText={(newText) => setNewEmail(newText)}
-        // value={name}
-      /> */}
-          {/* <Text style={homeStyles.homeHeader}>Profile</Text> */}
-          {/* <Text style={homeStyles.homeHeader}>{email}</Text>
-      <Image style={LoginStyle.avatars} source={{ uri: avatarUrl }}></Image>
-      <TouchableOpacity
-      onPress={() => { //open image picker
-      }}
-      >
-      <Text>Change Avatar</Text>
-    </TouchableOpacity> */}
         </View>
       </KeyboardAvoidingView>
     </ScrollView>

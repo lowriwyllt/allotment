@@ -11,7 +11,7 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
-import { UserType } from "../types/Users.types";
+import UserType from "../types/Users.types";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 
 const db = getFirestore(app);
@@ -116,7 +116,7 @@ export const getPlantByName = async (name: string) => {
 
 export const patchUser = (
   email: string,
-  name: string,
+  name: string | undefined,
   newEmail: string,
   avatarUrl: string
 ) => {
