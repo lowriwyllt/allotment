@@ -5,14 +5,20 @@ import { NavDrawer } from "../NavDrawer/NavDrawer";
 
 const Stack = createNativeStackNavigator();
 
-const Loggedin = () => {
+const Loggedin = ({
+  currentUser,
+  setCurrentUser,
+  currentUserEmail,
+  setCurrentUserEmail,
+}: any) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Root"
-        component={NavDrawer}
-        options={{ headerShown: false }}
-      />
+        // options={{ headerShown: false }}
+      > 
+        { (props) => (<NavDrawer {...props} setCurrentUser={setCurrentUser} currentUser={currentUser} currentUserEmail={currentUserEmail} setCurrentUserEmail={setCurrentUserEmail}/>)}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };
