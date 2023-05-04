@@ -1,9 +1,16 @@
- type UserType = {
+ export type UserType = {
     name: string;
-    email: string;
+    email?: string;
     avatarUrl?: string;
     displayName?: string;
-    allotment: Array<Object>;
 }
 
-export default UserType;
+
+
+
+export type createUserProps = {
+
+    name: string;
+    emailLowerCase: string;
+    avatarUrl: string;
+}

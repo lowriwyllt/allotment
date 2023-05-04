@@ -34,6 +34,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
