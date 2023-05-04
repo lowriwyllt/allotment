@@ -85,7 +85,7 @@ import {
         <View style={LoginStyle.avatarsContainer}>
           {avatarsArr?.map((avatar) => {
             return (
-              <Pressable
+              <Pressable key={avatar}
                 onPress={() => {
                   setAvatarUrl(avatar);
                   console.log(avatar);
