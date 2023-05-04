@@ -3,6 +3,8 @@ import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 import CalendarSinglePlant from "../Calendar";
+import { addTask } from "../../firebase/database";
+import TasksList from "./TasksList";
 
 export default function HomeScreen({
   currentUser,
@@ -10,6 +12,11 @@ export default function HomeScreen({
   currentUserEmail,
 }: any): JSX.Element {
   const navigation = useNavigation<any>();
+
+  const handleAddTask = () => {
+    console.log(currentUser);
+    addTask(currentUser);
+  }
 
   const handleSignOut = () => {
     auth
@@ -42,6 +49,11 @@ export default function HomeScreen({
       <TouchableOpacity onPress={handleEditProfile}>
         <Text>Edit Profile</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity onPress={handleAddTask}>
+        <Text>Add task</Text>
+      </TouchableOpacity>
+      <TasksList />
     </View>
   );
 }

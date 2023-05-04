@@ -27,6 +27,7 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
   const [name, setName] = useState<string>("");
   const [allotment, setAllotment] = useState<Array<Object>>([]);
+  const [tasks, setTasks] = useState<Array<Object>>([]);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [avatarUrl, setAvatarUrl] = useState<string>(
@@ -71,6 +72,7 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
         email: emailLowerCase,
         avatarUrl: avatarUrl,
         allotment: allotment,
+        tasks: tasks,
       }; // insert the id among the data
       await setDoc(userRef, userData); // create the document
 

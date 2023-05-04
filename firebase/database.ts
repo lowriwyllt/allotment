@@ -22,6 +22,7 @@ export const createUser = async ({
   emailLowerCase,
   avatarUrl,
   allotment,
+  tasks,
 }: UserType) => {
   try {
     await setDoc(doc(db, "users", emailLowerCase), {
@@ -29,6 +30,7 @@ export const createUser = async ({
       email: emailLowerCase,
       avatarUrl,
       allotment,
+      tasks,
     });
   } catch (err) {
     console.error(err);
@@ -146,3 +148,12 @@ export const getUserById = async (id: string) => {
     console.log(err);
   }
 };
+
+// Add a new task to a users task collection (array)
+export const addTask = async (currentUser: any) => {
+  const userRef = doc(db, "users", currentUser);
+  const data = {date: new Date(), taskBody: "", complete: false, img: ""}
+  await updateDoc(userRef, {
+    tasks: arrayUnion(data),
+});
+}

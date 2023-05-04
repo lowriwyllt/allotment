@@ -10,7 +10,7 @@ import { View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import EditProfileScreen from "./screens/EditProfileScreen/EditProfile";
-import { getUserByEmail } from "./firebase/database";
+import { getUserByEmail, addTask } from "./firebase/database";
 import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
