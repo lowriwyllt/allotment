@@ -1,7 +1,10 @@
-export type UserType = {
-    name: string;
-    email: string;
-    avatarUrl?: string;
-    displayName?: string;
-    allotment: Array<Object>;
-}
+type UserType = {
+  name: string;
+  email: string | null;
+  avatarUrl?: string;
+  displayName?: string;
+  allotment: Array<Object>;
+  id: any;
+};
+
+export default UserType;
