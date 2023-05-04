@@ -10,7 +10,6 @@ import {
   where,
   updateDoc,
   arrayUnion,
-
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 import { UserType, createUserProps } from "../types/Users.types";
@@ -33,10 +32,6 @@ export const createUser = async ({
   }
 };
 
-
-
-
-
 // PATCH to update users allotment
 
 //We (Lily and Ryan) are changing the below so that instead of adding the plant from the database onto the allotment array in the user object...
@@ -45,24 +40,21 @@ export const createUser = async ({
 
 export const addPlantToAllotment = async (
   userId: string,
-  plant: PlantType | undefined,
+  plant: PlantType | undefined
 ) => {
   try {
-    const allotmentPath = doc(collection(db, "users", userId, 'allotment') );
-    await setDoc(allotmentPath, {
-      id:allotmentPath.id,
-      datePlanted: "Not Planted",
-      ...plant,
-    });
+    if (plant) {
+      const allotmentPath = doc(db, "users", userId, "allotment", plant.name);
+      await setDoc(allotmentPath, {
+        id: plant.name,
+        datePlanted: "Not ",
+        ...plant,
+      });
+    }
   } catch (err) {
     console.log(err);
   }
 };
-
-
-
-
-
 
 // allotment [{plantName: Carrot, sown: false, dateSowed: 2023-05-03},{plantName: Onion, sown: false, dateSowed: 2023-05-03}]
 
@@ -125,7 +117,12 @@ export const getPlantByName = async (name: string) => {
   }
 };
 
-export const patchUser = (email: string, name: string, newEmail: string, avatarUrl: string) => {
+export const patchUser = (
+  email: string,
+  name: string,
+  newEmail: string,
+  avatarUrl: string
+) => {
   try {
     const nameRef = doc(db, "users", email);
 
@@ -133,7 +130,7 @@ export const patchUser = (email: string, name: string, newEmail: string, avatarU
     updateDoc(nameRef, {
       name: name,
       email: newEmail,
-      avatarUrl: avatarUrl
+      avatarUrl: avatarUrl,
     });
     return "patched successfully";
   } catch (err) {
