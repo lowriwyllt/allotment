@@ -6,6 +6,7 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
   },
   button: {
     backgroundColor: theme.feature,
