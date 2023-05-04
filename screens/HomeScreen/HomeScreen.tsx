@@ -2,9 +2,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 
-export default function HomeScreen({
-  currentUserEmail,
-}: any): JSX.Element {
+export default function HomeScreen({ currentUserEmail }: any): JSX.Element {
   const navigation = useNavigation<any>();
 
   return (
@@ -15,7 +13,7 @@ export default function HomeScreen({
         <Text>Plants</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Account")}>
-        <Text>Edit Profile</Text>
+        <Text>Account</Text>
       </TouchableOpacity>
     </View>
   );

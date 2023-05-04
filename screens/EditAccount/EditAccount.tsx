@@ -14,12 +14,12 @@ import { homeStyles } from "../HomeScreen/Home.component.style";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../firebase/database";
 import LoginStyle from "../LoginScreen/Login.component.style";
-import EditProfileStyles from "./EditProfile.component.style";
+import EditProfileStyles from "./EditAccount.component.style";
 import { useNavigation } from "@react-navigation/native";
 import { patchUser, getAvatars } from "../../firebase/database";
 import { getAuth, updateEmail, sendPasswordResetEmail } from "firebase/auth";
 
-export default function EditProfileScreen({
+export default function EditAccount({
   currentUser,
   setCurrentUserEmail,
 }: any): JSX.Element {

@@ -3,7 +3,8 @@ import AllPlantsScreen from "../AllPlantsScreen/AllPlantsScreen";
 import HomeScreen from "../HomeScreen/HomeScreen";
 import SinglePlantScreen from "../SinglePlantScreen/SinglePlantScreen";
 import NavSignOut from "./NavSignOut";
-import EditProfileScreen from "../EditProfileScreen/EditProfile";
+import Account from "../Account/Account";
+import EditAccount from "../EditAccount/EditAccount";
 
 const Drawer = createDrawerNavigator();
 
@@ -19,25 +20,43 @@ export const NavDrawer = ({
       initialRouteName="My Allotment"
       drawerContent={(props) => <NavSignOut {...props} />}
     >
-      <Drawer.Screen name="My Allotment" >
+      <Drawer.Screen name="My Allotment">
         {(props) => (
-            <HomeScreen
-              {...props}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
-              currentUserEmail={currentUserEmail}
-            />
-          )}
+          <HomeScreen
+            {...props}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            currentUserEmail={currentUserEmail}
+          />
+        )}
       </Drawer.Screen>
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />
       <Drawer.Screen name="Account">
-        {(props) => <EditProfileScreen {...props} currentUser={currentUser} setCurrentUserEmail={setCurrentUserEmail}/>}
-        </Drawer.Screen> 
+        {(props) => (
+          <Account
+            {...props}
+            currentUser={currentUser}
+            setCurrentUserEmail={setCurrentUserEmail}
+          />
+        )}
+      </Drawer.Screen>
       <Drawer.Screen
         name="plant"
         component={SinglePlantScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
+      <Drawer.Screen
+        name="editAccount"
+        options={{ drawerItemStyle: { display: "none" } }}
+      >
+        {(props) => (
+          <EditAccount
+            {...props}
+            currentUser={currentUser}
+            setCurrentUserEmail={setCurrentUserEmail}
+          />
+        )}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 };
