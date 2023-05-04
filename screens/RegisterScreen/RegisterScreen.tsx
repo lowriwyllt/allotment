@@ -1,83 +1,118 @@
 import {
-    KeyboardAvoidingView,
-    Text,
-    ScrollView,
-    TextInput,
-    TouchableOpacity,
-    View,
-    Image,
-    Pressable,
-  } from "react-native";
-  import { useState, useEffect } from "react";
-  import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile,
-    User,
-  } from "firebase/auth";
-  import { auth } from "../../firebaseConfig";
-  import { useNavigation } from "@react-navigation/native";
-  import LoginStyle from "../LoginScreen/Login.component.style";
-  import { createUser, getAvatars } from "../../firebase/database";
-  import theme from "../../styles/theme.style";
-  
-  export const RegisterScreen = (): JSX.Element => {
-    const [name, setName] = useState<string>("");
-    const [allotment, setAllotment] = useState<Array<Object>>([]);
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [avatarUrl, setAvatarUrl] = useState<string>(
-      "https://img.freepik.com/premium-vector/little-plant-soil-pixel-art-style_475147-1002.jpg"
-    );
-    const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
-  
-    const navigation = useNavigation<any>();
-  
-    useEffect(() => {
-      getAvatars().then((res) => {
-        setAvatarsArr(res);
-      });
-    }, []);
-  
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        if (user) {
-          navigation.replace("home");
-        }
-      });
-      return unsubscribe;
-    }, []);
-  
-    const handleSignUp = async () => {
-      try {
-        const { user }: { user: User } = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        await updateProfile(user, { displayName: name });
-        await createUser({ name, email, avatarUrl, allotment });
-      } catch (error: any) {
-        alert(error.message);
-      }
-    };
-  
-    const handleLogin = async () => {
-      try {
-        const { user } = await signInWithEmailAndPassword(auth, email, password);
-        console.log("logged in with: ", user.email);
-      } catch (error: any) {
-        alert(error.message);
-      }
-    };
-  
-    const handleRegister = async () => {
-        handleSignUp();
+  KeyboardAvoidingView,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Image,
+  Pressable,
+} from "react-native";
+import { useState, useEffect } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  User,
+} from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import { useNavigation } from "@react-navigation/native";
+import LoginStyle from "../LoginScreen/Login.component.style";
+import { createUser, getAvatars } from "../../firebase/database";
+import theme from "../../styles/theme.style";
+import { collection, addDoc, DocumentReference } from "firebase/firestore";
+import { app } from "../../firebaseConfig";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+
+export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
+  const [name, setName] = useState<string>("");
+  const [allotment, setAllotment] = useState<Array<Object>>([]);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [avatarUrl, setAvatarUrl] = useState<string>(
+    "https://img.freepik.com/premium-vector/little-plant-soil-pixel-art-style_475147-1002.jpg"
+  );
+  const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
+  const [emailLowerCase, setEmailLowerCase] = useState<string>("");
+
+  const navigation = useNavigation<any>();
+
+  const db = getFirestore(app);
+
+  useEffect(() => {
+    getAvatars().then((res) => {
+      setAvatarsArr(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
         navigation.replace("home");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleSignUp = async () => {
+    try {
+      const { user }: { user: User } = await createUserWithEmailAndPassword(
+        auth,
+        email.toLowerCase(),
+        password
+      );
+
+      const usersRef = collection(db, "users"); // collectionRef
+      const userRef = doc(usersRef); // docRef
+      const id = userRef.id; // a docRef has an id property
+      const userData = {
+        id,
+        name: name,
+        email: emailLowerCase,
+        avatarUrl: avatarUrl,
+        allotment: allotment,
+      }; // insert the id among the data
+      await setDoc(userRef, userData); // create the document
+
+      // setEmail(email.toLowerCase());
+      // try {
+      //   const { user }: { user: User } = await createUserWithEmailAndPassword(
+      //     auth,
+      //     email.toLowerCase(),
+      //     password
+      //   );
+
+      //   const docRef = await addDoc(collection(db, "users"), {
+      //     name: name,
+      //     email: emailLowerCase,
+      //     avatarUrl: avatarUrl,
+      //     allotment: allotment
+      //   });
+
+      //   await updateProfile(user, { displayName: name });
+      //   await createUser(docRef);
+      //   setCurrentUser(docRef.id);
+
+      navigation.replace("home");
+    } catch (error: any) {
+      alert(error.message);
     }
-  
-    return (
-        <ScrollView>
+  };
+
+  const handleLogin = async () => {
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+
+  const handleRegister = async () => {
+    handleSignUp();
+  };
+
+  return (
+    <ScrollView>
       <KeyboardAvoidingView style={LoginStyle.container} behavior="padding">
         <Text style={{ color: theme.feature, paddingBottom: 10 }}>
           Choose an avatar:
@@ -88,7 +123,6 @@ import {
               <Pressable
                 onPress={() => {
                   setAvatarUrl(avatar);
-                  console.log(avatar);
                 }}
               >
                 <Image
@@ -110,7 +144,10 @@ import {
           <TextInput
             placeholder="Email"
             value={email}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => {
+              setEmail(text);
+              setEmailLowerCase(text.toLowerCase());
+            }}
             style={LoginStyle.input}
           />
           <TextInput
@@ -121,16 +158,13 @@ import {
             secureTextEntry //changes what you type into dots
           />
         </View>
-  
+
         <View style={LoginStyle.buttonContainer}>
-          <TouchableOpacity
-            onPress={handleRegister}
-            style={LoginStyle.button}
-          >
+          <TouchableOpacity onPress={handleRegister} style={LoginStyle.button}>
             <Text style={LoginStyle.buttonText}>Create Account</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-      </ScrollView>
-    );
-  };
+    </ScrollView>
+  );
+};
