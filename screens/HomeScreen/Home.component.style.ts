@@ -6,6 +6,7 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
   },
   button: {
     backgroundColor: theme.feature,
@@ -21,6 +22,6 @@ export const homeStyles = StyleSheet.create({
     fontSize: 16,
   },
   homeHeader: {
-    fontSize: 30
-  }
+    fontSize: 30,
+  },
 });

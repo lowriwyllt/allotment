@@ -7,9 +7,14 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { getPlantByName } from "../../firebase/database";
+import {
+  addPlantToAllotment,
+  getPlantByName,
+  deletePlantFromAllotment,
+} from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
@@ -40,14 +45,29 @@ const SinglePlantScreen = ({ route }: any) => {
       });
   }, []);
 
+  const handleOnPress = () => {
+    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant);
+  };
+
+  const handleOnPressDelete = () => {
+    deletePlantFromAllotment("Rh2gty20wdtiEItYtcz2", plant);
+  };
+
   const addPlant = () => {
     setModalVisible(true);
   };
 
   return (
     <ScrollView>
+      <TouchableOpacity onPress={handleOnPressDelete}>
+        <Text>Delete this from your allotment</Text>
+      </TouchableOpacity>
       <View style={SinglePlantStyles.container}>
-        <DateModal modalVisible={modalVisible} setModalVisible={setModalVisible} plantName={plantName} />
+        <DateModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          plantName={plantName}
+        />
         <Text style={SinglePlantStyles.header}>{plantName}</Text>
         {isLoading ? (
           <Text>Loading...</Text>
