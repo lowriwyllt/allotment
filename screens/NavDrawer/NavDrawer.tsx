@@ -12,8 +12,6 @@ export const NavDrawer = ({
   setCurrentUser,
   currentUserEmail,
   setCurrentUserEmail,
-  tasks,
-  setTasks,
 }: any): JSX.Element => {
   return (
     <Drawer.Navigator
@@ -41,8 +39,6 @@ export const NavDrawer = ({
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
             currentUserEmail={currentUserEmail}
-            tasks={tasks}
-            setTasks={setTasks}
           />
         )}
       </Drawer.Screen>
