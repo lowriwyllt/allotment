@@ -6,16 +6,11 @@ import "react-native-gesture-handler";
 import Loggedin from "./screens/LOGGEDIN/Loggedin";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import EditProfileScreen from "./screens/EditProfileScreen/EditProfile";
-import { getUserByEmail, addTask } from "./firebase/database";
-import { useEffect } from "react";
-
-const Stack = createNativeStackNavigator();
+import { getUserByEmail } from "./firebase/database";
 
 export default function App(): JSX.Element {
   const [currentUser, setCurrentUser] = useState<string | null>("");
   const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("");
-  const [tasks, setTasks] = useState<Array<Object>>([]);
 
   const Stack = createNativeStackNavigator();
   const auth = getAuth();
@@ -44,11 +39,7 @@ export default function App(): JSX.Element {
           <Stack.Screen name="login" component={LoginScreen} />
           <Stack.Screen name="register">
             {(props) => (
-              <RegisterScreen
-                {...props}
-                setCurrentUser={setCurrentUser}
-                tasks={tasks}
-              />
+              <RegisterScreen {...props} setCurrentUser={setCurrentUser} />
             )}
           </Stack.Screen>
           <Stack.Screen name="home" options={{ headerShown: false }}>
@@ -59,8 +50,6 @@ export default function App(): JSX.Element {
                 currentUser={currentUser}
                 currentUserEmail={currentUserEmail}
                 setCurrentUserEmail={setCurrentUserEmail}
-                tasks={tasks}
-                setTasks={setTasks}
               />
             )}
           </Stack.Screen>
