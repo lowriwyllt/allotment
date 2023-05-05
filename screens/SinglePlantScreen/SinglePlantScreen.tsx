@@ -7,7 +7,11 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { addPlantToAllotment, getPlantByName } from "../../firebase/database";
+import {
+  addPlantToAllotment,
+  getPlantByName,
+  deletePlantFromAllotment,
+} from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "../Calendar";
 
@@ -36,11 +40,18 @@ const SinglePlantScreen = ({ route }: any) => {
   }, []);
 
   const handleOnPress = () => {
-    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant, "test Date");
+    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant);
+  };
+
+  const handleOnPressDelete = () => {
+    deletePlantFromAllotment("Rh2gty20wdtiEItYtcz2", plant);
   };
 
   return (
     <ScrollView>
+      <TouchableOpacity onPress={handleOnPressDelete}>
+        <Text>Delete this from your allotment</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={handleOnPress}>
         <Text>Test add to allotment</Text>
       </TouchableOpacity>

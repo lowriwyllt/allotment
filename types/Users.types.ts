@@ -1,4 +1,4 @@
-type UserType = {
+export type UserType = {
   name: string;
   email: string | null;
   avatarUrl?: string;
@@ -8,4 +8,8 @@ type UserType = {
   id: any;
 };
 
-export default UserType;
+export type createUserProps = {
+  name: string;
+  emailLowerCase: string;
+  avatarUrl: string;
+};
