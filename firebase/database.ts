@@ -2,14 +2,12 @@ import { app } from "../firebaseConfig";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   getFirestore,
   query,
   setDoc,
   where,
   updateDoc,
-  arrayUnion,
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 import { UserType, createUserProps } from "../types/Users.types";
