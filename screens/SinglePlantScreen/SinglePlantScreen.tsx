@@ -36,7 +36,8 @@ const SinglePlantScreen = ({ route }: any) => {
   }, []);
 
   const handleOnPress = () => {
-    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant, "test Date");
+    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant);
+    console.log("Helloeee");
   };
 
   return (

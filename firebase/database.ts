@@ -2,18 +2,15 @@ import { app } from "../firebaseConfig";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   getFirestore,
   query,
   setDoc,
   where,
   updateDoc,
-  arrayUnion,
 } from "firebase/firestore";
-import UserType from "../types/Users.types";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
-
+import { UserType, createUserProps } from "../types/Users.types";
 const db = getFirestore(app);
 
 // CREATE USER - the feilds that are filled out by the user to create a profile
@@ -21,14 +18,12 @@ export const createUser = async ({
   name,
   emailLowerCase,
   avatarUrl,
-  allotment,
-}: any) => {
+}: createUserProps) => {
   try {
     await setDoc(doc(db, "users", emailLowerCase), {
       name,
       email: emailLowerCase,
       avatarUrl,
-      allotment,
     });
   } catch (err) {
     console.error(err);
@@ -37,16 +32,23 @@ export const createUser = async ({
 
 // PATCH to update users allotment
 
+//We (Lily and Ryan) are changing the below so that instead of adding the plant from the database onto the allotment array in the user object...
+
+//We are now adding the new plant data onto a key in the allotment which is now a collection inside the user object/collection
+
 export const addPlantToAllotment = async (
   userId: string,
-  plant: PlantType | undefined,
-  datePlanted: string
+  plant: PlantType | undefined
 ) => {
   try {
-    const userRef = doc(db, "users", userId);
-    await updateDoc(userRef, {
-      allotment: arrayUnion({ ...plant, datePlanted }),
-    });
+    if (plant) {
+      const allotmentPath = doc(db, "users", userId, "allotment", plant.name);
+      await setDoc(allotmentPath, {
+        id: plant.name,
+        datePlanted: "TBC",
+        ...plant,
+      });
+    }
   } catch (err) {
     console.log(err);
   }
