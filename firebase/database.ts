@@ -112,7 +112,7 @@ export const getPlantByName = async (name: string) => {
   }
 };
 
-export const patchUser = (
+export const patchUser = async (
   email: string,
   name: string | undefined,
   newEmail: string,
