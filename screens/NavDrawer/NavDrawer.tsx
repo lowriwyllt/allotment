@@ -37,7 +37,10 @@ export const NavDrawer = ({
       />
       <Drawer.Screen
         name="editAccount"
-        options={{ drawerItemStyle: { display: "none" } }}
+        options={{
+          drawerItemStyle: { display: "none" },
+          headerTitle: "Edit Account",
+        }}
       >
         {(props) => (
           <EditAccount
