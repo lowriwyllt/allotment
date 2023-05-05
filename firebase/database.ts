@@ -10,6 +10,7 @@ import {
   where,
   updateDoc,
   arrayUnion,
+  addDoc
 } from "firebase/firestore";
 import UserType from "../types/Users.types";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";

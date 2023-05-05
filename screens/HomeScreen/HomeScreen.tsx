@@ -13,8 +13,8 @@ export default function HomeScreen({
 }: any): JSX.Element {
   const navigation = useNavigation<any>();
 
-  const handleAddTask = (currentUser: any) => {
-    console.log(currentUser);
+
+  const handleAddTask = () => {
     addTask(currentUser);
   };
 
