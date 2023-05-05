@@ -4,6 +4,7 @@ import HomeScreen from "../HomeScreen/HomeScreen";
 import SinglePlantScreen from "../SinglePlantScreen/SinglePlantScreen";
 import NavSignOut from "./NavSignOut";
 import EditProfileScreen from "../EditProfileScreen/EditProfile";
+import theme from "../../styles/theme.style";
 
 const Drawer = createDrawerNavigator();
 
@@ -22,15 +23,12 @@ export const NavDrawer = ({
       <Drawer.Screen
         name="My Allotment"
         options={{
-          title: "My home",
           headerStyle: {
-            backgroundColor: "#fff",
+            backgroundColor: theme.cream,
             borderBottomWidth: 0,
           },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
         }}
       >
         {(props) => (

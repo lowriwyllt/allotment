@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 
@@ -9,6 +9,9 @@ export default function HomeScreen({
 
   return (
     <View style={homeStyles.container}>
+      <Text style={homeStyles.welcome}>Welcome, Peter!</Text>
+      <Text style={homeStyles.subheading}>subheading message</Text>
+      <Image style={homeStyles.image} source={require('../../assets/mudpatch.png')}></Image>
       <Text style={homeStyles.homeHeader}>allotment</Text>
       <Text>Email: {currentUserEmail}</Text>
       <TouchableOpacity onPress={() => navigation.navigate("Plants")}>
