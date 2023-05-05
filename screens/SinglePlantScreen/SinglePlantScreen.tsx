@@ -37,7 +37,7 @@ const SinglePlantScreen = ({ route }: any) => {
         setIsLoading(false);
         setError({ message, code });
       });
-  }, []);
+  }, [plantName]);
 
   const handleOnPress = () => {
     addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant);
