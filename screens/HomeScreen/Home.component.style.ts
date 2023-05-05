@@ -22,14 +22,6 @@ export const homeStyles = StyleSheet.create({
     marginTop: 10,
     fontSize: 15,
   },
-  button: {
-    backgroundColor: theme.feature,
-    width: "60%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 40,
-  },
   buttonText: {
     color: "white",
     fontWeight: "700",
