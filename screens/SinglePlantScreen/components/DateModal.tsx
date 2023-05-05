@@ -23,10 +23,12 @@ const DateModal = ({
 }) => {
   const defaultDate = new Date();
   const [date, setDate] = useState<string>(formatDate(defaultDate));
+  const [showDate, setShowDate] = useState<boolean>(false);
 
   const handleOnChange = (event: any, selectedDate?: Date) => {
     if (selectedDate) {
       setDate(formatDate(selectedDate));
+      setShowDate(false)
     }
   };
 
@@ -46,12 +48,22 @@ const DateModal = ({
             Enter the date you planted the {plantName.toLowerCase()}
           </Text>
           <Text>{date.toLocaleString()}</Text>
-          <DateTimePicker
-            value={new Date(date)}
-            mode="date"
-            display="spinner"
-            onChange={handleOnChange}
-          />
+          {showDate ? (
+            <DateTimePicker
+              value={new Date(date)}
+              mode="date"
+              display="spinner"
+              onChange={handleOnChange}
+            />
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                setShowDate(true);
+              }}
+            >
+              <Text>Change Date</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity>
             <Text style={{ fontWeight: "bold" }}>Add to my allotment</Text>
           </TouchableOpacity>
