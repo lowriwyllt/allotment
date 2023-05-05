@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { homeStyles } from "../HomeScreen/Home.component.style";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getUserById } from "../../firebase/database";
 import LoginStyle from "../LoginScreen/Login.component.style";
 import EditProfileStyles from "./EditAccount.component.style";
 import { useNavigation } from "@react-navigation/native";
@@ -27,29 +26,18 @@ export default function EditAccount({
   currentUser: UserType | undefined;
   setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
 }): JSX.Element {
-  console.log(currentUser);
-
-  const [newAvatarUrl, setNewAvatarUrl] = useState<string | undefined>("");
-  const [newName, setNewName] = useState<string | undefined>("");
-  const [newEmail, setNewEmail] = useState<string | null | undefined>("");
+  const [newAvatarUrl, setNewAvatarUrl] = useState<string | undefined>(
+    currentUser?.avatarUrl
+  );
+  const [newName, setNewName] = useState<string | undefined>(currentUser?.name);
+  const [newEmail, setNewEmail] = useState<string | null | undefined>(
+    currentUser?.email
+  );
   const [modalVisible, setModalVisible] = useState<boolean | undefined>(false);
   const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
 
   const navigation = useNavigation<any>();
   const auth = getAuth();
-
-  useEffect(() => {
-    console.log("currentUser *** ", currentUser);
-    getUserById(currentUser?.id)
-      .then((response) => {
-        setNewEmail(response?.email);
-        setNewName(response?.name);
-        setNewAvatarUrl(response?.avatarUrl);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [currentUser]);
 
   useEffect(() => {
     getAvatars().then((res) => {
@@ -68,14 +56,14 @@ export default function EditAccount({
       console.log(err);
     });
 
-    patchUser(currentUser?.id, name, email, avatarUrl);
-    setCurrentUser((nowUser) => {
-      return { ...nowUser, email } as UserType;
+    patchUser(currentUser?.id, name, email, avatarUrl).then(() => {
+      setCurrentUser((nowUser) => {
+        return { ...nowUser, email, name, avatarUrl } as UserType;
+      });
     });
-    navigation.replace("home");
-  };
 
-  const changeAvatar = () => {};
+    navigation.navigate("Account");
+  };
 
   return (
     <ScrollView>
@@ -86,7 +74,6 @@ export default function EditAccount({
             key={newAvatarUrl}
             source={{ uri: `${newAvatarUrl}` }}
           ></Image>
-          <TouchableOpacity onPress={changeAvatar}></TouchableOpacity>
         </View>
         <View style={EditProfileStyles.centeredView}>
           <Modal
