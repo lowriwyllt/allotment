@@ -157,3 +157,7 @@ export const addTask = async (currentUser: any) => {
     tasks: arrayUnion(data),
 });
 }
+
+// Get a users tasks
+export const getTasks = async (currentUser: any) => {
+}

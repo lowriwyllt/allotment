@@ -1,7 +1,12 @@
-import { Text } from "react-native"
+import { Text, View } from "react-native"
+import { getTasks } from "../../firebase/database"
 
-export default function TasksList({}: any): JSX.Element { 
+export default function TasksList({currentUser}: any): JSX.Element { 
+    getTasks(currentUser)
     return (
-        <Text>Hello</Text>
+
+        <View>
+            
+        </View>
     )
 }

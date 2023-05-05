@@ -5,13 +5,13 @@ import CalendarSinglePlant from "../Calendar";
 import { addTask } from "../../firebase/database";
 import TasksList from "./TasksList";
 
-export default function HomeScreen({
+export default function HomeScreen({currentUser, 
   currentUserEmail,
 }: any): JSX.Element {
   const navigation = useNavigation<any>();
 
 
-  const handleAddTask = () => {
+  const handleAddTask = (currentUser: any) => {
     console.log(currentUser);
     addTask(currentUser);
   }
@@ -30,7 +30,7 @@ export default function HomeScreen({
       <TouchableOpacity onPress={handleAddTask}>
         <Text>Add task</Text>
       </TouchableOpacity>
-      <TasksList />
+      <TasksList currentUser={currentUser}/>
     </View>
   );
 }
