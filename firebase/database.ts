@@ -182,10 +182,7 @@ export const getUserById = async (id: string) => {
 //   });
 // };
 
-export const addTask = async (
-  userId: string,
-  task: TaskType | undefined
-) => {
+export const addTask = async (userId: string, task: TaskType | undefined) => {
   try {
     if (task) {
       const taskPath = doc(db, "users", userId, "tasks", task.body);
@@ -204,33 +201,31 @@ export const addTask = async (
 // Get a users tasks
 export const getTasks = async (userId: any) => {
   try {
+    const tasks: any = [];
+    const q = query(collection(db, "users", userId, "tasks"));
 
-    const tasks: any = []
-    const q = query(collection(db, "users", userId, 'tasks'));
-    
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      
       tasks.push(doc.data());
     });
     return tasks;
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-  export const setTaskCompleted = async (
-    userId: string,
-    task: TaskType | undefined
-  ) => {
-    if (task) {
-      try {
-        const userRef = doc(db, "users", userId, "tasks", task.body);
-        await updateDoc(userRef, {
-          complete: task.complete ? false : true
-        });
-      } catch (error) {
-        console.log(error);
-      }
+export const setTaskCompleted = async (
+  userId: string,
+  task: TaskType | undefined
+) => {
+  if (task) {
+    try {
+      const userRef = doc(db, "users", userId, "tasks", task.body);
+      await updateDoc(userRef, {
+        complete: Boolean(task.complete) ? false : true,
+      });
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }
+};
