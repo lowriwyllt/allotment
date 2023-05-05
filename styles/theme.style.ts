@@ -1,5 +1,5 @@
 const theme = {
-  green: "#158C66",
+  green: "#3E6A27",
   darkgreen: "#183032",
   cream: "#FFECCC",
   lightcream: "#fff9ee",

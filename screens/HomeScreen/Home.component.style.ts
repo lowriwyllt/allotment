@@ -6,7 +6,7 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: theme.lightcream,
   },
   image: {
     marginTop: 20,
