@@ -152,12 +152,21 @@ export const getUserById = async (id: string) => {
 // Add a new task to a users task collection (array)
 export const addTask = async (currentUser: any) => {
   const userRef = doc(db, "users", currentUser);
-  const data = {date: new Date(), taskBody: "", complete: false, img: ""}
+  const data = { date: new Date(), taskBody: "", complete: false, img: "" };
   await updateDoc(userRef, {
     tasks: arrayUnion(data),
-});
-}
+  });
+};
 
 // Get a users tasks
 export const getTasks = async (currentUser: any) => {
-}
+  const userRef = doc(db, "users", currentUser);
+  const docSnap = await getDoc(userRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().tasks;
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+  }
+};

@@ -12,6 +12,8 @@ export const NavDrawer = ({
   setCurrentUser,
   currentUserEmail,
   setCurrentUserEmail,
+  tasks,
+  setTasks,
 }: any): JSX.Element => {
   return (
     <Drawer.Navigator
@@ -19,20 +21,28 @@ export const NavDrawer = ({
       initialRouteName="My Allotment"
       drawerContent={(props) => <NavSignOut {...props} />}
     >
-      <Drawer.Screen name="My Allotment" >
+      <Drawer.Screen name="My Allotment">
         {(props) => (
-            <HomeScreen
-              {...props}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
-              currentUserEmail={currentUserEmail}
-            />
-          )}
+          <HomeScreen
+            {...props}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            currentUserEmail={currentUserEmail}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
+        )}
       </Drawer.Screen>
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />
       <Drawer.Screen name="Account">
-        {(props) => <EditProfileScreen {...props} currentUser={currentUser} setCurrentUserEmail={setCurrentUserEmail}/>}
-        </Drawer.Screen> 
+        {(props) => (
+          <EditProfileScreen
+            {...props}
+            currentUser={currentUser}
+            setCurrentUserEmail={setCurrentUserEmail}
+          />
+        )}
+      </Drawer.Screen>
       <Drawer.Screen
         name="plant"
         component={SinglePlantScreen}
