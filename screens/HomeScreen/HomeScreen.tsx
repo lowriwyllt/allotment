@@ -4,6 +4,7 @@ import { homeStyles } from "./Home.component.style";
 import CalendarSinglePlant from "../Calendar";
 import { addTask } from "../../firebase/database";
 import TasksList from "./TasksList";
+import { useState } from "react";
 
 export default function HomeScreen({
   currentUser,
@@ -12,10 +13,11 @@ export default function HomeScreen({
   setTasks,
 }: any): JSX.Element {
   const navigation = useNavigation<any>();
+  const [task, setTask] = useState({img: "", body: "Water Potatoes", date: new Date(), complete: false})
 
 
   const handleAddTask = () => {
-    addTask(currentUser);
+    addTask(currentUser, task);
   };
 
   return (

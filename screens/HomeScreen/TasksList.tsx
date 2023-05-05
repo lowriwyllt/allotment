@@ -1,5 +1,5 @@
 import { Text, View, FlatList, Image } from "react-native";
-import { getTasks } from "../../firebase/database";
+import { getTasks, setTaskCompleted } from "../../firebase/database";
 import { useEffect, useState } from "react";
 import Checkbox from 'expo-checkbox';
 import LoginStyle from "../LoginScreen/Login.component.style";
@@ -51,7 +51,9 @@ export default function TasksList({
             <Text>{item.taskBody}</Text>
             <View>
         <Checkbox value={item.complete} 
-        // onValueChange={handleTaskCheck}
+        onValueChange={(() => {
+          setTaskCompleted(currentUser, item)
+        })}
         />
         <Text>Completed</Text>
       </View>

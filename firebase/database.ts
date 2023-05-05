@@ -9,10 +9,13 @@ import {
   where,
   updateDoc,
   deleteDoc,
-  addDoc
+  addDoc,
+  arrayUnion,
+  getDoc,
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
-import { UserType, createUserProps } from "../types/Users.types";
+import { UserType, createUserProps, TaskType } from "../types/Users.types";
+import genUniqueId from "./utils/utils";
 const db = getFirestore(app);
 
 // CREATE USER - the feilds that are filled out by the user to create a profile
@@ -170,23 +173,64 @@ export const getUserById = async (id: string) => {
 };
 
 // Add a new task to a users task collection (array)
-export const addTask = async (currentUser: any) => {
-  const userRef = doc(db, "users", currentUser);
-  const data = { date: new Date(), taskBody: "", complete: false, img: "" };
-  await updateDoc(userRef, {
-    tasks: arrayUnion(data),
-  });
+// export const addTask = async (currentUser: any) => {
+
+//   const userRef = doc(db, "users", currentUser);
+//   const data = { date: new Date(), taskBody: "", complete: false, img: "", id: genUniqueId()};
+//   await updateDoc(userRef, {
+//     tasks: arrayUnion(data),
+//   });
+// };
+
+export const addTask = async (
+  userId: string,
+  task: TaskType | undefined
+) => {
+  try {
+    if (task) {
+      const taskPath = doc(db, "users", userId, "tasks", task.body);
+      await setDoc(taskPath, {
+        body: task.body,
+        img: task.img,
+        complete: task.complete,
+        date: task.date,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // Get a users tasks
-export const getTasks = async (currentUser: any) => {
-  const userRef = doc(db, "users", currentUser);
-  const docSnap = await getDoc(userRef);
+export const getTasks = async (userId: any) => {
+  try {
 
-  if (docSnap.exists()) {
-    return docSnap.data().tasks;
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
+    const tasks: any = []
+    const q = query(collection(db, "users", userId, 'tasks'));
+    
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      
+      tasks.push(doc.data());
+    });
+    return tasks;
+  } catch (err) {
+    console.log(err);
   }
-};
+}
+
+  export const setTaskCompleted = async (
+    userId: string,
+    task: TaskType | undefined
+  ) => {
+    if (task) {
+      try {
+        const userRef = doc(db, "users", userId, "tasks", task.body);
+        await updateDoc(userRef, {
+          complete: task.complete ? false : true
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
