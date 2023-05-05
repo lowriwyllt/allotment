@@ -22,12 +22,11 @@ export const NavDrawer = ({
       <Drawer.Screen
         name="My Allotment"
         options={{
-          title: "My home",
           headerStyle: {
             backgroundColor: "#fff",
             borderBottomWidth: 0,
           },
-          headerTintColor: "#fff",
+          headerTintColor: "#000",
           headerTitleStyle: {
             fontWeight: "bold",
           },
