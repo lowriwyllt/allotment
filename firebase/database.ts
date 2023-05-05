@@ -8,6 +8,7 @@ import {
   setDoc,
   where,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 import { UserType, createUserProps } from "../types/Users.types";
@@ -51,6 +52,20 @@ export const addPlantToAllotment = async (
     }
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const deletePlantFromAllotment = async (
+  userId: string,
+  plant: PlantType | undefined
+) => {
+  if (plant) {
+    try {
+      const userRef = doc(db, "users", userId, "allotment", plant.name);
+      await deleteDoc(userRef);
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
