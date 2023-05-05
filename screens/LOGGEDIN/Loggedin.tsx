@@ -10,6 +10,8 @@ const Loggedin = ({
   setCurrentUser,
   currentUserEmail,
   setCurrentUserEmail,
+  tasks,
+  setTasks,
 }: any) => {
   return (
     <Stack.Navigator>
@@ -21,6 +23,8 @@ const Loggedin = ({
             currentUser={currentUser}
             currentUserEmail={currentUserEmail}
             setCurrentUserEmail={setCurrentUserEmail}
+            tasks={tasks}
+            setTasks={setTasks}
           />
         )}
       </Stack.Screen>
