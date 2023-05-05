@@ -5,15 +5,18 @@ import SinglePlantScreen from "../SinglePlantScreen/SinglePlantScreen";
 import NavSignOut from "./NavSignOut";
 import Account from "../Account/Account";
 import EditAccount from "../EditAccount/EditAccount";
+import UserType from "../../types/Users.types";
+import { Dispatch, SetStateAction } from "react";
 
 const Drawer = createDrawerNavigator();
 
 export const NavDrawer = ({
   currentUser,
   setCurrentUser,
-  currentUserEmail,
-  setCurrentUserEmail,
-}: any): JSX.Element => {
+}: {
+  currentUser: UserType | undefined;
+  setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
+}): JSX.Element => {
   return (
     <Drawer.Navigator
       screenOptions={{ drawerType: "front" }}
@@ -21,24 +24,11 @@ export const NavDrawer = ({
       drawerContent={(props) => <NavSignOut {...props} />}
     >
       <Drawer.Screen name="My Allotment">
-        {(props) => (
-          <HomeScreen
-            {...props}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            currentUserEmail={currentUserEmail}
-          />
-        )}
+        {(props) => <HomeScreen {...props} currentUser={currentUser} />}
       </Drawer.Screen>
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />
       <Drawer.Screen name="Account">
-        {(props) => (
-          <Account
-            {...props}
-            currentUser={currentUser}
-            setCurrentUserEmail={setCurrentUserEmail}
-          />
-        )}
+        {(props) => <Account {...props} currentUser={currentUser} />}
       </Drawer.Screen>
       <Drawer.Screen
         name="plant"
@@ -53,7 +43,7 @@ export const NavDrawer = ({
           <EditAccount
             {...props}
             currentUser={currentUser}
-            setCurrentUserEmail={setCurrentUserEmail}
+            setCurrentUser={setCurrentUser}
           />
         )}
       </Drawer.Screen>

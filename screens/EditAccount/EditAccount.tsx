@@ -11,24 +11,27 @@ import {
   Alert,
 } from "react-native";
 import { homeStyles } from "../HomeScreen/Home.component.style";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getUserById } from "../../firebase/database";
 import LoginStyle from "../LoginScreen/Login.component.style";
 import EditProfileStyles from "./EditAccount.component.style";
 import { useNavigation } from "@react-navigation/native";
 import { patchUser, getAvatars } from "../../firebase/database";
 import { getAuth, updateEmail, sendPasswordResetEmail } from "firebase/auth";
+import UserType from "../../types/Users.types";
 
 export default function EditAccount({
   currentUser,
-  setCurrentUserEmail,
-}: any): JSX.Element {
+  setCurrentUser,
+}: {
+  currentUser: UserType | undefined;
+  setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
+}): JSX.Element {
   console.log(currentUser);
 
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>("");
-  const [name, setName] = useState<string | undefined>("");
-  const [email, setEmail] = useState<string | null | undefined>("");
-  const [oldEmail, setOldEmail] = useState<string | null | undefined>("");
+  const [newAvatarUrl, setNewAvatarUrl] = useState<string | undefined>("");
+  const [newName, setNewName] = useState<string | undefined>("");
+  const [newEmail, setNewEmail] = useState<string | null | undefined>("");
   const [modalVisible, setModalVisible] = useState<boolean | undefined>(false);
   const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
 
@@ -37,17 +40,16 @@ export default function EditAccount({
 
   useEffect(() => {
     console.log("currentUser *** ", currentUser);
-    getUserById(currentUser)
+    getUserById(currentUser?.id)
       .then((response) => {
-        setEmail(response?.email);
-        setName(response?.name);
-        setOldEmail(response?.email);
-        setAvatarUrl(response?.avatarUrl);
+        setNewEmail(response?.email);
+        setNewName(response?.name);
+        setNewAvatarUrl(response?.avatarUrl);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     getAvatars().then((res) => {
@@ -66,8 +68,10 @@ export default function EditAccount({
       console.log(err);
     });
 
-    patchUser(currentUser, name, email, avatarUrl);
-    setCurrentUserEmail(email);
+    patchUser(currentUser?.id, name, email, avatarUrl);
+    setCurrentUser((nowUser) => {
+      return { ...nowUser, email } as UserType;
+    });
     navigation.replace("home");
   };
 
@@ -79,8 +83,8 @@ export default function EditAccount({
         <View style={LoginStyle.avatarsContainer}>
           <Image
             style={LoginStyle.avatars}
-            key={avatarUrl}
-            source={{ uri: `${avatarUrl}` }}
+            key={newAvatarUrl}
+            source={{ uri: `${newAvatarUrl}` }}
           ></Image>
           <TouchableOpacity onPress={changeAvatar}></TouchableOpacity>
         </View>
@@ -101,7 +105,7 @@ export default function EditAccount({
                       <Pressable
                         key={avatar}
                         onPress={() => {
-                          setAvatarUrl(avatar);
+                          setNewAvatarUrl(avatar);
                         }}
                       >
                         <Image
@@ -133,24 +137,24 @@ export default function EditAccount({
         </View>
         <View style={homeStyles.container}>
           <TextInput
-            placeholder={name || ""}
-            onChangeText={(newText) => setName(newText)}
-            value={name || ""}
+            placeholder={newName || ""}
+            onChangeText={(newText) => setNewName(newText)}
+            value={newName || ""}
           />
 
           <TextInput
-            placeholder={email || ""}
-            onChangeText={(newText) => setEmail(newText)}
-            value={email || ""}
+            placeholder={newEmail || ""}
+            onChangeText={(newText) => setNewEmail(newText)}
+            value={newEmail || ""}
           />
           <TouchableOpacity
             onPress={() => {
-              sendPasswordResetEmail(auth, email || "")
+              sendPasswordResetEmail(auth, newEmail || "")
                 .then(() => {
                   // Password reset email sent!
                   Alert.alert(
                     "Password Reset",
-                    `An email has been sent to ${email} containing password reset instructions`,
+                    `An email has been sent to ${newEmail} containing password reset instructions`,
                     [{ text: "OK", onPress: () => console.log("ok pressed") }]
                   );
                 })
@@ -164,7 +168,9 @@ export default function EditAccount({
             <Text>Reset Password</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => handleSubmit(name, email || "", avatarUrl || "")}
+            onPress={() =>
+              handleSubmit(newName, newEmail || "", newAvatarUrl || "")
+            }
           >
             <Text>Submit</Text>
           </TouchableOpacity>
