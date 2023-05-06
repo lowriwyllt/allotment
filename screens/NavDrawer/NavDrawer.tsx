@@ -24,7 +24,7 @@ export const NavDrawer = ({
         name="My Allotment"
         options={{
           headerStyle: {
-            backgroundColor: theme.cream,
+            backgroundColor: theme.skyblue,
             borderBottomWidth: 0,
           },
           headerTintColor: theme.darkgreen,

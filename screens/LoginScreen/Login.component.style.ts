@@ -4,11 +4,41 @@ import theme from "../../styles/theme.style";
 const LoginStyle = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: theme.brown
+  },
+  background: {
+    width: "100%",
+    height: 400,
+    // resizeMode: "contain",
+    zIndex: -99999,
+    // top: 0,
+    position: "absolute",
+  },
+  header: {
+    // fontWeight: "bold",
+    fontSize: 40,
+    fontWeight: "bold",
+    paddingTop: 20,
+    color: "#fff",
+  },
+  subheading: {
+    width: "70%",
+    paddingTop:20,
+    paddingBottom:100,
+    textAlign:"center",
+    fontWeight: "bold",
+    color: theme.brown
+  },
+  allotmentimg: {
+    width: "80%",
+    resizeMode: "contain",
+    // marginTop: 50
   },
   inputContainer: {
     width: "80%",
+    marginTop:150,
   },
   input: {
     backgroundColor: "white",
@@ -18,7 +48,7 @@ const LoginStyle = StyleSheet.create({
     marginTop: 5,
   },
   buttonContainer: {
-    width: "60%",
+    width: "80%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 40,
