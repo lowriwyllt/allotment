@@ -10,9 +10,7 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import { homeStyles } from "../HomeScreen/Home.component.style";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import LoginStyle from "../LoginScreen/Login.component.style";
 import EditProfileStyles from "./EditAccount.component.style";
 import { useNavigation } from "@react-navigation/native";
 import { patchUser, getAvatars } from "../../firebase/database";
@@ -33,7 +31,8 @@ export default function EditAccount({
   const [newEmail, setNewEmail] = useState<string | null | undefined>(
     currentUser?.email
   );
-  const [modalVisible, setModalVisible] = useState<boolean | undefined>(false);
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
 
   const navigation = useNavigation<any>();
@@ -47,35 +46,43 @@ export default function EditAccount({
 
   const handleSubmit = (
     name: string | undefined,
-    email: string,
-    avatarUrl: string
+    email: string | null | undefined,
+    avatarUrl: string | undefined
   ) => {
     const user: any = auth.currentUser;
 
-    updateEmail(user, email).catch((err) => {
-      console.log(err);
-    });
-
-    patchUser(currentUser?.id, name, email, avatarUrl).then(() => {
-      setCurrentUser((nowUser) => {
-        return { ...nowUser, email, name, avatarUrl } as UserType;
+    if (email === currentUser?.email) {
+      patchUser(currentUser?.id, name, email, avatarUrl).then(() => {
+        setCurrentUser((nowUser) => {
+          return { ...nowUser, email, name, avatarUrl } as UserType;
+        });
       });
-    });
-
-    navigation.navigate("Account");
+      navigation.navigate("Account");
+    } else {
+      updateEmail(user, email as string).catch((err) => {
+        console.log(err);
+      });
+      patchUser(currentUser?.id, name, email, avatarUrl).then(() => {
+        setCurrentUser((nowUser) => {
+          return { ...nowUser, email, name, avatarUrl } as UserType;
+        });
+      });
+      auth
+        .signOut()
+        .then(() => {
+          navigation.replace("login");
+        })
+        .catch((err) => alert(err.message));
+    }
   };
 
   return (
     <ScrollView>
-      <KeyboardAvoidingView style={LoginStyle.container} behavior="padding">
-        <View style={LoginStyle.avatarsContainer}>
-          <Image
-            style={LoginStyle.avatars}
-            key={newAvatarUrl}
-            source={{ uri: `${newAvatarUrl}` }}
-          ></Image>
-        </View>
-        <View style={EditProfileStyles.centeredView}>
+      <View style={EditProfileStyles.centeredView}>
+        <KeyboardAvoidingView
+          style={EditProfileStyles.containerAll}
+          behavior="padding"
+        >
           <Modal
             animationType="slide"
             transparent={true}
@@ -84,61 +91,104 @@ export default function EditAccount({
               setModalVisible(!modalVisible);
             }}
           >
-            <View style={EditProfileStyles.centeredView}>
-              <View style={EditProfileStyles.modalView}>
-                <View>
-                  {avatarsArr?.map((avatar) => {
-                    return (
-                      <Pressable
-                        key={avatar}
-                        onPress={() => {
-                          setNewAvatarUrl(avatar);
-                        }}
-                      >
-                        <Image
-                          style={LoginStyle.avatars}
-                          source={{ uri: avatar }}
-                        ></Image>
-                      </Pressable>
-                    );
-                  })}
-                </View>
-                <Pressable
-                  style={[
-                    EditProfileStyles.button,
-                    EditProfileStyles.buttonClose,
-                  ]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={EditProfileStyles.textStyle}>Hide Modal</Text>
-                </Pressable>
+            <View style={EditProfileStyles.modalView}>
+              <View style={EditProfileStyles.avatarsContainer}>
+                {avatarsArr?.map((avatar) => {
+                  return (
+                    <Pressable
+                      key={avatar}
+                      onPress={() => {
+                        setNewAvatarUrl(avatar);
+                      }}
+                    >
+                      <Image
+                        style={EditProfileStyles.avatars}
+                        source={{ uri: avatar }}
+                      ></Image>
+                    </Pressable>
+                  );
+                })}
               </View>
+              <Pressable
+                style={EditProfileStyles.button}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={EditProfileStyles.textStyle}>x</Text>
+              </Pressable>
             </View>
           </Modal>
-          <Pressable
-            style={[EditProfileStyles.button, EditProfileStyles.buttonOpen]}
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={EditProfileStyles.textStyle}>Change Avatar</Text>
-          </Pressable>
-        </View>
-        <View style={homeStyles.container}>
-          <TextInput
-            placeholder={newName || ""}
-            onChangeText={(newText) => setNewName(newText)}
-            value={newName || ""}
-          />
 
-          <TextInput
-            placeholder={newEmail || ""}
-            onChangeText={(newText) => setNewEmail(newText)}
-            value={newEmail || ""}
-          />
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Image
+              style={EditProfileStyles.avatars}
+              key={newAvatarUrl}
+              source={{ uri: `${newAvatarUrl}` }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Text
+              style={[EditProfileStyles.textButton, EditProfileStyles.margin10]}
+            >
+              Change Avatar
+            </Text>
+          </TouchableOpacity>
+
+          <View style={EditProfileStyles.details}>
+            <Text>Name</Text>
+            <TextInput
+              style={EditProfileStyles.profileDetail}
+              placeholder={newName || ""}
+              onChangeText={(newText) => setNewName(newText)}
+              value={newName || ""}
+            />
+          </View>
+          <TouchableOpacity
+            onPress={() =>
+              handleSubmit(newName, currentUser?.email, newAvatarUrl || "")
+            }
+          >
+            <Text
+              style={[
+                EditProfileStyles.textButton,
+                EditProfileStyles.spacedMargin,
+              ]}
+            >
+              Submit my profile changes
+            </Text>
+          </TouchableOpacity>
+
+          <View style={EditProfileStyles.details}>
+            <Text>Email</Text>
+            <TextInput
+              style={EditProfileStyles.profileDetail}
+              placeholder={newEmail || ""}
+              onChangeText={(newText) => setNewEmail(newText)}
+              value={newEmail || ""}
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={() =>
+              handleSubmit(
+                currentUser?.name,
+                newEmail || "",
+                currentUser?.avatarUrl
+              )
+            }
+          >
+            <Text
+              style={[
+                EditProfileStyles.textButton,
+                EditProfileStyles.spacedMargin,
+              ]}
+            >
+              Submit my email changes
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               sendPasswordResetEmail(auth, newEmail || "")
                 .then(() => {
-                  // Password reset email sent!
                   Alert.alert(
                     "Password Reset",
                     `An email has been sent to ${newEmail} containing password reset instructions`,
@@ -146,23 +196,21 @@ export default function EditAccount({
                   );
                 })
                 .catch((error) => {
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  console.log(errorMessage);
+                  console.log(error.code + ": " + error.message);
                 });
             }}
           >
-            <Text>Reset Password</Text>
+            <Text
+              style={[
+                EditProfileStyles.textButton,
+                EditProfileStyles.spacedMargin,
+              ]}
+            >
+              Reset Password
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              handleSubmit(newName, newEmail || "", newAvatarUrl || "")
-            }
-          >
-            <Text>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
     </ScrollView>
   );
 }
