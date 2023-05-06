@@ -5,8 +5,9 @@ import SinglePlantScreen from "../SinglePlantScreen/SinglePlantScreen";
 import NavSignOut from "./NavSignOut";
 import Account from "../Account/Account";
 import EditAccount from "../EditAccount/EditAccount";
-import UserType from "../../types/Users.types";
+import { UserType } from "../../types/Users.types";
 import { Dispatch, SetStateAction } from "react";
+import theme from "../../styles/theme.style";
 
 const Drawer = createDrawerNavigator();
 
@@ -23,13 +24,25 @@ export const NavDrawer = ({
       initialRouteName="My Allotment"
       drawerContent={(props) => <NavSignOut {...props} />}
     >
-      <Drawer.Screen name="My Allotment">
+      <Drawer.Screen
+        name="My Allotment"
+        options={{
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
+        }}
+      >
         {(props) => <HomeScreen {...props} currentUser={currentUser} />}
       </Drawer.Screen>
+
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />
       <Drawer.Screen name="Account">
         {(props) => <Account {...props} currentUser={currentUser} />}
       </Drawer.Screen>
+
       <Drawer.Screen
         name="plant"
         component={SinglePlantScreen}

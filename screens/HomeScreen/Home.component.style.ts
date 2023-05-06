@@ -4,16 +4,23 @@ import theme from "../../styles/theme.style";
 export const homeStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
+    backgroundColor: theme.lightcream,
   },
-  button: {
-    backgroundColor: theme.feature,
-    width: "60%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 40,
+  image: {
+    marginTop: 20,
+    height: "30%",
+    resizeMode: "contain",
+  },
+  welcome: {
+    fontWeight:"700",
+    marginTop: 20,
+    fontSize: 30,
+  },
+  subheading: {
+    marginTop: 10,
+    fontSize: 15,
   },
   buttonText: {
     color: "white",
