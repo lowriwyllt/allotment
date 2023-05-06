@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
+import theme from "../../styles/theme.style";
 const EditProfileStyles = StyleSheet.create({
   modalView: {
     width: "90%",
     margin: 20,
     marginTop: "25%",
-    backgroundColor: "white",
+    backgroundColor: theme.lightcream,
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -26,7 +27,7 @@ const EditProfileStyles = StyleSheet.create({
     elevation: 2,
     width: 40,
     height: 40,
-    backgroundColor: "green",
+    backgroundColor: theme.green,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -72,6 +73,7 @@ const EditProfileStyles = StyleSheet.create({
     borderTopColor: "black",
     borderTopWidth: 1,
     alignItems: "center",
+    paddingLeft: 5,
   },
 
   containerAll: {

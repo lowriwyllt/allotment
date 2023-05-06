@@ -1,7 +1,8 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import UserType from "../../types/Users.types";
+import { UserType } from "../../types/Users.types";
 import { AccountStyles } from "./Account.component.style";
+import theme from "../../styles/theme.style";
 
 export default function Account({
   currentUser,
@@ -11,7 +12,7 @@ export default function Account({
   const navigation = useNavigation<any>();
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: theme.lightcream }}>
       <View style={AccountStyles.container}>
         <Image
           style={AccountStyles.avatars}

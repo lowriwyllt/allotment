@@ -15,7 +15,8 @@ import EditProfileStyles from "./EditAccount.component.style";
 import { useNavigation } from "@react-navigation/native";
 import { patchUser, getAvatars } from "../../firebase/database";
 import { getAuth, updateEmail, sendPasswordResetEmail } from "firebase/auth";
-import UserType from "../../types/Users.types";
+import { UserType } from "../../types/Users.types";
+import theme from "../../styles/theme.style";
 
 export default function EditAccount({
   currentUser,
@@ -77,7 +78,7 @@ export default function EditAccount({
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: theme.lightcream }}>
       <View style={EditProfileStyles.centeredView}>
         <KeyboardAvoidingView
           style={EditProfileStyles.containerAll}
@@ -127,7 +128,11 @@ export default function EditAccount({
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Text
-              style={[EditProfileStyles.textButton, EditProfileStyles.margin10]}
+              style={[
+                EditProfileStyles.textButton,
+                EditProfileStyles.margin10,
+                { color: theme.green },
+              ]}
             >
               Change Avatar
             </Text>
