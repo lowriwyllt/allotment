@@ -39,7 +39,17 @@ export const NavDrawer = ({
       </Drawer.Screen>
 
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />
-      <Drawer.Screen name="Account">
+      <Drawer.Screen
+        name="Account"
+        options={{
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
+        }}
+      >
         {(props) => <Account {...props} currentUser={currentUser} />}
       </Drawer.Screen>
 
@@ -53,6 +63,12 @@ export const NavDrawer = ({
         options={{
           drawerItemStyle: { display: "none" },
           headerTitle: "Edit Account",
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
         }}
       >
         {(props) => (
