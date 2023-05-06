@@ -7,6 +7,7 @@ import Loggedin from "./screens/LOGGEDIN/Loggedin";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
+import theme from "./styles/theme.style";
 
 export default function App(): JSX.Element {
   const [currentUser, setCurrentUser] = useState<string | null>("");
@@ -36,13 +37,13 @@ export default function App(): JSX.Element {
     <>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="login" component={LoginScreen} />
+          <Stack.Screen name="login" component={LoginScreen} options={{headerStyle: {backgroundColor: theme.skyblue}, headerShadowVisible:false}} />
           <Stack.Screen name="register">
             {(props) => (
               <RegisterScreen {...props} setCurrentUser={setCurrentUser} />
             )}
           </Stack.Screen>
-          <Stack.Screen name="home" options={{ headerShown: false }}>
+          <Stack.Screen name="home" options={{ headerShown: false, headerShadowVisible:false }}>
             {(props) => (
               <Loggedin
                 {...props}
