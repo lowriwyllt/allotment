@@ -68,12 +68,12 @@ const EditProfileStyles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "flex-start",
-    borderBottomColor: "black",
+    borderBottomColor: theme.brown,
     borderBottomWidth: 1,
-    borderTopColor: "black",
+    borderTopColor: theme.brown,
     borderTopWidth: 1,
     alignItems: "center",
-    paddingLeft: 5,
+    padding: 7,
   },
 
   containerAll: {
