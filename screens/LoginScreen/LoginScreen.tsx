@@ -76,7 +76,7 @@ export default function LoginScreen(): JSX.Element {
           <TouchableOpacity onPress={handleLogin} style={LoginStyle.button}>
             <Text style={LoginStyle.buttonText}>Login</Text>
           </TouchableOpacity>
-          <Text style={{fontSize:12, fontWeight: "bold", color: "#fff", paddingTop:10, paddingBottom: 5}}>OR</Text>
+          <Text style={{fontSize:12, fontWeight: "bold", color: "#fff", paddingTop:5, paddingBottom: 0}}>OR</Text>
           <TouchableOpacity
             onPress={handleRegister}
             style={[LoginStyle.button, LoginStyle.buttonOutline]}

@@ -6,7 +6,7 @@ const LoginStyle = StyleSheet.create({
     flex: 1,
     // justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: theme.brown
+    backgroundColor: theme.brown,
   },
   background: {
     width: "100%",
@@ -25,11 +25,11 @@ const LoginStyle = StyleSheet.create({
   },
   subheading: {
     width: "70%",
-    paddingTop:20,
-    paddingBottom:100,
-    textAlign:"center",
+    paddingTop: 20,
+    paddingBottom: 100,
+    textAlign: "center",
     fontWeight: "bold",
-    color: theme.brown
+    color: theme.brown,
   },
   allotmentimg: {
     width: "80%",
@@ -38,14 +38,16 @@ const LoginStyle = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
-    marginTop:150,
+    marginTop: 150,
   },
   input: {
     backgroundColor: "white",
+    height: 50,
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+    marginVertical: 5,
   },
   buttonContainer: {
     width: "80%",
@@ -54,7 +56,7 @@ const LoginStyle = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: theme.green,
+    backgroundColor: theme.orange,
     width: "100%",
     padding: 15,
     borderRadius: 10,
