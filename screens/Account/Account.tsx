@@ -18,14 +18,14 @@ export default function Account({
           key={currentUser?.avatarUrl}
           source={{ uri: currentUser?.avatarUrl }}
         />
-        <Text style={AccountStyles.bold}>{currentUser?.name}</Text>
+        <Text>{currentUser?.name}</Text>
         <Text>{currentUser?.email}</Text>
 
         <TouchableOpacity
           style={AccountStyles.editAccount}
           onPress={() => navigation.navigate("editAccount")}
         >
-          <Text>Edit account details</Text>
+          <Text style={AccountStyles.textButton}>Edit account details</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

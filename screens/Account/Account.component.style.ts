@@ -12,18 +12,8 @@ export const AccountStyles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
-  bold: {
+  textButton: {
     fontWeight: "bold",
-  },
-  details: {
-    backgroundColor: "white",
-    width: "80%",
-    margin: 10,
-    padding: 5,
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
-    borderTopColor: "black",
-    borderTopWidth: 1,
   },
   editAccount: {
     marginTop: 40,
