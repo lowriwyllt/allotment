@@ -28,6 +28,9 @@ export default function Account({
         >
           <Text style={AccountStyles.textButton}>Edit account details</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={AccountStyles.button}>
+          <Text style={AccountStyles.buttonText}>Sign Out</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

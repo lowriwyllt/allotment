@@ -17,6 +17,17 @@ export const AccountStyles = StyleSheet.create({
     fontWeight: "bold",
   },
   editAccount: {
-    marginTop: 40,
+    margin: 40,
+  },
+  button: {
+    backgroundColor: theme.green,
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
   },
 });
