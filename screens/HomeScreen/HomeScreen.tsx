@@ -9,7 +9,7 @@ export default function HomeScreen({
 
   return (
     <View style={homeStyles.container}>
-      <Text style={homeStyles.welcome}>Welcome, Peter!</Text>
+      <Text style={homeStyles.header}>Welcome, Peter!</Text>
       <Text style={homeStyles.subheading}>subheading message</Text>
       <Image style={homeStyles.image} source={require('../../assets/mudpatch.png')}></Image>
       <Text style={homeStyles.homeHeader}>allotment</Text>

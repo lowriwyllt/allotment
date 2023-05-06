@@ -5,7 +5,7 @@ const theme = {
   lightcream: "#fff9ee",
   orange: "#EE5D1F",
   brown: "#84432A",
-  mainheader: 40,
+  mainheader: 30,
   subheader: 25,
   bodyCopy: 10,
 };

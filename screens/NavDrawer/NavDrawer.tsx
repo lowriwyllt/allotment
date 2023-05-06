@@ -40,8 +40,29 @@ export const NavDrawer = ({
           />
         )}
       </Drawer.Screen>
-      <Drawer.Screen name="Plants" component={AllPlantsScreen} />
-      <Drawer.Screen name="Account">
+      <Drawer.Screen
+        name="Plants"
+        component={AllPlantsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
+        }}
+      />
+      <Drawer.Screen
+        name="Account"
+        options={{
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
+        }}
+      >
         {(props) => (
           <EditProfileScreen
             {...props}
@@ -53,8 +74,25 @@ export const NavDrawer = ({
       <Drawer.Screen
         name="plant"
         component={SinglePlantScreen}
-        options={{ drawerItemStyle: { display: "none" } }}
+        options={{
+          drawerItemStyle: { display: "none" },
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
+        }}
       />
     </Drawer.Navigator>
   );
+};
+
+const DrawerNavStyles = {
+  headerStyle: {
+    backgroundColor: theme.cream,
+    borderBottomWidth: 0,
+  },
+  headerTintColor: theme.darkgreen,
+  headerTitleAlign: "center",
 };

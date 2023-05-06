@@ -13,7 +13,7 @@ export const homeStyles = StyleSheet.create({
     height: "30%",
     resizeMode: "contain",
   },
-  welcome: {
+  header: {
     fontWeight:"700",
     marginTop: 20,
     fontSize: 30,
