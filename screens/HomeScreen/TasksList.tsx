@@ -12,27 +12,36 @@ export default function TasksList({
   const [todaysTasks, setTodaysTasks] = useState<Object>([]);
   const [loading, setLoading] = useState(true);
   const [checkboxChanged, setCheckboxChanged] = useState(false);
+  const [taskListEmpty, setTaskListEmpty] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    getTasks(currentUser).then((tasks) => {
-      const formattedDateTasks = tasks.map((task: any) => {
-        task.date = new Date(
-          task.date.seconds * 1000 + task.date.nanoseconds / 1000000
-        );
-        return task;
-      });
-      setTasks(formattedDateTasks);
+    getTasks(currentUser)
+      .then((tasks) => {
+        if (tasks === undefined) {
+          setTaskListEmpty(true);
+        } else {
+          const formattedDateTasks = tasks.map((task: any) => {
+            task.date = new Date(
+              task.date.seconds * 1000 + task.date.nanoseconds / 1000000
+            );
+            return task;
+          });
+          setTasks(formattedDateTasks);
 
-      const today = new Date();
-      const todays = tasks.filter((task: any) => {
-        if (task.date.toLocaleDateString() === today.toLocaleDateString()) {
-          return task;
+          const today = new Date();
+          const todays = tasks.filter((task: any) => {
+            if (task.date.toLocaleDateString() === today.toLocaleDateString()) {
+              return task;
+            }
+          });
+          setTodaysTasks(todays);
+          setLoading(false);
         }
+      })
+      .catch((err) => {
+        console.log("getTasks error", err);
       });
-      setTodaysTasks(todays);
-      setLoading(false);
-    });
   }, [currentUser, checkboxChanged]);
 
   return loading ? (
