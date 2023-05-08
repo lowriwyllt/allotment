@@ -67,7 +67,7 @@ export default function TasksList({
                   item.img
                     ? { uri: item.img }
                     : {
-                        uri: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921",
+                        uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
                       }
                 }
               ></Image>
