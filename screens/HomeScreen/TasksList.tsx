@@ -3,6 +3,7 @@ import { getTasks, setTaskCompleted } from "../../firebase/database";
 import { useEffect, useState } from "react";
 import Checkbox from "expo-checkbox";
 import LoginStyle from "../LoginScreen/Login.component.style";
+import { TaskType } from "../../types/Users.types";
 
 export default function TasksList({
   currentUser,
@@ -10,7 +11,7 @@ export default function TasksList({
   setTasks,
   taskAdded,
 }: any): JSX.Element {
-  const [todaysTasks, setTodaysTasks] = useState<Object>([]);
+  const [todaysTasks, setTodaysTasks] = useState<TaskType[]>([]);
   const [loading, setLoading] = useState(true);
   const [checkboxChanged, setCheckboxChanged] = useState(false);
   const [taskListEmpty, setTaskListEmpty] = useState(false);
