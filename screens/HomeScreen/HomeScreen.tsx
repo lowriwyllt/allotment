@@ -15,13 +15,15 @@ export default function HomeScreen({
   const navigation = useNavigation<any>();
   const [task, setTask] = useState({
     img: "",
-    body: "Sausages",
+    body: "elbows",
     date: new Date(),
     complete: false,
   });
+  const [taskAdded, setTaskAdded] = useState(false);
 
   const handleAddTask = () => {
     addTask(currentUser, task);
+    setTaskAdded(!taskAdded);
   };
 
   return (
@@ -38,7 +40,12 @@ export default function HomeScreen({
       <TouchableOpacity onPress={handleAddTask}>
         <Text>Add task</Text>
       </TouchableOpacity>
-      <TasksList currentUser={currentUser} tasks={tasks} setTasks={setTasks} />
+      <TasksList
+        currentUser={currentUser}
+        tasks={tasks}
+        setTasks={setTasks}
+        taskAdded={taskAdded}
+      />
     </View>
   );
 }

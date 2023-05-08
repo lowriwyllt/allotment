@@ -8,6 +8,7 @@ export default function TasksList({
   currentUser,
   tasks,
   setTasks,
+  taskAdded,
 }: any): JSX.Element {
   const [todaysTasks, setTodaysTasks] = useState<Object>([]);
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,7 @@ export default function TasksList({
       .catch((err) => {
         console.log("getTasks error", err);
       });
-  }, [currentUser, checkboxChanged]);
+  }, [currentUser, checkboxChanged, taskAdded]);
 
   return loading ? (
     <View>
