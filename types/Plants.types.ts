@@ -28,16 +28,16 @@ export type PlantProps = {
 
 export type AllPlantProps = {
   plant: {
-  img: string;
-  maxDaysUntilHarvest: number;
-  minDaysUntilHarvest: number;
-  minTempCelcius: number;
-  name: string;
-  scientificName: string;
-  sowingInstructions: string;
-  sowingStartDate: string;
-  sowingWindowDays: number;
-  sunLight: string;
-  watering: string;
-  }
+    img: string;
+    maxDaysUntilHarvest: number;
+    minDaysUntilHarvest: number;
+    minTempCelcius: number;
+    name: string;
+    scientificName: string;
+    sowingInstructions: string[];
+    sowingStartDate: string;
+    sowingWindowInDays: number;
+    sunLight: string;
+    wateringFrequencyInDays: number;
+  };
 };

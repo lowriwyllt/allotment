@@ -71,10 +71,12 @@ const SinglePlantScreen = ({ route }: any) => {
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
             </Text>
             <Text>Sunlight needed: {plant.sunLight}</Text>
-            <Text>Watering needed: {plant.watering}</Text>
+            <Text>Watering needed: {plant.wateringFrequencyInDays}</Text>
             <CalendarSinglePlant plant={plant} />
-
-            <Text>{plant.sowingInstructions.split(".").join("\n\n")}</Text>
+            {plant.sowingInstructions.map((instruction) => {
+              <Text>{instruction}</Text>;
+            })}
+            {/* <Text>{plant.sowingInstructions.split(".").join("\n\n")}</Text> */}
           </>
         ) : (
           <>
