@@ -15,6 +15,7 @@ export default function TasksList({
   const [loading, setLoading] = useState(true);
   const [checkboxChanged, setCheckboxChanged] = useState(false);
   const [taskListEmpty, setTaskListEmpty] = useState(false);
+  const [completedTasks, setCompletedTasks] = useState<boolean[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -40,12 +41,20 @@ export default function TasksList({
           });
           setTodaysTasks(todays);
           setLoading(false);
+          const completedTasks = tasks.map((task: any) => {
+            return task.complete;
+          });
+          setCompletedTasks(completedTasks);
         }
       })
       .catch((err) => {
         console.log("getTasks error", err);
       });
-  }, [currentUser, checkboxChanged, taskAdded]);
+  }, [currentUser, , taskAdded]);
+
+  useEffect(() => {
+    setCompletedTasks(completedTasks);
+  }, [checkboxChanged]);
 
   return loading ? (
     <View>
@@ -59,7 +68,7 @@ export default function TasksList({
       ) : (
         <FlatList
           data={todaysTasks}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View>
               <Text>{item.date.toLocaleDateString()}</Text>
               <Image
@@ -75,10 +84,13 @@ export default function TasksList({
               <Text>{item.taskBody}</Text>
               <View>
                 <Checkbox
-                  value={Boolean(item.complete)}
+                  value={Boolean(completedTasks[index])}
                   onValueChange={() => {
                     setTaskCompleted(currentUser, item);
                     setCheckboxChanged(!checkboxChanged);
+                    const oppositeOfCurrentValue = !completedTasks[index];
+                    completedTasks.splice(index, 1, oppositeOfCurrentValue);
+                    setCompletedTasks(completedTasks);
                   }}
                 />
                 <Text>Completed</Text>
