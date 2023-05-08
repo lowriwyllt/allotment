@@ -26,7 +26,7 @@ const SinglePlantScreen = ({ route }: any) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [error, setError] = useState<any>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { plantName } = route.params;
+  const { plantName, currentUser } = route.params;
 
   useEffect(() => {
     setIsLoading(true);
@@ -45,9 +45,8 @@ const SinglePlantScreen = ({ route }: any) => {
       });
   }, []);
 
-  const handleOnPress = () => {
-    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant);
-  };
+  console.log(plant)
+
 
   const handleOnPressDelete = () => {
     deletePlantFromAllotment("Rh2gty20wdtiEItYtcz2", plant);
@@ -67,6 +66,7 @@ const SinglePlantScreen = ({ route }: any) => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           plantName={plantName}
+          plant={plant}
         />
         <Text style={SinglePlantStyles.header}>{plantName}</Text>
         {isLoading ? (

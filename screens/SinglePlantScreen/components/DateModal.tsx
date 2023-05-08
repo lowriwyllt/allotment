@@ -11,15 +11,19 @@ import { SinglePlantStyles } from "../SinglePlantScreen";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { formatDate } from "../../utils/utils";
+import { addPlantToAllotment } from "../../../firebase/database";
+import { PlantType } from "../../../types/Plants.types";
 
 const DateModal = ({
   modalVisible,
   setModalVisible,
   plantName,
+  plant,
 }: {
   modalVisible: boolean;
   setModalVisible: (bool: boolean) => void;
   plantName: string;
+  plant: PlantType | undefined;
 }) => {
   const defaultDate = new Date();
   const [date, setDate] = useState<string>(formatDate(defaultDate));
@@ -28,8 +32,12 @@ const DateModal = ({
   const handleOnChange = (event: any, selectedDate?: Date) => {
     if (selectedDate) {
       setDate(formatDate(selectedDate));
-      setShowDate(false)
+      setShowDate(false);
     }
+  };
+
+  const addToAllotment = () => {
+    addPlantToAllotment("", plant, date);
   };
 
   return (
@@ -64,7 +72,7 @@ const DateModal = ({
               <Text>Change Date</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={addToAllotment}>
             <Text style={{ fontWeight: "bold" }}>Add to my allotment</Text>
           </TouchableOpacity>
           <Pressable

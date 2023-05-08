@@ -9,7 +9,9 @@ import {
   where,
   updateDoc,
   deleteDoc,
-  addDoc
+  addDoc,
+  arrayUnion,
+  getDoc,
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 import { UserType, createUserProps } from "../types/Users.types";
@@ -20,16 +22,12 @@ export const createUser = async ({
   name,
   emailLowerCase,
   avatarUrl,
-  allotment,
-  tasks,
-}: UserType) => {
+}: createUserProps) => {
   try {
     await setDoc(doc(db, "users", emailLowerCase), {
       name,
       email: emailLowerCase,
       avatarUrl,
-      allotment,
-      tasks,
     });
   } catch (err) {
     console.error(err);
@@ -44,14 +42,15 @@ export const createUser = async ({
 
 export const addPlantToAllotment = async (
   userId: string,
-  plant: PlantType | undefined
+  plant: PlantType | undefined,
+  date: string
 ) => {
   try {
     if (plant) {
       const allotmentPath = doc(db, "users", userId, "allotment", plant.name);
       await setDoc(allotmentPath, {
         id: plant.name,
-        datePlanted: "TBC",
+        datePlanted: date,
         ...plant,
       });
     }

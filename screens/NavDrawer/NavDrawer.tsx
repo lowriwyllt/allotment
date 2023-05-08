@@ -58,9 +58,10 @@ export const NavDrawer = ({
       </Drawer.Screen>
       <Drawer.Screen
         name="plant"
-        component={SinglePlantScreen}
         options={{ drawerItemStyle: { display: "none" } }}
-      />
+      >
+        {(props) => (<SinglePlantScreen {...props} currentUser={currentUser} />)}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 };
