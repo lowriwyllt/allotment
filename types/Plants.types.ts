@@ -12,11 +12,11 @@ export type PlantType = {
   minTempCelcius: number;
   name: string;
   scientificName: string;
-  sowingInstructions: string;
+  sowingInstructions: string[];
   sowingStartDate: string;
-  sowingWindowDays: number;
+  sowingWindowInDays: number;
   sunLight: string;
-  watering: string;
+  wateringFrequencyInDays: number;
 };
 
 export type PlantProps = {
