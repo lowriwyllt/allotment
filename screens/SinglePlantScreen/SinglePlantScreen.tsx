@@ -43,7 +43,7 @@ const SinglePlantScreen = ({ route }: any) => {
         setIsLoading(false);
         setError({ message, code });
       });
-  }, []);
+  }, [plantName]);
 
   console.log(plant)
 
