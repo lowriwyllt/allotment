@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     fontWeight: "700",
+    textAlign: "center",
   },
   container: {
     width: "100%",
