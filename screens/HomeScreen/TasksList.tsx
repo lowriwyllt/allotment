@@ -21,6 +21,7 @@ export default function TasksList({
         if (tasks === undefined) {
           setTaskListEmpty(true);
         } else {
+          setTaskListEmpty(false);
           const formattedDateTasks = tasks.map((task: any) => {
             task.date = new Date(
               task.date.seconds * 1000 + task.date.nanoseconds / 1000000
@@ -51,35 +52,39 @@ export default function TasksList({
   ) : (
     <View>
       <Text>Today's Tasks</Text>
-      <FlatList
-        data={todaysTasks}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.date.toLocaleDateString()}</Text>
-            <Image
-              style={LoginStyle.avatars}
-              source={
-                item.img
-                  ? { uri: item.img }
-                  : {
-                      uri: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921",
-                    }
-              }
-            ></Image>
-            <Text>{item.taskBody}</Text>
+      {taskListEmpty ? (
+        <Text>No tasks today!</Text>
+      ) : (
+        <FlatList
+          data={todaysTasks}
+          renderItem={({ item }) => (
             <View>
-              <Checkbox
-                value={Boolean(item.complete)}
-                onValueChange={() => {
-                  setTaskCompleted(currentUser, item);
-                  setCheckboxChanged(!checkboxChanged);
-                }}
-              />
-              <Text>Completed</Text>
+              <Text>{item.date.toLocaleDateString()}</Text>
+              <Image
+                style={LoginStyle.avatars}
+                source={
+                  item.img
+                    ? { uri: item.img }
+                    : {
+                        uri: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921",
+                      }
+                }
+              ></Image>
+              <Text>{item.taskBody}</Text>
+              <View>
+                <Checkbox
+                  value={Boolean(item.complete)}
+                  onValueChange={() => {
+                    setTaskCompleted(currentUser, item);
+                    setCheckboxChanged(!checkboxChanged);
+                  }}
+                />
+                <Text>Completed</Text>
+              </View>
             </View>
-          </View>
-        )}
-      ></FlatList>
+          )}
+        ></FlatList>
+      )}
     </View>
   );
 }

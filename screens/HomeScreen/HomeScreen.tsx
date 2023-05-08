@@ -13,8 +13,12 @@ export default function HomeScreen({
   setTasks,
 }: any): JSX.Element {
   const navigation = useNavigation<any>();
-  const [task, setTask] = useState({img: "", body: "Water Potatoes", date: new Date(), complete: false})
-
+  const [task, setTask] = useState({
+    img: "",
+    body: "Sausages",
+    date: new Date(),
+    complete: false,
+  });
 
   const handleAddTask = () => {
     addTask(currentUser, task);
