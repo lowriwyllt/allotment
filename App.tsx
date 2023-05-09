@@ -4,10 +4,10 @@ import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
 import "react-native-gesture-handler";
 import Loggedin from "./screens/LOGGEDIN/Loggedin";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
-import { UserType } from "./types/Users.types";
+import {UserType} from "./types/Users.types";
 import theme from "./styles/theme.style";
 
 export default function App(): JSX.Element {
@@ -28,8 +28,7 @@ export default function App(): JSX.Element {
         });
       }
     });
-  }, []);
-  
+  }, [])
 
   return (
     <>
