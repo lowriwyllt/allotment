@@ -26,7 +26,7 @@ export default function HomeScreen({
   const [taskAdded, setTaskAdded] = useState(false);
 
   const handleAddTask = () => {
-    addTask(currentUser); //neeeds a task to be added
+    addTask(currentUser?.id, task); //neeeds a task to be added
     setTaskAdded(!taskAdded);
   };
 

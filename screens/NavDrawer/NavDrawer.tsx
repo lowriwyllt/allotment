@@ -6,7 +6,7 @@ import NavSignOut from "./NavSignOut";
 import Account from "../Account/Account";
 import EditAccount from "../EditAccount/EditAccount";
 import { UserType } from "../../types/Users.types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import theme from "../../styles/theme.style";
 
 const Drawer = createDrawerNavigator();
@@ -18,6 +18,7 @@ export const NavDrawer = ({
   currentUser: UserType | undefined;
   setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
 }): JSX.Element => {
+  const [tasks, setTasks] = useState<any>([]);
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -39,7 +40,14 @@ export const NavDrawer = ({
           headerTitleAlign: "center",
         }}
       >
-        {(props) => <HomeScreen {...props} currentUser={currentUser} />}
+        {(props) => (
+          <HomeScreen
+            {...props}
+            currentUser={currentUser}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
+        )}
       </Drawer.Screen>
 
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />

@@ -168,23 +168,49 @@ export const getUserById = async (id: string) => {
 };
 
 // Add a new task to a users task collection (array)
-export const addTask = async (currentUser: any) => {
-  const userRef = doc(db, "users", currentUser);
-  const data = { date: new Date(), taskBody: "", complete: false, img: "" };
-  await updateDoc(userRef, {
-    tasks: arrayUnion(data),
-  });
+export const addTask = async (userId: string, task: TaskType | undefined) => {
+  try {
+    if (task) {
+      const taskPath = doc(db, "users", userId, "tasks", task.body);
+      await setDoc(taskPath, {
+        body: task.body,
+        img: task.img,
+        complete: task.complete,
+        date: task.date,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // Get a users tasks
-export const getTasks = async (currentUser: any) => {
-  const userRef = doc(db, "users", currentUser);
-  const docSnap = await getDoc(userRef);
+export const getTasks = async (userId: any) => {
+  try {
+    const tasks: any = [];
+    const q = query(collection(db, "users", userId, "tasks"));
 
-  if (docSnap.exists()) {
-    return docSnap.data().tasks;
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      tasks.push(doc.data());
+    });
+    return tasks;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const setTaskCompleted = async (
+  userId: string,
+  task: TaskType | undefined
+) => {
+  if (task) {
+    try {
+      const userRef = doc(db, "users", userId, "tasks", task.body);
+      await updateDoc(userRef, {
+        complete: Boolean(task.complete) ? false : true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
