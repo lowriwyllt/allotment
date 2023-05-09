@@ -7,27 +7,20 @@ import Loggedin from "./screens/LOGGEDIN/Loggedin";
 import { useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
+import UserType from "./types/Users.types";
 
 export default function App(): JSX.Element {
-  const [currentUser, setCurrentUser] = useState<string | null>("");
-  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("");
+  const [currentUser, setCurrentUser] = useState<UserType | undefined>();
 
   const Stack = createNativeStackNavigator();
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const userEmail = user.email;
-
       getUserByEmail(user.email).then((response) => {
-        setCurrentUser(response?.id);
-        setCurrentUserEmail(response?.email || "");
+        if (response) {
+          setCurrentUser(response);
+        }
       });
-      // ...
-    } else {
-      // User is signed out
-      // ... ??????
     }
   });
 
@@ -48,8 +41,6 @@ export default function App(): JSX.Element {
                 {...props}
                 setCurrentUser={setCurrentUser}
                 currentUser={currentUser}
-                currentUserEmail={currentUserEmail}
-                setCurrentUserEmail={setCurrentUserEmail}
               />
             )}
           </Stack.Screen>

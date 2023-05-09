@@ -3,7 +3,10 @@ import AllPlantsScreen from "../AllPlantsScreen/AllPlantsScreen";
 import HomeScreen from "../HomeScreen/HomeScreen";
 import SinglePlantScreen from "../SinglePlantScreen/SinglePlantScreen";
 import NavSignOut from "./NavSignOut";
-import EditProfileScreen from "../EditProfileScreen/EditProfile";
+import Account from "../Account/Account";
+import EditAccount from "../EditAccount/EditAccount";
+import { UserType } from "../../types/Users.types";
+import { Dispatch, SetStateAction } from "react";
 import theme from "../../styles/theme.style";
 
 const Drawer = createDrawerNavigator();
@@ -11,9 +14,10 @@ const Drawer = createDrawerNavigator();
 export const NavDrawer = ({
   currentUser,
   setCurrentUser,
-  currentUserEmail,
-  setCurrentUserEmail,
-}: any): JSX.Element => {
+}: {
+  currentUser: UserType | undefined;
+  setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
+}): JSX.Element => {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -35,30 +39,50 @@ export const NavDrawer = ({
           headerTitleAlign: "center",
         }}
       >
-        {(props) => (
-          <HomeScreen
-            {...props}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            currentUserEmail={currentUserEmail}
-          />
-        )}
+        {(props) => <HomeScreen {...props} currentUser={currentUser} />}
       </Drawer.Screen>
+
       <Drawer.Screen name="Plants" component={AllPlantsScreen} />
-      <Drawer.Screen name="Account">
-        {(props) => (
-          <EditProfileScreen
-            {...props}
-            currentUser={currentUser}
-            setCurrentUserEmail={setCurrentUserEmail}
-          />
-        )}
+      <Drawer.Screen
+        name="Account"
+        options={{
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
+        }}
+      >
+        {(props) => <Account {...props} currentUser={currentUser} />}
       </Drawer.Screen>
+
       <Drawer.Screen
         name="plant"
         component={SinglePlantScreen}
         options={{ drawerItemStyle: { display: "none" } }}
       />
+      <Drawer.Screen
+        name="editAccount"
+        options={{
+          drawerItemStyle: { display: "none" },
+          headerTitle: "Edit Account",
+          headerStyle: {
+            backgroundColor: theme.cream,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
+        }}
+      >
+        {(props) => (
+          <EditAccount
+            {...props}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        )}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 };

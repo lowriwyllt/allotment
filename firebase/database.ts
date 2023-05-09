@@ -129,20 +129,19 @@ export const getPlantByName = async (name: string) => {
   }
 };
 
-export const patchUser = (
-  email: string,
+export const patchUser = async (
+  id: string | null | undefined,
   name: string | undefined,
-  newEmail: string,
-  avatarUrl: string
+  email: string | null | undefined,
+  avatarUrl: string | undefined
 ) => {
   try {
-    const nameRef = doc(db, "users", email);
+    const nameRef = doc(db, "users", id as string);
 
-    // Set the "capital" field of the city 'DC'
     updateDoc(nameRef, {
-      name: name,
-      email: newEmail,
-      avatarUrl: avatarUrl,
+      name,
+      email,
+      avatarUrl,
     });
     return "patched successfully";
   } catch (err) {

@@ -24,7 +24,7 @@ const LoginStyle = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: theme.feature,
+    backgroundColor: theme.green,
     width: "100%",
     padding: 15,
     borderRadius: 10,
@@ -38,11 +38,11 @@ const LoginStyle = StyleSheet.create({
   buttonOutline: {
     backgroundColor: "white",
     marginTop: 5,
-    borderColor: theme.feature,
+    borderColor: theme.green,
     borderWidth: 2,
   },
   buttonOutlineText: {
-    color: theme.feature,
+    color: theme.green,
     fontWeight: "700",
     fontSize: 16,
   },
