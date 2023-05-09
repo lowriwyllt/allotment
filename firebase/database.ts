@@ -43,16 +43,56 @@ export const createUser = async ({
 
 export const addPlantToAllotment = async (
   userId: string,
-  plant: PlantType | undefined
+  plant: PlantType | undefined,
+  datePlanted: string | undefined = undefined
 ) => {
   try {
     if (plant) {
       const allotmentPath = doc(db, "users", userId, "allotment", plant.name);
-      await setDoc(allotmentPath, {
-        id: plant.name,
-        datePlanted: "TBC",
-        ...plant,
-      });
+      if (datePlanted) {
+        await setDoc(allotmentPath, {
+          id: plant.name,
+          datePlanted: datePlanted,
+          ...plant,
+        });
+
+        const taskEndDate = new Date(datePlanted);
+        taskEndDate.setDate(taskEndDate.getDate() + plant.maxDaysUntilHarvest);
+        const wateringTask = {
+          img: "", //maybe this should be water icon
+          completed: false,
+          body: `Water your ${plant?.name}`,
+          repeatsInDays: plant?.wateringFrequencyInDays,
+          startingDate: datePlanted,
+          endingDate: taskEndDate.toLocaleDateString("en-CA"), //end of harvesting period
+          plant: plant?.name,
+          category: "watering",
+          nextTaskDate:
+            new Date().toLocaleDateString("en-CA") > datePlanted
+              ? new Date().toLocaleDateString("en-CA")
+              : datePlanted, //I want the date if planting date is greater than todays date then
+        } as TaskType;
+        await addTask(userId, wateringTask);
+      } else {
+        await setDoc(allotmentPath, {
+          id: plant.name,
+          datePlanted: "TBC",
+          ...plant,
+        });
+
+        const wateringTask = {
+          img: "",
+          completed: false,
+          body: `Water your ${plant?.name}`,
+          repeatsInDays: plant?.wateringFrequencyInDays,
+          startingDate: datePlanted,
+          endingDate: "TBC", //end of harvesting period
+          plant: plant?.name,
+          category: "watering",
+          nextTaskDate: "TBC",
+        } as TaskType;
+        await addTask(userId, wateringTask);
+      }
     }
   } catch (err) {
     console.log(err);
@@ -168,17 +208,10 @@ export const getUserById = async (id: string) => {
 };
 
 // Add a new task to a users task collection (array)
-export const addTask = async (userId: string, task: TaskType | undefined) => {
+export const addTask = async (userId: string, task: TaskType) => {
   try {
-    if (task) {
-      const taskPath = doc(db, "users", userId, "tasks", task.body);
-      await setDoc(taskPath, {
-        body: task.body,
-        img: task.img,
-        complete: task.complete,
-        date: task.date,
-      });
-    }
+    const taskPath = doc(db, "users", userId, "tasks", task.body);
+    await setDoc(taskPath, task);
   } catch (err) {
     console.log(err);
   }
@@ -207,7 +240,7 @@ export const setTaskCompleted = async (
     try {
       const userRef = doc(db, "users", userId, "tasks", task.body);
       await updateDoc(userRef, {
-        complete: Boolean(task.complete) ? false : true,
+        complete: Boolean(task.completed) ? false : true,
       });
     } catch (error) {
       console.log(error);
