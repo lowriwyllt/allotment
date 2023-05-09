@@ -1,7 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
-import CalendarSinglePlant from "../Calendar";
+import CalendarSinglePlant from "../SinglePlantScreen/components/Calendar";
 import { addTask } from "../../firebase/database";
 import TasksList from "./TasksList";
 import { useState } from "react";
@@ -53,15 +53,15 @@ export default function HomeScreen({
       <Text style={homeStyles.header}>Welcome, Peter!</Text>
       <View style={homeStyles.bodyContainer}>
         <Text style={homeStyles.subheading}>tasks:</Text>
-      <TouchableOpacity onPress={handleAddTask}>
-        <Text>Add task</Text>
-      </TouchableOpacity>
-      <TasksList
-        currentUser={currentUser}
-        tasks={tasks}
-        setTasks={setTasks}
-        taskAdded={taskAdded}
-      />
+        <TouchableOpacity onPress={handleAddTask}>
+          <Text>Add task</Text>
+        </TouchableOpacity>
+        <TasksList
+          currentUser={currentUser}
+          tasks={tasks}
+          setTasks={setTasks}
+          taskAdded={taskAdded}
+        />
       </View>
       {/* <Image style={homeStyles.image} source={require('../../crops/farm.png')}></Image> */}
       {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}
@@ -81,7 +81,6 @@ export default function HomeScreen({
       {/* <TouchableOpacity onPress={() => navigation.navigate("Account")}> */}
       {/* }  <Text>Edit Profile</Text> */}
       {/* </TouchableOpacity> */}
-
     </View>
   );
 }

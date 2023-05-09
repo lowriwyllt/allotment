@@ -18,8 +18,11 @@ export default function App(): JSX.Element {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log("this is the problem");
         getUserByEmail(user.email).then((response) => {
+          console.log("this is the problem response");
           if (response) {
+            console.log("this is the problem response if statement");
             setCurrentUser(response);
           }
         });
