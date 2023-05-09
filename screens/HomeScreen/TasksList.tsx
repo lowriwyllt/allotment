@@ -3,54 +3,70 @@ import { getTasks, setTaskCompleted } from "../../firebase/database";
 import { useEffect, useState } from "react";
 import Checkbox from "expo-checkbox";
 import LoginStyle from "../LoginScreen/Login.component.style";
-import { TaskType } from "../../types/Users.types";
+import { TaskType, UserType } from "../../types/Users.types";
 
 export default function TasksList({
   currentUser,
   tasks,
   setTasks,
   taskAdded,
-}: any): JSX.Element {
+}: {
+  currentUser: UserType | undefined;
+  tasks: any;
+  setTasks: any;
+  taskAdded: any;
+}): JSX.Element {
   const [todaysTasks, setTodaysTasks] = useState<TaskType[]>([]);
   const [loading, setLoading] = useState(true);
   const [checkboxChanged, setCheckboxChanged] = useState(false);
-  const [taskListEmpty, setTaskListEmpty] = useState(false);
+  const [taskListEmpty, setTaskListEmpty] = useState<boolean>(false);
   const [completedTasks, setCompletedTasks] = useState<boolean[]>([]);
 
   useEffect(() => {
-    setLoading(true);
-    getTasks(currentUser)
-      .then((tasks) => {
-        if (tasks === undefined) {
-          setTaskListEmpty(true);
-        } else {
-          setTaskListEmpty(false);
-          const formattedDateTasks = tasks.map((task: any) => {
-            task.date = new Date(
-              task.date.seconds * 1000 + task.date.nanoseconds / 1000000
-            );
-            return task;
-          });
-          setTasks(formattedDateTasks);
+    if (currentUser) {
+      setLoading(true);
+      getTasks(currentUser?.id)
+        .then((tasks) => {
+          if (tasks === undefined) {
+            setTaskListEmpty(true);
+          } else {
+            setTaskListEmpty(false);
 
-          const today = new Date();
-          const todays = tasks.filter((task: any) => {
-            if (task.date.toLocaleDateString() === today.toLocaleDateString()) {
+            const formattedDateTasks = tasks.map((task: any) => {
+              task.date = new Date(
+                task.date.seconds * 1000 + task.date.nanoseconds / 1000000
+              );
+
               return task;
-            }
-          });
-          setTodaysTasks(todays);
+            });
+
+            setTasks(formattedDateTasks);
+
+            const today = new Date();
+
+            const todays = tasks.filter((task: any) => {
+              if (
+                task.date.toLocaleDateString() === today.toLocaleDateString()
+              ) {
+                return task;
+              }
+            });
+            setTodaysTasks(todays);
+
+            setLoading(false);
+
+            const completedTasks = tasks.map((task: any) => {
+              return task.complete;
+            });
+            setCompletedTasks(completedTasks);
+          }
+        })
+        .catch((err) => {
           setLoading(false);
-          const completedTasks = tasks.map((task: any) => {
-            return task.complete;
-          });
-          setCompletedTasks(completedTasks);
-        }
-      })
-      .catch((err) => {
-        console.log("getTasks error", err);
-      });
-  }, [currentUser, , taskAdded]);
+          console.log("getTasks error", err);
+        });
+    }
+  }, [currentUser?.id, taskAdded]);
 
   useEffect(() => {
     setCompletedTasks(completedTasks);
@@ -70,7 +86,7 @@ export default function TasksList({
           data={todaysTasks}
           renderItem={({ item, index }) => (
             <View>
-              <Text>{item.date.toLocaleDateString()}</Text>
+              {/* <Text>{item.date.toLocaleDateString()}</Text> */}
               <Image
                 style={LoginStyle.avatars}
                 source={
@@ -86,7 +102,7 @@ export default function TasksList({
                 <Checkbox
                   value={Boolean(completedTasks[index])}
                   onValueChange={() => {
-                    setTaskCompleted(currentUser, item);
+                    setTaskCompleted(currentUser?.id, item);
                     setCheckboxChanged(!checkboxChanged);
                     const oppositeOfCurrentValue = !completedTasks[index];
                     completedTasks.splice(index, 1, oppositeOfCurrentValue);
