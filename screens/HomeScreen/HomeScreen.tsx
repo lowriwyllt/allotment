@@ -7,11 +7,26 @@ export default function HomeScreen({ currentUserEmail }: any): JSX.Element {
 
   return (
     <View style={homeStyles.container}>
+
       <Image
         source={require("../../crops/farm.png")}
         style={homeStyles.background}
       />
-      <View style={homeStyles.allotmentButtonContainer}></View>
+      <View style={homeStyles.allotmentButtonContainer}>
+
+      <Image
+        source={require("../../crops/carrot/3.png")}
+        style={homeStyles.carrot}
+      />
+      <Image
+        source={require("../../crops/beetroot/5.png")}
+        style={homeStyles.beetroot}
+      />
+      <Image
+        source={require("../../crops/beans/5.png")}
+        style={homeStyles.beans}
+      />
+      </View>
       <Text style={homeStyles.header}>Welcome, Peter!</Text>
       <View style={homeStyles.bodyContainer}>
         <Text style={homeStyles.subheading}>tasks:</Text>
