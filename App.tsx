@@ -42,7 +42,10 @@ export default function App(): JSX.Element {
               headerShadowVisible: false,
             }}
           />
-          <Stack.Screen name="register">
+          <Stack.Screen name="register"         options={{
+          headerStyle: { backgroundColor: theme.cream },
+          headerShadowVisible: false
+        }}>
             {(props) => (
               <RegisterScreen {...props} setCurrentUser={setCurrentUser} />
             )}
