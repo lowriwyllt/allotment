@@ -25,32 +25,34 @@ export const homeStyles = StyleSheet.create({
     // resizeMode: "contain",
   },
   header: {
-    fontWeight:"700",
+    fontWeight: "700",
     marginTop: 30,
     fontSize: 30,
     color: theme.cream,
-    textAlign: "center"
+    textAlign: "center",
   },
   allotmentButtonContainer: {
-    marginTop:70,
+    marginTop: 70,
     borderStyle: "solid",
     borderWidth: 0,
     height: 170,
     width: "95%",
-    borderColor: "#000"
+    borderColor: "#000",
   },
   bodyContainer: {
     marginTop: 20,
-    borderWidth:0,
-    width: "95%",
+    borderWidth: 0,
+    width: "100%",
     flex: 1,
-    textAlign: "left"
+    textAlign: "left",
+    // backgroundColor: theme.mainheader,
+    padding: 15,
   },
   subheading: {
     fontSize: 17,
     color: theme.lightcream,
     fontWeight: "800",
-    textAlign: "left"
+    textAlign: "left",
   },
   buttonText: {
     color: "white",
