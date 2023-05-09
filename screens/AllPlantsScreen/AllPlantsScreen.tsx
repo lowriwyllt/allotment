@@ -34,10 +34,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   subheading: {
-    paddingTop: 40,
-    color: theme.darkgreen,
+    textAlign: "center",
+    marginTop: 20,
+    padding: 10,
+    width: "100%",
+    color: theme.lightcream,
     fontSize: 17,
     fontWeight: "600",
+    backgroundColor: theme.orange
   },
   container: {
     width: "100%",
