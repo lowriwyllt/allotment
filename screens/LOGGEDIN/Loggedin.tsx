@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import React, { Dispatch, SetStateAction } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavDrawer } from "../NavDrawer/NavDrawer";
-import UserType from "../../types/Users.types";
+import { UserType } from "../../types/Users.types";
 
 const Stack = createNativeStackNavigator();
 

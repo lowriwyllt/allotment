@@ -8,6 +8,14 @@ const LoginStyle = StyleSheet.create({
     alignItems: "center",
     backgroundColor: theme.brown,
   },
+  registerContainer: {
+    flex: 1,
+    // justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.cream,
+    height: "100%"
+  },
   background: {
     width: "100%",
     height: 400,
@@ -38,10 +46,10 @@ const LoginStyle = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
-    marginTop: 150,
+    marginTop: 190,
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: theme.lightcream,
     height: 50,
     paddingHorizontal: 15,
     paddingVertical: 10,
@@ -68,7 +76,7 @@ const LoginStyle = StyleSheet.create({
     fontSize: 16,
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: theme.lightcream,
     marginTop: 5,
     borderColor: theme.orange,
     borderWidth: 2,
@@ -83,13 +91,16 @@ const LoginStyle = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 15,
-    paddingBottom: 20,
+    marginTop: 20,
+    marginBottom: -140,
   },
   avatars: {
     width: 70,
     height: 70,
     borderRadius: 50,
     resizeMode: "cover",
+    borderColor: theme.brown,
+    borderWidth: 1,
   },
 });
 

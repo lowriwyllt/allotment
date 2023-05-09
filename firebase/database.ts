@@ -24,6 +24,7 @@ export const createUser = async ({
   emailLowerCase,
   avatarUrl,
 }: createUserProps) => {
+  console.log("inside createUser");
   try {
     await setDoc(doc(db, "users", emailLowerCase), {
       name,
@@ -44,55 +45,36 @@ export const createUser = async ({
 export const addPlantToAllotment = async (
   userId: string,
   plant: PlantType | undefined,
-  datePlanted: string | undefined = undefined
+  date: string
 ) => {
+  console.log("inside addPlantToAllotment");
+
   try {
     if (plant) {
       const allotmentPath = doc(db, "users", userId, "allotment", plant.name);
-      if (datePlanted) {
-        await setDoc(allotmentPath, {
-          id: plant.name,
-          datePlanted: datePlanted,
-          ...plant,
-        });
+      await setDoc(allotmentPath, {
+        id: plant.name,
+        datePlanted: date,
+        ...plant,
+      });
 
-        const taskEndDate = new Date(datePlanted);
-        taskEndDate.setDate(taskEndDate.getDate() + plant.maxDaysUntilHarvest);
-        const wateringTask = {
-          img: "", //maybe this should be water icon
-          completed: false,
-          body: `Water your ${plant?.name}`,
-          repeatsInDays: plant?.wateringFrequencyInDays,
-          startingDate: datePlanted,
-          endingDate: taskEndDate.toLocaleDateString("en-CA"), //end of harvesting period
-          plant: plant?.name,
-          category: "watering",
-          nextTaskDate:
-            new Date().toLocaleDateString("en-CA") > datePlanted
-              ? new Date().toLocaleDateString("en-CA")
-              : datePlanted, //I want the date if planting date is greater than todays date then
-        } as TaskType;
-        await addTask(userId, wateringTask);
-      } else {
-        await setDoc(allotmentPath, {
-          id: plant.name,
-          datePlanted: "TBC",
-          ...plant,
-        });
-
-        const wateringTask = {
-          img: "",
-          completed: false,
-          body: `Water your ${plant?.name}`,
-          repeatsInDays: plant?.wateringFrequencyInDays,
-          startingDate: datePlanted,
-          endingDate: "TBC", //end of harvesting period
-          plant: plant?.name,
-          category: "watering",
-          nextTaskDate: "TBC",
-        } as TaskType;
-        await addTask(userId, wateringTask);
-      }
+      const taskEndDate = new Date(date);
+      taskEndDate.setDate(taskEndDate.getDate() + plant.maxDaysUntilHarvest);
+      const wateringTask = {
+        img: "", //maybe this should be water icon
+        completed: false,
+        body: `Water your ${plant?.name}`,
+        repeatsInDays: plant?.wateringFrequencyInDays,
+        startingDate: date,
+        endingDate: taskEndDate.toLocaleDateString("en-CA"), //end of harvesting period
+        plant: plant?.name,
+        category: "watering",
+        nextTaskDate:
+          new Date().toLocaleDateString("en-CA") > date
+            ? new Date().toLocaleDateString("en-CA")
+            : date, //I want the date if planting date is greater than todays date then
+      } as TaskType;
+      await addTask(userId, wateringTask);
     }
   } catch (err) {
     console.log(err);
@@ -104,6 +86,8 @@ export const deletePlantFromAllotment = async (
   plant: PlantType | undefined
 ) => {
   if (plant) {
+    console.log("inside deletePlantFromAllotment");
+
     try {
       const userRef = doc(db, "users", userId, "allotment", plant.name);
       await deleteDoc(userRef);
@@ -119,6 +103,8 @@ export const deletePlantFromAllotment = async (
 export const getAvatars = async () => {
   const result: string[] = [];
   try {
+    console.log("inside getAvatars");
+
     const avatars = await getDocs(collection(db, "avatars"));
     avatars.forEach((doc) => {
       result.push(doc.data().URL);
@@ -131,13 +117,16 @@ export const getAvatars = async () => {
 
 // GET USER BY EMAIL - The user object is found by the email, but only on reciept of password - redering the users hoempage once they've made an account or logged in
 export const getUserByEmail = async (email: string | null) => {
+  console.log("inside getUserByEmail");
   try {
+    console.log("getUserByEmail try");
     const q = query(collection(db, "users"), where("email", "==", email));
     const querySnapshot = await getDocs(q);
     let result: UserType | {} = {};
     querySnapshot.forEach((doc) => {
       result = doc.data();
     });
+    console.log("result", result);
     return result as UserType;
   } catch (err) {
     console.log(err);
@@ -147,6 +136,8 @@ export const getUserByEmail = async (email: string | null) => {
 // GET ALL PLANT IMAGES - renders all the plant avatars from each plant object to represent all the plants in the database on one page
 export const getAllPlantImages = async () => {
   const result: PlantTypeForAll[] = [];
+  console.log("inside getAllPlantImages");
+
   try {
     const plants = await getDocs(collection(db, "plants"));
     plants.forEach((plantDoc) => {
@@ -160,6 +151,7 @@ export const getAllPlantImages = async () => {
 
 //GET ALL PLANT DETAILS BY NAME - once user clicks on a plant avatar it takes you to the page for all the info on that plant
 export const getPlantByName = async (name: string) => {
+  console.log("database getPlantByName");
   try {
     const q = query(collection(db, "plants"), where("name", "==", name));
     const querySnapshot = await getDocs(q);
@@ -179,6 +171,8 @@ export const patchUser = async (
   email: string | null | undefined,
   avatarUrl: string | undefined
 ) => {
+  console.log("inside patchUser");
+
   try {
     const nameRef = doc(db, "users", id as string);
 
@@ -194,6 +188,8 @@ export const patchUser = async (
 };
 
 export const getUserById = async (id: string) => {
+  console.log("inside getUserById");
+
   try {
     const q = query(collection(db, "users"), where("id", "==", id));
     const querySnapshot = await getDocs(q);
@@ -208,10 +204,12 @@ export const getUserById = async (id: string) => {
 };
 
 // Add a new task to a users task collection (array)
-export const addTask = async (userId: string, task: TaskType) => {
+export const addTask = async (userId: string, task: TaskType | undefined) => {
   try {
-    const taskPath = doc(db, "users", userId, "tasks", task.body);
-    await setDoc(taskPath, task);
+    if (task) {
+      const taskPath = doc(db, "users", userId, "tasks", task.body);
+      await setDoc(taskPath, task);
+    }
   } catch (err) {
     console.log(err);
   }
@@ -219,6 +217,8 @@ export const addTask = async (userId: string, task: TaskType) => {
 
 // Get a users tasks
 export const getTasks = async (userId: any) => {
+  console.log("inside getTasks");
+
   try {
     const tasks: any = [];
     const q = query(collection(db, "users", userId, "tasks"));
@@ -236,6 +236,7 @@ export const setTaskCompleted = async (
   userId: string,
   task: TaskType | undefined
 ) => {
+  console.log("inside setTaskCompleted");
   if (task) {
     try {
       const userRef = doc(db, "users", userId, "tasks", task.body);
