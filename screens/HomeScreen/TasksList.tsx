@@ -1,9 +1,10 @@
-import { Text, View, FlatList, Image } from "react-native";
+import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import { getTasks, setTaskCompleted } from "../../firebase/database";
 import { useEffect, useState } from "react";
 import Checkbox from "expo-checkbox";
 import LoginStyle from "../LoginScreen/Login.component.style";
 import { TaskType, UserType } from "../../types/Users.types";
+import theme from "../../styles/theme.style";
 
 export default function TasksList({
   currentUser,
@@ -74,32 +75,35 @@ export default function TasksList({
 
   return loading ? (
     <View>
-      <Text>Loading</Text>
+      <Text>Loading...</Text>
     </View>
   ) : (
-    <View>
-      <Text>Today's Tasks</Text>
+    <View style={taskStyles.container}>
+      {/* <Text>Today's Tasks</Text> */}
       {taskListEmpty ? (
         <Text>No tasks today!</Text>
       ) : (
         <FlatList
           data={todaysTasks}
           renderItem={({ item, index }) => (
-            <View>
-              {/* <Text>{item.date.toLocaleDateString()}</Text> */}
+            <View style={taskStyles.individualTask}>
               <Image
-                style={LoginStyle.avatars}
+                style={taskStyles.taskImg}
                 source={
                   item.img
-                    ? { uri: item.img }
-                    : {
-                        uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
-                      }
+                  ? { uri: item.img }
+                  : {
+                    uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
+                  }
                 }
-              ></Image>
-              <Text>{item.body}</Text>
+                ></Image>
+                <View style={taskStyles.taskContainer}>
+
+              <Text style={taskStyles.body}>{item.body}</Text>
+                <Text style={taskStyles.date}>{item.date.toLocaleString()}</Text>
+                </View>
               <View>
-                <Checkbox
+                <Checkbox style={taskStyles.checkbox}
                   value={Boolean(completedTasks[index])}
                   onValueChange={() => {
                     setTaskCompleted(currentUser?.id, item);
@@ -109,8 +113,8 @@ export default function TasksList({
                     setCompletedTasks(completedTasks);
                   }}
                 />
-                <Text>Completed</Text>
               </View>
+                {/* <Text>Completed</Text> */}
             </View>
           )}
         ></FlatList>
@@ -118,3 +122,50 @@ export default function TasksList({
     </View>
   );
 }
+
+const taskStyles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    width: "100%",
+    gap:10,
+  },
+  individualTask: {
+    borderRadius: 50,
+    alignItems: "center",
+    backgroundColor: theme.skyblue,
+    display: "flex",
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: theme.lightcream,
+    marginVertical:10,
+  },
+  taskContainer: {
+    padding: 10,
+    // borderWidth: 1,
+    borderColor: theme.lightcream,
+    width: "78%"
+  },
+  taskImg: {
+    marginLeft: 5,
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    resizeMode: "cover",
+    // borderColor: theme.brown,
+    // borderWidth: 1,
+  },
+  body: {
+    color: theme.darkgreen,
+fontWeight: "600"
+  },
+  date: {
+    color: theme.brown,
+    fontSize:10,
+  },
+  checkbox: {
+borderWidth:1,
+borderColor: theme.green
+  }
+});
