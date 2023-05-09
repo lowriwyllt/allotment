@@ -16,7 +16,11 @@ export const NavDrawer = ({
 }: any): JSX.Element => {
   return (
     <Drawer.Navigator
-      screenOptions={{ drawerType: "front" }}
+      screenOptions={{
+        drawerStyle: { backgroundColor: theme.cream },
+        drawerType: "front",
+        drawerActiveTintColor: theme.green,
+      }}
       initialRouteName="My Allotment"
       drawerContent={(props) => <NavSignOut {...props} />}
     >
