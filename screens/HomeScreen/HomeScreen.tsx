@@ -53,6 +53,15 @@ export default function HomeScreen({
       <Text style={homeStyles.header}>Welcome, Peter!</Text>
       <View style={homeStyles.bodyContainer}>
         <Text style={homeStyles.subheading}>tasks:</Text>
+      <TouchableOpacity onPress={handleAddTask}>
+        <Text>Add task</Text>
+      </TouchableOpacity>
+      <TasksList
+        currentUser={currentUser}
+        tasks={tasks}
+        setTasks={setTasks}
+        taskAdded={taskAdded}
+      />
       </View>
       {/* <Image style={homeStyles.image} source={require('../../crops/farm.png')}></Image> */}
       {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}
@@ -73,15 +82,6 @@ export default function HomeScreen({
       {/* }  <Text>Edit Profile</Text> */}
       {/* </TouchableOpacity> */}
 
-      <TouchableOpacity onPress={handleAddTask}>
-        <Text>Add task</Text>
-      </TouchableOpacity>
-      <TasksList
-        currentUser={currentUser}
-        tasks={tasks}
-        setTasks={setTasks}
-        taskAdded={taskAdded}
-      />
     </View>
   );
 }
