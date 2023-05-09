@@ -9,9 +9,13 @@ import {
   where,
   updateDoc,
   deleteDoc,
+  addDoc,
+  arrayUnion,
+  getDoc,
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
-import { UserType, createUserProps } from "../types/Users.types";
+import { UserType, createUserProps, TaskType } from "../types/Users.types";
+import genUniqueId from "./utils/utils";
 const db = getFirestore(app);
 
 // CREATE USER - the feilds that are filled out by the user to create a profile
@@ -160,5 +164,27 @@ export const getUserById = async (id: string) => {
     return result as UserType;
   } catch (err) {
     console.log(err);
+  }
+};
+
+// Add a new task to a users task collection (array)
+export const addTask = async (currentUser: any) => {
+  const userRef = doc(db, "users", currentUser);
+  const data = { date: new Date(), taskBody: "", complete: false, img: "" };
+  await updateDoc(userRef, {
+    tasks: arrayUnion(data),
+  });
+};
+
+// Get a users tasks
+export const getTasks = async (currentUser: any) => {
+  const userRef = doc(db, "users", currentUser);
+  const docSnap = await getDoc(userRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().tasks;
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
   }
 };
