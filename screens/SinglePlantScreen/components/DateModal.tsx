@@ -19,11 +19,13 @@ const DateModal = ({
   setModalVisible,
   plantName,
   plant,
+  currentUser
 }: {
   modalVisible: boolean;
   setModalVisible: (bool: boolean) => void;
   plantName: string;
   plant: PlantType | undefined;
+  currentUser: any;
 }) => {
   const defaultDate = new Date();
   const [date, setDate] = useState<string>(formatDate(defaultDate));
@@ -37,7 +39,7 @@ const DateModal = ({
   };
 
   const addToAllotment = () => {
-    addPlantToAllotment("Ryan", plant, date); // needs to change "Ryan to a user Id"
+    addPlantToAllotment(currentUser.id, plant, date); // needs to change "Ryan to a user Id"
   };
 
   return (

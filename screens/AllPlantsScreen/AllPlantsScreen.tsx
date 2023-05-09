@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import PlantButton from "./Component/PlantButton";
 import { PlantTypeForAll } from "../../types/Plants.types";
 import theme from "../../styles/theme.style";
+import { UserType } from "../../types/Users.types";
 
 const AllPlantsScreen = () => {
   const [plants, setPlants] = useState<PlantTypeForAll[] | undefined>([]);

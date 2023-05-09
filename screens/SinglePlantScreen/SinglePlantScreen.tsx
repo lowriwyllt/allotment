@@ -16,22 +16,22 @@ import {
   deletePlantFromAllotment,
 } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
-import CalendarSinglePlant from "../Calendar";
+import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
 import { color } from "react-native-reanimated";
 import DateModal from "./components/DateModal";
+import { UserType } from "../../types/Users.types";
 
 //--------------------------------need to change any----------------------------------------
-const SinglePlantScreen = ({ route }: any) => {
+const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [error, setError] = useState<any>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const { plantName, currentUser } = route.params;
-
-console.log(plantName)
+  const { plantName } = route.params;
 
   useEffect(() => {
+    console.log("SinglePlantScreen inside useEffect");
     setIsLoading(true);
     setError(false);
     getPlantByName(plantName)
@@ -48,16 +48,16 @@ console.log(plantName)
       });
   }, [plantName]);
 
-  console.log(plant?.sowingInstructions)
-
-
   const handleOnPressDelete = () => {
     deletePlantFromAllotment("Rh2gty20wdtiEItYtcz2", plant);
   };
 
   const addPlant = () => {
+    addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
     setModalVisible(true);
   };
+
+  console.log("SinglePlantScreen");
 
   return (
     <ScrollView>
@@ -70,6 +70,7 @@ console.log(plantName)
           setModalVisible={setModalVisible}
           plantName={plantName}
           plant={plant}
+          currentUser={currentUser}
         />
         <Text style={SinglePlantStyles.header}>{plantName}</Text>
         {isLoading ? (

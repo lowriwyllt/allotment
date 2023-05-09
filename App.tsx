@@ -4,10 +4,10 @@ import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
 import "react-native-gesture-handler";
 import Loggedin from "./screens/LOGGEDIN/Loggedin";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
-import UserType from "./types/Users.types";
+import { UserType } from "./types/Users.types";
 import theme from "./styles/theme.style";
 
 export default function App(): JSX.Element {
@@ -15,15 +15,21 @@ export default function App(): JSX.Element {
 
   const Stack = createNativeStackNavigator();
   const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      getUserByEmail(user.email).then((response) => {
-        if (response) {
-          setCurrentUser(response);
-        }
-      });
-    }
-  });
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("this is the problem");
+        getUserByEmail(user.email).then((response) => {
+          console.log("this is the problem response");
+          if (response) {
+            console.log("this is the problem response if statement");
+            setCurrentUser(response);
+          }
+        });
+      }
+    });
+  }, []);
+  
 
   return (
     <>
