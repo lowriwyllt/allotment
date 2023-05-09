@@ -22,14 +22,7 @@ export const NavDrawer = ({
     >
       <Drawer.Screen
         name="My Allotment"
-        options={{
-          headerStyle: {
-            backgroundColor: theme.skyblue,
-            borderBottomWidth: 0,
-          },
-          headerTintColor: theme.darkgreen,
-          headerTitleAlign: "center",
-        }}
+        options={{headerStyle: {backgroundColor: theme.skyblue}, headerShadowVisible:false}}
       >
         {(props) => (
           <HomeScreen

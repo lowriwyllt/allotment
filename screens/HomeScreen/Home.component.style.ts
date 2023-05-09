@@ -6,21 +6,51 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.lightcream,
+    backgroundColor: theme.brown,
+  },
+  background: {
+    width: "100%",
+    height: 400,
+    // resizeMode: "contain",
+    zIndex: -99999,
+    // top: 0,
+    position: "absolute",
   },
   image: {
-    marginTop: 20,
-    height: "30%",
-    resizeMode: "contain",
+    position: "absolute",
+    marginTop: 0,
+    height: "50%",
+    width: "100%",
+    // height: "30%",
+    // resizeMode: "contain",
   },
   header: {
     fontWeight:"700",
-    marginTop: 20,
+    marginTop: 30,
     fontSize: 30,
+    color: theme.cream,
+    textAlign: "center"
+  },
+  allotmentButtonContainer: {
+    marginTop:70,
+    borderStyle: "solid",
+    borderWidth: 0,
+    height: 170,
+    width: "95%",
+    borderColor: "#000"
+  },
+  bodyContainer: {
+    marginTop: 20,
+    borderWidth:0,
+    width: "95%",
+    flex: 1,
+    textAlign: "left"
   },
   subheading: {
-    marginTop: 10,
-    fontSize: 15,
+    fontSize: 17,
+    color: theme.lightcream,
+    fontWeight: "800",
+    textAlign: "left"
   },
   buttonText: {
     color: "white",
