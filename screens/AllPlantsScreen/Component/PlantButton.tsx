@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 50,
     resizeMode: "cover",
-    borderStyle: "solid",
+    // borderStyle: "solid",
     borderWidth: 1,
     borderColor: theme.brown,
   },

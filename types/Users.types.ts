@@ -12,3 +12,10 @@ export type createUserProps = {
   emailLowerCase: string;
   avatarUrl: string;
 };
+
+export type TaskType = {
+  img: string;
+  complete: boolean;
+  date: Object,
+  body: string
+};
