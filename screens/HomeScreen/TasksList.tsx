@@ -81,7 +81,7 @@ export default function TasksList({
                       }
                 }
               ></Image>
-              <Text>{item.taskBody}</Text>
+              <Text>{item.body}</Text>
               <View>
                 <Checkbox
                   value={Boolean(completedTasks[index])}
