@@ -4,27 +4,59 @@ import theme from "../../styles/theme.style";
 const LoginStyle = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: theme.brown,
+  },
+  background: {
+    width: "100%",
+    height: 400,
+    // resizeMode: "contain",
+    zIndex: -99999,
+    // top: 0,
+    position: "absolute",
+  },
+  header: {
+    // fontWeight: "bold",
+    fontSize: 40,
+    fontWeight: "bold",
+    paddingTop: 20,
+    color: "#fff",
+  },
+  subheading: {
+    width: "70%",
+    paddingTop: 20,
+    paddingBottom: 100,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: theme.brown,
+  },
+  allotmentimg: {
+    width: "80%",
+    resizeMode: "contain",
+    // marginTop: 50
   },
   inputContainer: {
     width: "80%",
+    marginTop: 150,
   },
   input: {
     backgroundColor: "white",
+    height: 50,
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+    marginVertical: 5,
   },
   buttonContainer: {
-    width: "60%",
+    width: "80%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 40,
   },
   button: {
-    backgroundColor: theme.feature,
+    backgroundColor: theme.orange,
     width: "100%",
     padding: 15,
     borderRadius: 10,
@@ -38,11 +70,11 @@ const LoginStyle = StyleSheet.create({
   buttonOutline: {
     backgroundColor: "white",
     marginTop: 5,
-    borderColor: theme.feature,
+    borderColor: theme.orange,
     borderWidth: 2,
   },
   buttonOutlineText: {
-    color: theme.feature,
+    color: theme.orange,
     fontWeight: "700",
     fontSize: 16,
   },

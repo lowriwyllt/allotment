@@ -16,8 +16,9 @@ import {
   deletePlantFromAllotment,
 } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
-import CalendarSinglePlant from "./components/Calendar";
+import CalendarSinglePlant from "../Calendar";
 import theme from "../../styles/theme.style";
+import { color } from "react-native-reanimated";
 import DateModal from "./components/DateModal";
 
 //--------------------------------need to change any----------------------------------------
@@ -88,10 +89,12 @@ console.log(plantName)
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
             </Text>
             <Text>Sunlight needed: {plant.sunLight}</Text>
-            <Text>Watering needed: {plant.watering}</Text>
+            <Text>Watering needed: {plant.wateringFrequencyInDays}</Text>
             <CalendarSinglePlant plant={plant} />
-
-            <Text>{plant.sowingInstructions.split(".").join("\n\n")}</Text>
+            {plant.sowingInstructions.map((instruction) => {
+              <Text>{instruction}</Text>;
+            })}
+            {/* <Text>{plant.sowingInstructions.split(".").join("\n\n")}</Text> */}
           </>
         ) : (
           <>
@@ -108,18 +111,21 @@ export default SinglePlantScreen;
 
 export const SinglePlantStyles = StyleSheet.create({
   header: {
-    fontSize: 20,
+    fontSize: theme.mainheader,
+    fontWeight: "700",
     textAlign: "center",
+    marginTop: 20,
   },
   plantImage: {
-    width: 300,
-    height: 300,
+    width: 100,
+    height: 100,
     borderRadius: 50,
     resizeMode: "cover",
   },
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: theme.lightcream,
     // padding: 50,
   },
   button: {

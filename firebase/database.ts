@@ -9,9 +9,13 @@ import {
   where,
   updateDoc,
   deleteDoc,
+  addDoc,
+  arrayUnion,
+  getDoc,
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
-import { UserType, createUserProps } from "../types/Users.types";
+import { UserType, createUserProps, TaskType } from "../types/Users.types";
+import genUniqueId from "./utils/utils";
 const db = getFirestore(app);
 
 // CREATE USER - the feilds that are filled out by the user to create a profile
@@ -130,20 +134,19 @@ export const getPlantByName = async (name: string) => {
   }
 };
 
-export const patchUser = (
-  email: string,
+export const patchUser = async (
+  id: string | null | undefined,
   name: string | undefined,
-  newEmail: string,
-  avatarUrl: string
+  email: string | null | undefined,
+  avatarUrl: string | undefined
 ) => {
   try {
-    const nameRef = doc(db, "users", email);
+    const nameRef = doc(db, "users", id as string);
 
-    // Set the "capital" field of the city 'DC'
     updateDoc(nameRef, {
-      name: name,
-      email: newEmail,
-      avatarUrl: avatarUrl,
+      name,
+      email,
+      avatarUrl,
     });
     return "patched successfully";
   } catch (err) {
@@ -162,5 +165,53 @@ export const getUserById = async (id: string) => {
     return result as UserType;
   } catch (err) {
     console.log(err);
+  }
+};
+
+// Add a new task to a users task collection (array)
+export const addTask = async (userId: string, task: TaskType | undefined) => {
+  try {
+    if (task) {
+      const taskPath = doc(db, "users", userId, "tasks", task.body);
+      await setDoc(taskPath, {
+        body: task.body,
+        img: task.img,
+        complete: task.complete,
+        date: task.date,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Get a users tasks
+export const getTasks = async (userId: any) => {
+  try {
+    const tasks: any = [];
+    const q = query(collection(db, "users", userId, "tasks"));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      tasks.push(doc.data());
+    });
+    return tasks;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const setTaskCompleted = async (
+  userId: string,
+  task: TaskType | undefined
+) => {
+  if (task) {
+    try {
+      const userRef = doc(db, "users", userId, "tasks", task.body);
+      await updateDoc(userRef, {
+        complete: Boolean(task.complete) ? false : true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

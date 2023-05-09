@@ -1,28 +1,87 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
+import CalendarSinglePlant from "../Calendar";
 import { addTask } from "../../firebase/database";
 import TasksList from "./TasksList";
-import CalendarSinglePlant from "../SinglePlantScreen/components/Calendar";
+import { useState } from "react";
+import { UserType } from "../../types/Users.types";
 
 export default function HomeScreen({
-  currentUserEmail,
-}: any): JSX.Element {
+  currentUser,
+  tasks,
+  setTasks,
+}: {
+  currentUser: UserType | undefined;
+  tasks: any;
+  setTasks: any;
+}): JSX.Element {
   const navigation = useNavigation<any>();
+  const [task, setTask] = useState({
+    img: "",
+    body: "elbows",
+    date: new Date(),
+    complete: false,
+  });
+  const [taskAdded, setTaskAdded] = useState(false);
+
+  const handleAddTask = () => {
+    addTask(currentUser?.id, task); //neeeds a task to be added
+    setTaskAdded(!taskAdded);
+  };
 
   return (
     <View style={homeStyles.container}>
-      <Text style={homeStyles.welcome}>Welcome, Peter!</Text>
-      <Text style={homeStyles.subheading}>subheading message</Text>
-      <Image style={homeStyles.image} source={require('../../assets/mudpatch.png')}></Image>
-      <Text style={homeStyles.homeHeader}>allotment</Text>
-      <Text>Email: {currentUserEmail}</Text>
-      <TouchableOpacity onPress={() => navigation.navigate("Plants")}>
-        <Text>Plants</Text>
+      <Image
+        source={require("../../crops/farm.png")}
+        style={homeStyles.background}
+      />
+      <View style={homeStyles.allotmentButtonContainer}>
+        <Image
+          source={require("../../crops/carrot/3.png")}
+          style={homeStyles.carrot}
+        />
+        <Image
+          source={require("../../crops/beetroot/5.png")}
+          style={homeStyles.beetroot}
+        />
+        <Image
+          source={require("../../crops/beans/5.png")}
+          style={homeStyles.beans}
+        />
+      </View>
+      <Text style={homeStyles.header}>Welcome, Peter!</Text>
+      <View style={homeStyles.bodyContainer}>
+        <Text style={homeStyles.subheading}>tasks:</Text>
+      </View>
+      {/* <Image style={homeStyles.image} source={require('../../crops/farm.png')}></Image> */}
+      {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}
+      {/* <Text>Email: {currentUserEmail}</Text> */}
+      {/* <Text style={homeStyles.welcome}>Welcome, {currentUser?.name}!</Text> */}
+      {/* <Text style={homeStyles.subheading}>subheading message</Text> */}
+      {/* <Image */}
+      {/* style={homeStyles.image} */}
+      {/* source={require("../../assets/mudpatch.png")} */}
+      {/* ></Image> */}
+      {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}
+      {/* <Text>Welcome {currentUser?.name}</Text> */}
+      {/* <TouchableOpacity onPress={() => navigation.navigate("Plants")}> */}
+      {/* <Text>Plants</Text> */}
+      {/* </TouchableOpacity> */}
+
+      {/* <TouchableOpacity onPress={() => navigation.navigate("Account")}> */}
+      {/* }  <Text>Edit Profile</Text> */}
+      {/* </TouchableOpacity> */}
+
+      <TouchableOpacity onPress={handleAddTask}>
+        <Text>Add task</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Account")}>
-        <Text>Edit Profile</Text>
-      </TouchableOpacity>
+      <TasksList
+        currentUser={currentUser}
+        tasks={tasks}
+        setTasks={setTasks}
+        taskAdded={taskAdded}
+      />
     </View>
   );
 }
