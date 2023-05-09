@@ -28,6 +28,8 @@ const SinglePlantScreen = ({ route }: any) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { plantName, currentUser } = route.params;
 
+console.log(plantName)
+
   useEffect(() => {
     setIsLoading(true);
     setError(false);
@@ -45,7 +47,7 @@ const SinglePlantScreen = ({ route }: any) => {
       });
   }, [plantName]);
 
-  console.log(plant)
+  console.log(plant?.sowingInstructions)
 
 
   const handleOnPressDelete = () => {
@@ -121,7 +123,7 @@ export const SinglePlantStyles = StyleSheet.create({
     // padding: 50,
   },
   button: {
-    backgroundColor: theme.feature,
+    backgroundColor: theme.green, // chose green as original was feature which doesnt exist
     width: 40,
     height: 40,
     justifyContent: "center",

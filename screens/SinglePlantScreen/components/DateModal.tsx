@@ -37,7 +37,7 @@ const DateModal = ({
   };
 
   const addToAllotment = () => {
-    addPlantToAllotment("", plant, date);
+    addPlantToAllotment("Ryan", plant, date); // needs to change "Ryan to a user Id"
   };
 
   return (
