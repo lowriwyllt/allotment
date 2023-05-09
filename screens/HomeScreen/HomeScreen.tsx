@@ -32,21 +32,46 @@ export default function HomeScreen({
 
   return (
     <View style={homeStyles.container}>
-      <Text style={homeStyles.welcome}>Welcome, {currentUser?.name}!</Text>
-      <Text style={homeStyles.subheading}>subheading message</Text>
       <Image
-        style={homeStyles.image}
-        source={require("../../assets/mudpatch.png")}
-      ></Image>
-      <Text style={homeStyles.homeHeader}>allotment</Text>
-      <Text>Welcome {currentUser?.name}</Text>
-      <TouchableOpacity onPress={() => navigation.navigate("Plants")}>
-        <Text>Plants</Text>
-      </TouchableOpacity>
+        source={require("../../crops/farm.png")}
+        style={homeStyles.background}
+      />
+      <View style={homeStyles.allotmentButtonContainer}>
+        <Image
+          source={require("../../crops/carrot/3.png")}
+          style={homeStyles.carrot}
+        />
+        <Image
+          source={require("../../crops/beetroot/5.png")}
+          style={homeStyles.beetroot}
+        />
+        <Image
+          source={require("../../crops/beans/5.png")}
+          style={homeStyles.beans}
+        />
+      </View>
+      <Text style={homeStyles.header}>Welcome, Peter!</Text>
+      <View style={homeStyles.bodyContainer}>
+        <Text style={homeStyles.subheading}>tasks:</Text>
+      </View>
+      {/* <Image style={homeStyles.image} source={require('../../crops/farm.png')}></Image> */}
+      {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}
+      {/* <Text>Email: {currentUserEmail}</Text> */}
+      {/* <Text style={homeStyles.welcome}>Welcome, {currentUser?.name}!</Text> */}
+      {/* <Text style={homeStyles.subheading}>subheading message</Text> */}
+      {/* <Image */}
+      {/* style={homeStyles.image} */}
+      {/* source={require("../../assets/mudpatch.png")} */}
+      {/* ></Image> */}
+      {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}
+      {/* <Text>Welcome {currentUser?.name}</Text> */}
+      {/* <TouchableOpacity onPress={() => navigation.navigate("Plants")}> */}
+      {/* <Text>Plants</Text> */}
+      {/* </TouchableOpacity> */}
 
-      <TouchableOpacity onPress={() => navigation.navigate("Account")}>
-        <Text>Edit Profile</Text>
-      </TouchableOpacity>
+      {/* <TouchableOpacity onPress={() => navigation.navigate("Account")}> */}
+      {/* }  <Text>Edit Profile</Text> */}
+      {/* </TouchableOpacity> */}
 
       <TouchableOpacity onPress={handleAddTask}>
         <Text>Add task</Text>

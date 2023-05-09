@@ -14,6 +14,8 @@ import {
 } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "../Calendar";
+import theme from "../../styles/theme.style";
+import { color } from "react-native-reanimated";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route }: any) => {
@@ -49,12 +51,6 @@ const SinglePlantScreen = ({ route }: any) => {
 
   return (
     <ScrollView>
-      <TouchableOpacity onPress={handleOnPressDelete}>
-        <Text>Delete this from your allotment</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleOnPress}>
-        <Text>Test add to allotment</Text>
-      </TouchableOpacity>
       <View style={styles.container}>
         <Text style={styles.header}>{plantName}</Text>
         {isLoading ? (
@@ -93,18 +89,21 @@ export default SinglePlantScreen;
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 20,
+    fontSize: theme.mainheader,
+    fontWeight: "700",
     textAlign: "center",
+    marginTop: 20,
   },
   plantImage: {
-    width: 300,
-    height: 300,
+    width: 100,
+    height: 100,
     borderRadius: 50,
     resizeMode: "cover",
   },
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: theme.lightcream,
     // padding: 50,
   },
 });
