@@ -4,7 +4,6 @@ export type UserType = {
   avatarUrl?: string;
   displayName?: string;
   allotment: Array<Object>;
-  tasks: Array<Object>
   id: any;
 };
 

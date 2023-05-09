@@ -23,16 +23,12 @@ export const createUser = async ({
   name,
   emailLowerCase,
   avatarUrl,
-  allotment,
-  tasks,
-}: UserType) => {
+}: createUserProps) => {
   try {
     await setDoc(doc(db, "users", emailLowerCase), {
       name,
       email: emailLowerCase,
       avatarUrl,
-      allotment,
-      tasks,
     });
   } catch (err) {
     console.error(err);
@@ -137,20 +133,19 @@ export const getPlantByName = async (name: string) => {
   }
 };
 
-export const patchUser = (
-  email: string,
+export const patchUser = async (
+  id: string | null | undefined,
   name: string | undefined,
-  newEmail: string,
-  avatarUrl: string
+  email: string | null | undefined,
+  avatarUrl: string | undefined
 ) => {
   try {
-    const nameRef = doc(db, "users", email);
+    const nameRef = doc(db, "users", id as string);
 
-    // Set the "capital" field of the city 'DC'
     updateDoc(nameRef, {
-      name: name,
-      email: newEmail,
-      avatarUrl: avatarUrl,
+      name,
+      email,
+      avatarUrl,
     });
     return "patched successfully";
   } catch (err) {
@@ -173,59 +168,23 @@ export const getUserById = async (id: string) => {
 };
 
 // Add a new task to a users task collection (array)
-// export const addTask = async (currentUser: any) => {
-
-//   const userRef = doc(db, "users", currentUser);
-//   const data = { date: new Date(), taskBody: "", complete: false, img: "", id: genUniqueId()};
-//   await updateDoc(userRef, {
-//     tasks: arrayUnion(data),
-//   });
-// };
-
-export const addTask = async (userId: string, task: TaskType | undefined) => {
-  try {
-    if (task) {
-      const taskPath = doc(db, "users", userId, "tasks", task.body);
-      await setDoc(taskPath, {
-        body: task.body,
-        img: task.img,
-        complete: task.complete,
-        date: task.date,
-      });
-    }
-  } catch (err) {
-    console.log(err);
-  }
+export const addTask = async (currentUser: any) => {
+  const userRef = doc(db, "users", currentUser);
+  const data = { date: new Date(), taskBody: "", complete: false, img: "" };
+  await updateDoc(userRef, {
+    tasks: arrayUnion(data),
+  });
 };
 
 // Get a users tasks
-export const getTasks = async (userId: any) => {
-  try {
-    const tasks: any = [];
-    const q = query(collection(db, "users", userId, "tasks"));
+export const getTasks = async (currentUser: any) => {
+  const userRef = doc(db, "users", currentUser);
+  const docSnap = await getDoc(userRef);
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      tasks.push(doc.data());
-    });
-    return tasks;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const setTaskCompleted = async (
-  userId: string,
-  task: TaskType | undefined
-) => {
-  if (task) {
-    try {
-      const userRef = doc(db, "users", userId, "tasks", task.body);
-      await updateDoc(userRef, {
-        complete: Boolean(task.complete) ? false : true,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  if (docSnap.exists()) {
+    return docSnap.data().tasks;
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
   }
 };

@@ -1,18 +1,18 @@
 import { StyleSheet } from "react-native";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavDrawer } from "../NavDrawer/NavDrawer";
+import UserType from "../../types/Users.types";
 
 const Stack = createNativeStackNavigator();
 
 const Loggedin = ({
   currentUser,
   setCurrentUser,
-  currentUserEmail,
-  setCurrentUserEmail,
-  tasks,
-  setTasks,
-}: any) => {
+}: {
+  currentUser: UserType | undefined;
+  setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
+}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" options={{ headerShown: false }}>
@@ -21,10 +21,6 @@ const Loggedin = ({
             {...props}
             setCurrentUser={setCurrentUser}
             currentUser={currentUser}
-            currentUserEmail={currentUserEmail}
-            setCurrentUserEmail={setCurrentUserEmail}
-            tasks={tasks}
-            setTasks={setTasks}
           />
         )}
       </Stack.Screen>

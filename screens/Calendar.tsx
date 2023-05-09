@@ -17,14 +17,14 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
     maxDaysUntilHarvest,
     minDaysUntilHarvest,
     sowingStartDate,
-    sowingWindowDays,
+    sowingWindowInDays,
   } = plant;
 
   const [edge, setEdge] = useState<String>("");
   const minDate: string = `${currentYear}-${currentMonth}-01`;
   const maxDate: string = `${currentYear + 1}-${currentMonth}-01`;
   const harvestWindowDays =
-    maxDaysUntilHarvest - minDaysUntilHarvest + sowingWindowDays;
+    maxDaysUntilHarvest - minDaysUntilHarvest + sowingWindowInDays;
 
   let harvestFromDate = new Date(`${currentYear}${sowingStartDate}`);
   harvestFromDate.setDate(harvestFromDate.getDate() + minDaysUntilHarvest);
@@ -36,12 +36,12 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
     {
       event: `sowing-window`,
       fromDate: `${currentYear + 1}${sowingStartDate}`,
-      numberOfDays: sowingWindowDays,
+      numberOfDays: sowingWindowInDays,
     },
     {
       event: `sowing-window`,
       fromDate: `${currentYear}${sowingStartDate}`,
-      numberOfDays: sowingWindowDays,
+      numberOfDays: sowingWindowInDays,
     },
     {
       event: "harvest-window",
