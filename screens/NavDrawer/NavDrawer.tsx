@@ -36,14 +36,7 @@ export const NavDrawer = ({
       <Drawer.Screen
         name="Plants"
         component={AllPlantsScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: theme.cream,
-            borderBottomWidth: 0,
-          },
-          headerTintColor: theme.darkgreen,
-          headerTitleAlign: "center",
-        }}
+        options={{headerStyle: {backgroundColor: theme.cream}, headerShadowVisible:false}}
       />
       <Drawer.Screen
         name="Account"
