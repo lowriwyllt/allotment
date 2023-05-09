@@ -137,7 +137,7 @@ const taskStyles = StyleSheet.create({
     backgroundColor: theme.skyblue,
     display: "flex",
     flexDirection: "row",
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: theme.lightcream,
     marginVertical:10,
   },
