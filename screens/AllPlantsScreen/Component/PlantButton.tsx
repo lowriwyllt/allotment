@@ -27,11 +27,12 @@ const styles = StyleSheet.create({
     width: 42.5,
     height: 42.5,
     margin: 22.5,
-
+    
     resizeMode: "contain",
     // borderStyle: "solid",
   },
   button: {
+    backgroundColor: theme.lightcream,
     margin: 15,
     borderWidth: 1,
     borderColor: theme.brown,
