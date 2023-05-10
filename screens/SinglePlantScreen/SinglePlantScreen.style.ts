@@ -14,11 +14,15 @@ export const SinglePlantStyles = StyleSheet.create({
       borderRadius: 50,
       resizeMode: "cover",
     },
+    page: {
+        backgroundColor: theme.cream,
+    },
     container: {
       flex: 1,
       alignItems: "center",
-      backgroundColor: theme.cream,
-      minHeight: "100%"
+      minHeight: "100%",
+      width: "95%",
+      alignSelf: "center"
       // padding: 50,
     },
     button: {
