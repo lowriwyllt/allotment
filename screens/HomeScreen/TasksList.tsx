@@ -103,11 +103,15 @@ export default function TodaysTasks({
       <Text style={taskStyles.subheading}>
         {loadMorePressed ? "all tasks:" : "tasks:"}
       </Text>
-      {todaysTaskListEmpty ? (
+
+      {todaysTaskListEmpty && !loadMorePressed && (
         <View style={taskStyles.msgContainer}>
           <Text style={taskStyles.msg}>No tasks today!</Text>
         </View>
-      ) : (
+      )}
+
+      {(!todaysTaskListEmpty && !loadMorePressed) ||
+      (loadMorePressed && tasks.length) ? (
         <FlatList
           data={loadMorePressed ? tasks : todaysTasks}
           renderItem={({ item, index }) => (
@@ -154,7 +158,8 @@ export default function TodaysTasks({
             </View>
           )}
         ></FlatList>
-      )}
+      ) : null}
+
       {!loadMorePressed && (
         <TouchableOpacity onPress={handleLoadMore}>
           <Text style={taskStyles.loadMore}>Load more...</Text>
