@@ -25,10 +25,10 @@ export default function HomeScreen({
   });
   const [taskAdded, setTaskAdded] = useState(false);
 
-  const handleAddTask = () => {
-    addTask(currentUser?.id, task); //neeeds a task to be added
-    setTaskAdded(!taskAdded);
-  };
+  // const handleAddTask = () => {
+  //   addTask(currentUser?.id, task); //neeeds a task to be added
+  //   setTaskAdded(!taskAdded);
+  // };
 
   return (
     <View style={homeStyles.container}>
@@ -59,9 +59,9 @@ export default function HomeScreen({
           setTasks={setTasks}
           taskAdded={taskAdded}
         />
-        <TouchableOpacity onPress={handleAddTask} style={homeStyles.addTask}>
+        {/* <TouchableOpacity onPress={handleAddTask} style={homeStyles.addTask}>
           <Text>+</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {/* <Image style={homeStyles.image} source={require('../../crops/farm.png')}></Image> */}
       {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}

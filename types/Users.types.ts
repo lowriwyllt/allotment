@@ -13,9 +13,22 @@ export type createUserProps = {
   avatarUrl: string;
 };
 
+// export type TaskType = {
+//   img: string;
+//   complete: boolean;
+//   date: Object,
+//   body: string
+// };
+
 export type TaskType = {
   img: string;
-  complete: boolean;
-  date: Object,
-  body: string
+  completed: boolean;
+  // date: Object;
+  body: string;
+  repeatsInDays: number;
+  startingDate: string;
+  endingDate: string;
+  plant: string;
+  category: string;
+  nextTaskDate: string;
 };

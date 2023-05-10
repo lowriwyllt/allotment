@@ -40,15 +40,16 @@ export default function TodaysTasks({
           } else {
             setTaskListEmpty(false);
 
-            const formattedDateTasks = tasks.map((task: any) => {
-              task.date = new Date(
-                task.date.seconds * 1000 + task.date.nanoseconds / 1000000
-              );
+            // const formattedDateTasks = tasks.map((task: any) => {
+            //   task.date = new Date(
+            //     task.date.seconds * 1000 + task.date.nanoseconds / 1000000
+            //   );
 
-              return task;
-            });
+            //   return task;
+            // });
 
-            setTasks(formattedDateTasks);
+            // setTasks(formattedDateTasks);
+            setTasks(tasks);
 
             const today = new Date();
 
@@ -57,7 +58,8 @@ export default function TodaysTasks({
                 setTodaysTaskListEmpty(true);
               }
               if (
-                task.date.toLocaleDateString() === today.toLocaleDateString()
+                // task.date.toLocaleDateString() === today.toLocaleDateString()
+                task.nextTaskDate === today.toLocaleDateString("en-CA")
               ) {
                 return task;
               }
@@ -67,7 +69,7 @@ export default function TodaysTasks({
             setLoading(false);
 
             const completedTasks = tasks.map((task: any) => {
-              return task.complete;
+              return task.completed;
             });
             setCompletedTasks(completedTasks);
           }
@@ -84,7 +86,10 @@ export default function TodaysTasks({
 
     const today = new Date();
     const all = tasks.map((task: any) => {
-      if (task.date.toLocaleDateString() !== today.toLocaleDateString()) {
+      if (
+        // task.date.toLocaleDateString() !== today.toLocaleDateString()
+        task.nextTaskDate !== today.toLocaleDateString("en-CA")
+      ) {
         return task;
       }
     });
@@ -106,44 +111,43 @@ export default function TodaysTasks({
       {todaysTaskListEmpty ? (
         <Text style={taskStyles.msg}>No tasks today!</Text>
       ) : (
-          <FlatList
-            data={todaysTasks}
-            renderItem={({ item, index }) => (
-              <View style={taskStyles.individualTask}>
-                <Image
-                  style={taskStyles.taskImg}
-                  source={
-                    item.img
-                      ? { uri: item.img }
-                      : {
-                          uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
-                        }
-                  }
-                ></Image>
-                <View style={taskStyles.taskContainer}>
-                  <Text style={taskStyles.body}>{item.body}</Text>
-                  <Text style={taskStyles.date}>
-                    {item.date.toLocaleString()}
-                  </Text>
-                </View>
-                <View>
-                  <Checkbox
-                    style={taskStyles.checkbox}
-                    value={Boolean(completedTasks[index])}
-                    onValueChange={() => {
-                      setTaskCompleted(currentUser?.id, item);
-                      setCheckboxChanged(!checkboxChanged);
-                      const oppositeOfCurrentValue = !completedTasks[index];
-                      completedTasks.splice(index, 1, oppositeOfCurrentValue);
-                      setCompletedTasks(completedTasks);
-                    }}
-                  />
-                </View>
-                {/* <Text>Completed</Text> */}
+        <FlatList
+          data={todaysTasks}
+          renderItem={({ item, index }) => (
+            <View style={taskStyles.individualTask}>
+              <Image
+                style={taskStyles.taskImg}
+                source={
+                  item.img
+                    ? { uri: item.img }
+                    : {
+                        uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
+                      }
+                }
+              ></Image>
+              <View style={taskStyles.taskContainer}>
+                <Text style={taskStyles.body}>{item.body}</Text>
+                <Text style={taskStyles.date}>
+                  {item.nextTaskDate.toLocaleString()}
+                </Text>
               </View>
-            )}
-          ></FlatList>
-        
+              <View>
+                <Checkbox
+                  style={taskStyles.checkbox}
+                  value={Boolean(completedTasks[index])}
+                  onValueChange={() => {
+                    setTaskCompleted(currentUser?.id, item);
+                    setCheckboxChanged(!checkboxChanged);
+                    const oppositeOfCurrentValue = !completedTasks[index];
+                    completedTasks.splice(index, 1, oppositeOfCurrentValue);
+                    setCompletedTasks(completedTasks);
+                  }}
+                />
+              </View>
+              {/* <Text>Completed</Text> */}
+            </View>
+          )}
+        ></FlatList>
       )}
       {!loadMorePressed && (
         <TouchableOpacity onPress={handleLoadMore}>
@@ -169,7 +173,8 @@ export default function TodaysTasks({
               <View style={taskStyles.taskContainer}>
                 <Text style={taskStyles.body}>{item.body}</Text>
                 <Text style={taskStyles.date}>
-                  {item.date.toLocaleString()}
+                  {/* {item.date} */}
+                  {item.nextTaskDate}
                 </Text>
               </View>
               <View>
