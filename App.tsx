@@ -14,6 +14,7 @@ import HomeScreen from "./screens/HomeScreen/HomeScreen";
 export default function App(): JSX.Element {
   const [currentUser, setCurrentUser] = useState<UserType | undefined>();
 
+
   const Stack = createNativeStackNavigator();
   const auth = getAuth();
   useEffect(() => {

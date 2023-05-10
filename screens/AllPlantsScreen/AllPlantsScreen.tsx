@@ -9,7 +9,6 @@ import { UserType } from "../../types/Users.types";
 
 const AllPlantsScreen = () => {
   const [plants, setPlants] = useState<PlantTypeForAll[] | undefined>([]);
-  const [usersPlants, setUsersPlants] = useState([]);
 
   useEffect(() => {
     getAllPlantImages().then((response) => {

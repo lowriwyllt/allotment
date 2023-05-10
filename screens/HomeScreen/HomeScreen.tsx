@@ -8,16 +8,18 @@ import { useState, useEffect } from "react";
 import { UserType } from "../../types/Users.types";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { PlantType } from "../../types/Plants.types";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function HomeScreen({
   currentUser,
   tasks,
   setTasks,
-  usersPlants
+
 }: {
   currentUser: UserType | undefined;
   tasks: any;
   setTasks: any;
+
 }): JSX.Element {
   const navigation = useNavigation<any>();
   const [task, setTask] = useState({
@@ -29,13 +31,15 @@ export default function HomeScreen({
   const [taskAdded, setTaskAdded] = useState(false);
   const [allotment, setAllotment] = useState([]);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
 
     getPlantsFromAllotment(currentUser?.id).then((response: any) => {
       console.log('plants', response);
       setAllotment(response);
     })
-  }, [])
+  }, [isFocused])
 
   const handleAddTask = () => {
     addTask(currentUser?.id, task); //neeeds a task to be added
