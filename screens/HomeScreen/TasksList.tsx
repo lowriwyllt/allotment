@@ -5,8 +5,9 @@ import Checkbox from "expo-checkbox";
 import LoginStyle from "../LoginScreen/Login.component.style";
 import { TaskType, UserType } from "../../types/Users.types";
 import theme from "../../styles/theme.style";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function TasksList({
+export default function TodaysTasks({
   currentUser,
   tasks,
   setTasks,
@@ -18,6 +19,10 @@ export default function TasksList({
   taskAdded: any;
 }): JSX.Element {
   const [todaysTasks, setTodaysTasks] = useState<TaskType[]>([]);
+  const [todaysTaskListEmpty, setTodaysTaskListEmpty] =
+    useState<boolean>(false);
+  const [allTasks, setAllTasks] = useState<TaskType[]>([]);
+  const [loadMorePressed, setLoadMorePressed] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [checkboxChanged, setCheckboxChanged] = useState(false);
   const [taskListEmpty, setTaskListEmpty] = useState<boolean>(false);
@@ -28,8 +33,10 @@ export default function TasksList({
       setLoading(true);
       getTasks(currentUser?.id)
         .then((tasks) => {
-          if (tasks === undefined) {
+          if (tasks.length === 0) {
+            console.log("inside if statement for no tasks");
             setTaskListEmpty(true);
+            console.log(taskListEmpty);
           } else {
             setTaskListEmpty(false);
 
@@ -46,6 +53,9 @@ export default function TasksList({
             const today = new Date();
 
             const todays = tasks.filter((task: any) => {
+              if (!task.length) {
+                setTodaysTaskListEmpty(true);
+              }
               if (
                 task.date.toLocaleDateString() === today.toLocaleDateString()
               ) {
@@ -69,6 +79,20 @@ export default function TasksList({
     }
   }, [currentUser?.id, taskAdded]);
 
+  const handleLoadMore = () => {
+    console.log("inside handleLoadMore");
+
+    const today = new Date();
+    const all = tasks.map((task: any) => {
+      if (task.date.toLocaleDateString() !== today.toLocaleDateString()) {
+        return task;
+      }
+    });
+    setAllTasks(all);
+    setLoadMorePressed(true);
+    console.log(allTasks);
+  };
+
   useEffect(() => {
     setCompletedTasks(completedTasks);
   }, [checkboxChanged]);
@@ -79,31 +103,78 @@ export default function TasksList({
     </View>
   ) : (
     <View style={taskStyles.container}>
-      {/* <Text>Today's Tasks</Text> */}
-      {taskListEmpty ? (
-        <Text>No tasks today!</Text>
+      {todaysTaskListEmpty ? (
+        <Text style={taskStyles.msg}>No tasks today!</Text>
       ) : (
+          <FlatList
+            data={todaysTasks}
+            renderItem={({ item, index }) => (
+              <View style={taskStyles.individualTask}>
+                <Image
+                  style={taskStyles.taskImg}
+                  source={
+                    item.img
+                      ? { uri: item.img }
+                      : {
+                          uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
+                        }
+                  }
+                ></Image>
+                <View style={taskStyles.taskContainer}>
+                  <Text style={taskStyles.body}>{item.body}</Text>
+                  <Text style={taskStyles.date}>
+                    {item.date.toLocaleString()}
+                  </Text>
+                </View>
+                <View>
+                  <Checkbox
+                    style={taskStyles.checkbox}
+                    value={Boolean(completedTasks[index])}
+                    onValueChange={() => {
+                      setTaskCompleted(currentUser?.id, item);
+                      setCheckboxChanged(!checkboxChanged);
+                      const oppositeOfCurrentValue = !completedTasks[index];
+                      completedTasks.splice(index, 1, oppositeOfCurrentValue);
+                      setCompletedTasks(completedTasks);
+                    }}
+                  />
+                </View>
+                {/* <Text>Completed</Text> */}
+              </View>
+            )}
+          ></FlatList>
+        
+      )}
+      {!loadMorePressed && (
+        <TouchableOpacity onPress={handleLoadMore}>
+          <Text style={taskStyles.loadMore}>Load more...</Text>
+        </TouchableOpacity>
+      )}
+
+      {loadMorePressed && (
         <FlatList
-          data={todaysTasks}
+          data={allTasks}
           renderItem={({ item, index }) => (
             <View style={taskStyles.individualTask}>
               <Image
                 style={taskStyles.taskImg}
                 source={
                   item.img
-                  ? { uri: item.img }
-                  : {
-                    uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
-                  }
+                    ? { uri: item.img }
+                    : {
+                        uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
+                      }
                 }
-                ></Image>
-                <View style={taskStyles.taskContainer}>
-
-              <Text style={taskStyles.body}>{item.body}</Text>
-                <Text style={taskStyles.date}>{item.date.toLocaleString()}</Text>
-                </View>
+              ></Image>
+              <View style={taskStyles.taskContainer}>
+                <Text style={taskStyles.body}>{item.body}</Text>
+                <Text style={taskStyles.date}>
+                  {item.date.toLocaleString()}
+                </Text>
+              </View>
               <View>
-                <Checkbox style={taskStyles.checkbox}
+                <Checkbox
+                  style={taskStyles.checkbox}
                   value={Boolean(completedTasks[index])}
                   onValueChange={() => {
                     setTaskCompleted(currentUser?.id, item);
@@ -114,7 +185,7 @@ export default function TasksList({
                   }}
                 />
               </View>
-                {/* <Text>Completed</Text> */}
+              {/* <Text>Completed</Text> */}
             </View>
           )}
         ></FlatList>
@@ -129,7 +200,7 @@ const taskStyles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     width: "100%",
-    gap:10,
+    gap: 10,
   },
   individualTask: {
     borderRadius: 50,
@@ -139,13 +210,13 @@ const taskStyles = StyleSheet.create({
     flexDirection: "row",
     // borderWidth: 1,
     borderColor: theme.lightcream,
-    marginVertical:10,
+    marginVertical: 10,
   },
   taskContainer: {
     padding: 10,
     // borderWidth: 1,
     borderColor: theme.lightcream,
-    width: "78%"
+    width: "78%",
   },
   taskImg: {
     marginLeft: 5,
@@ -158,14 +229,41 @@ const taskStyles = StyleSheet.create({
   },
   body: {
     color: theme.darkgreen,
-fontWeight: "600"
+    fontWeight: "600",
   },
   date: {
     color: theme.brown,
-    fontSize:10,
+    fontSize: 10,
   },
   checkbox: {
-borderWidth:1,
-borderColor: theme.green
-  }
+    borderWidth: 1,
+    borderColor: theme.green,
+  },
+  msg: {
+    marginTop: 10,
+    height: 90,
+    padding: 35,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: theme.lightcream,
+    textAlign: "center",
+    color: theme.cream,
+    fontWeight: "600",
+  },
+  loadMore: {
+    marginTop: 10,
+    height: 40,
+    padding: 10,
+    borderRadius: 20,
+    // alignItems: "center",
+    // backgroundColor: theme.skyblue,
+    // display: "flex",
+    // flexDirection: "row",
+    borderWidth: 1,
+    borderColor: theme.lightcream,
+    textAlign: "center",
+    color: theme.cream,
+    fontWeight: "600",
+    // marginVertical: 10,
+  },
 });
