@@ -123,9 +123,19 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
           borderWidth: 1,
           borderColor: theme.cream,
           height: 440,
-          backfaceVisibility: "hidden"
+          backfaceVisibility: "hidden",
         }}
-        theme={{backgroundColor: theme.cream, calendarBackground: theme.cream, }}
+        theme={{
+          todayTextColor: theme.orange,
+          textDayFontWeight: "500",
+          textDayHeaderFontWeight: "400",
+          backgroundColor: theme.cream,
+          calendarBackground: theme.cream,
+          dayTextColor: theme.brown,
+          textSectionTitleColor: theme.green,
+          textDisabledColor: "#B0B0B0",
+          arrowColor: theme.orange,
+        }}
         onMonthChange={handleChangedMonth}
         initialDate={`${currentYear}-${currentMonth}-01`}
         markingType="multi-period"
