@@ -106,10 +106,12 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         ) : plant && !error ? (
           <>
             <Text>{plant.scientificName}</Text>
-            <Image
-              style={SinglePlantStyles.plantImage}
-              source={{ uri: plant.img }}
-            ></Image>
+            <View style={SinglePlantStyles.imgContainer}>
+              <Image
+                style={SinglePlantStyles.plantImage}
+                source={{ uri: plant.img }}
+              ></Image>
+            </View>
             {existsInAllotment ? (
               <Pressable
                 style={SinglePlantStyles.button}
@@ -135,7 +137,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
             <View>
               {sowingInstructions.map((instruction: string, index: number) => {
                 return (
-                  <View key={plantKeys[index]}>
+                  <View key={instruction}>
                     <Text>{instruction}</Text>
                   </View>
                 );
@@ -151,4 +153,3 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
 };
 
 export default SinglePlantScreen;
-
