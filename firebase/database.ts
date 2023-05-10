@@ -14,7 +14,6 @@ import {
   getDoc,
 } from "firebase/firestore";
 import {
-  AllotmentPlants,
   PlantType,
   PlantTypeForAll,
 } from "../types/Plants.types";
@@ -84,6 +83,7 @@ export const deletePlantFromAllotment = async (
 };
 
 export const getPlantsFromAllotment = async (userId: string) => {
+  console.log("getPlantsFromAllotment")
   const result: any[] = []
   try {
     const allotmentPlants = await getDocs(
