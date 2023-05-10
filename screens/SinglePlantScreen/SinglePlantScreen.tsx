@@ -8,6 +8,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
@@ -22,6 +23,7 @@ import theme from "../../styles/theme.style";
 import { color } from "react-native-reanimated";
 import DateModal from "./components/DateModal";
 import { UserType } from "../../types/Users.types";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
@@ -29,6 +31,8 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [error, setError] = useState<any>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [plantKeys, setPlantKeys] = useState<any>([]);
+  const [sowingInstructions, setSowingInstructions] = useState<any>([]);
   const { plantName } = route.params;
 
   useEffect(() => {
@@ -39,6 +43,18 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
       .then((response) => {
         //response type needs to be changed
         setPlant(response);
+        if (response) {
+          const plantKeys = response.sowingInstructions.map((instruction) => {
+            return instruction.slice(0, 2);
+          });
+          const sowingInstructions = response.sowingInstructions.map(
+            (instruction) => {
+              return instruction;
+            }
+          );
+          setPlantKeys(plantKeys);
+          setSowingInstructions(sowingInstructions);
+        }
         setIsLoading(false);
       })
       .catch((error) => {
@@ -63,7 +79,6 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   };
 
   console.log("SinglePlantScreen");
-
   return (
     <ScrollView>
       <TouchableOpacity onPress={handleGetPlantFromAllotment}>
@@ -103,7 +118,15 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
             {plant.sowingInstructions.map((instruction) => {
               <Text>{instruction}</Text>;
             })}
-            {/* <Text>{plant.sowingInstructions.split(".").join("\n\n")}</Text> */}
+            <View>
+              {sowingInstructions.map((instruction: string) => {
+                return (
+                  <View>
+                    <Text>{instruction}</Text>
+                  </View>
+                );
+              })}
+            </View>
           </>
         ) : (
           <>
