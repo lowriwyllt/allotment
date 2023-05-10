@@ -5,7 +5,6 @@ import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
 import "react-native-gesture-handler";
 import Loggedin from "./screens/LOGGEDIN/Loggedin";
 import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
 import {UserType} from "./types/Users.types";

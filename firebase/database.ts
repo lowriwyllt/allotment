@@ -12,6 +12,7 @@ import {
   addDoc,
   arrayUnion,
   getDoc,
+  
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 import { UserType, createUserProps, TaskType } from "../types/Users.types";
@@ -108,7 +109,6 @@ export const getUserByEmail = async (email: string | null) => {
     querySnapshot.forEach((doc) => {
       result = doc.data();
     });
-    console.log("result", result)
     return result as UserType;
   } catch (err) {
     console.log(err);
@@ -237,3 +237,19 @@ export const setTaskCompleted = async (
     }
   }
 };
+
+export const getPlantsFromUsersAllotment = async (
+  userId: any,
+) => {
+  const result: any = [];
+  try {
+    console.log('inside getPlantsFromUsersAllotment')
+    const allotment = await getDocs(collection(db, "users", userId, 'allotment'));
+    allotment.forEach((plantDoc) => {
+      result.push({ img: plantDoc.data().img, name: plantDoc.data().id });
+    });
+    return result; 
+  } catch (err) {
+    console.log(err);
+  }
+}

@@ -2,11 +2,12 @@ import { Image, Text, TouchableOpacity, View} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 import CalendarSinglePlant from "../SinglePlantScreen/components/Calendar";
-import { addTask } from "../../firebase/database";
+import { addTask, getPlantsFromUsersAllotment } from "../../firebase/database";
 import TasksList from "./TasksList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UserType } from "../../types/Users.types";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { PlantType } from "../../types/Plants.types";
 
 export default function HomeScreen({
   currentUser,
@@ -25,6 +26,13 @@ export default function HomeScreen({
     complete: false,
   });
   const [taskAdded, setTaskAdded] = useState(false);
+  const [allotment, setAllotment] = useState([]);
+
+  useEffect(() => {
+    getPlantsFromUsersAllotment(currentUser?.id).then((response) => {
+      setAllotment(response);
+    })
+  }, [])
 
   const handleAddTask = () => {
     addTask(currentUser?.id, task); //neeeds a task to be added
@@ -54,11 +62,14 @@ export default function HomeScreen({
           source={require("../../crops/beans/5.png")}
           style={homeStyles.beans}
         /> */}
-        <TouchableOpacity onPress={handleClickPlant} style={homeStyles.touchableOpacity}>
-    <Image style={homeStyles.crop} source={require('../../crops/beans/5.png')} />
-</TouchableOpacity>
-        {/* <Image style={homeStyles.crop} source={require('../../crops/beetroot/5.png')}/>
-        <Image style={homeStyles.crop} source={require('../../crops/broccoli/5.png')}/>
+        {allotment?.map((plant: any) => {
+          return <TouchableOpacity key={plant.name}>
+            <Image style={homeStyles.crop} source={plant.img}/>
+          </TouchableOpacity>;
+        })}
+
+        {/* <Image style={homeStyles.crop} source={require('../../crops/beetroot/5.png')}/> */}
+        {/* <Image style={homeStyles.crop} source={require('../../crops/broccoli/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/cabbage/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/carrot/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/corn/5.png')}/>
