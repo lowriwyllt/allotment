@@ -17,6 +17,7 @@ import { AllotmentPlant, PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
 import DateModal from "./components/DateModal";
+import { UserType } from "../../types/Users.types";
 import { useIsFocused } from "@react-navigation/native";
 
 //--------------------------------need to change any----------------------------------------
@@ -30,9 +31,8 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [allotmentPlants, setAllotmentPlants] = useState<AllotmentPlant[]>([]);
   const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
   const { plantName } = route.params;
-
   const isFocused = useIsFocused();
-
+  
   useEffect(() => {
     setIsLoading(true);
     getPlantByName(plantName)

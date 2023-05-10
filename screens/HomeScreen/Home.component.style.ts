@@ -20,7 +20,7 @@ export const homeStyles = StyleSheet.create({
   //   width: 40,
   //   height: 40,
   //   resizeMode: "contain",
-  //   margin:30,
+  //   margin: 30,
   //   // height: "30%",
   //   // resizeMode: "contain",
   // },
@@ -76,7 +76,7 @@ export const homeStyles = StyleSheet.create({
     maxHeight: 170,
     width: "95%",
     borderColor: "#000",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   bodyContainer: {
     marginTop: 20,
@@ -87,12 +87,6 @@ export const homeStyles = StyleSheet.create({
     // backgroundColor: theme.mainheader,
     padding: 15,
   },
-  subheading: {
-    fontSize: 17,
-    color: theme.lightcream,
-    fontWeight: "800",
-    textAlign: "left",
-  },
   buttonText: {
     color: "white",
     fontWeight: "700",
@@ -100,5 +94,16 @@ export const homeStyles = StyleSheet.create({
   },
   homeHeader: {
     fontSize: 30,
+  },
+  addTask: {
+    alignSelf: "center",
+    backgroundColor: theme.orange,
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    textAlign: "center",
+    alignItems: "center",
+    textAlignVertical: "center",
+    padding: 15,
   },
 });

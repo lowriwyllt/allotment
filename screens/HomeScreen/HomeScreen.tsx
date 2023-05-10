@@ -42,10 +42,10 @@ export default function HomeScreen({
     })
   }, [isFocused])
 
-  const handleAddTask = () => {
-    addTask(currentUser?.id, task); //neeeds a task to be added
-    setTaskAdded(!taskAdded);
-  };
+  // const handleAddTask = () => {
+  //   addTask(currentUser?.id, task); //neeeds a task to be added
+  //   setTaskAdded(!taskAdded);
+  // };
 
   // const handleClickPlant = () => {
 
@@ -97,16 +97,15 @@ export default function HomeScreen({
       </View>
       <Text style={homeStyles.header}>Welcome, Peter!</Text>
       <View style={homeStyles.bodyContainer}>
-        <Text style={homeStyles.subheading}>tasks:</Text>
-        <TouchableOpacity onPress={handleAddTask}>
-          <Text>Add task</Text>
-        </TouchableOpacity>
         <TasksList
           currentUser={currentUser}
           tasks={tasks}
           setTasks={setTasks}
           taskAdded={taskAdded}
         />
+        {/* <TouchableOpacity onPress={handleAddTask} style={homeStyles.addTask}>
+          <Text>+</Text>
+        </TouchableOpacity> */}
       </View>
       {/* <Image style={homeStyles.image} source={require('../../crops/farm.png')}></Image> */}
       {/* <Text style={homeStyles.homeHeader}>allotment</Text> */}
