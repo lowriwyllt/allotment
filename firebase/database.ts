@@ -65,8 +65,8 @@ export const addPlantToAllotment = async (
         completed: false,
         body: `Water your ${plant?.name}`,
         repeatsInDays: plant?.wateringFrequencyInDays,
-        startingDate: date,
-        endingDate: taskEndDate.toLocaleDateString("en-CA"), //end of harvesting period
+        startingDate: date, //datePlanted
+        endingDate: taskEndDate.toLocaleDateString("en-CA"), //end of harvesting period (max)
         plant: plant?.name,
         category: "watering",
         nextTaskDate:
