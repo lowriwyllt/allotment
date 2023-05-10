@@ -14,6 +14,7 @@ import {
   addPlantToAllotment,
   getPlantByName,
   deletePlantFromAllotment,
+  getPlantsFromAllotment,
 } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
@@ -57,10 +58,17 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
     setModalVisible(true);
   };
 
+  const handleGetPlantFromAllotment = () => {
+    getPlantsFromAllotment(currentUser.id);
+  };
+
   console.log("SinglePlantScreen");
 
   return (
     <ScrollView>
+      <TouchableOpacity onPress={handleGetPlantFromAllotment}>
+        <Text>get plants from allotment</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={handleOnPressDelete}>
         <Text>Delete this from your allotment</Text>
       </TouchableOpacity>
