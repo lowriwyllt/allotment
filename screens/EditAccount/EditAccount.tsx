@@ -9,6 +9,7 @@ import {
   Modal,
   Pressable,
   Alert,
+  TouchableHighlight,
 } from "react-native";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import EditProfileStyles from "./EditAccount.component.style";
@@ -96,8 +97,10 @@ export default function EditAccount({
               <View style={EditProfileStyles.avatarsContainer}>
                 {avatarsArr?.map((avatar) => {
                   return (
-                    <Pressable
+                    <TouchableHighlight
                       key={avatar}
+                      underlayColor={"#EE5D1F"}
+                      activeOpacity={20}
                       onPress={() => {
                         setNewAvatarUrl(avatar);
                         setModalVisible(!modalVisible);
@@ -107,7 +110,7 @@ export default function EditAccount({
                         style={EditProfileStyles.avatars}
                         source={{ uri: avatar }}
                       ></Image>
-                    </Pressable>
+                    </TouchableHighlight>
                   );
                 })}
               </View>
