@@ -80,9 +80,9 @@ const DateModal = ({
       <View style={SinglePlantStyles.centeredView}>
         <View style={SinglePlantStyles.modalView}>
           <Text style={SinglePlantStyles.modalText}>
-            Enter the date you planted the {plantName.toLowerCase()}
+            {plantName} have been added to your allotment! ✅
           </Text>
-          <Text>{date.toLocaleString()}</Text>
+          <Text>Date planted: {date.toLocaleString()}</Text>
           {showDate ? (
             <DateTimePicker
               value={new Date(date)}
@@ -100,15 +100,22 @@ const DateModal = ({
               <Text>Change Date</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity onPress={addToAllotment}>
-            <Text style={{ fontWeight: "bold" }}>Add to my allotment</Text>
-          </TouchableOpacity>
-          <Pressable
-            style={SinglePlantStyles.button}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Text style={SinglePlantStyles.textStyle}>x</Text>
-          </Pressable>
+          <View style={{display:"flex", width: "100%"}}>
+            <TouchableOpacity
+              style={SinglePlantStyles.cancel}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={SinglePlantStyles.textStyle}>dismiss</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={SinglePlantStyles.confirm}
+              onPress={addToAllotment}
+            >
+              <Text style={SinglePlantStyles.textStyle}>
+                Add to my allotment
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>
