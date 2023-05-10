@@ -13,7 +13,9 @@ import { useState } from "react";
 import { formatDate } from "../../utils/utils";
 import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
+import { useNavigation } from "@react-navigation/native";
 import theme from "../../../styles/theme.style";
+
 const DateModal = ({
   modalVisible,
   setModalVisible,
@@ -30,6 +32,7 @@ const DateModal = ({
   const defaultDate = new Date();
   const [date, setDate] = useState<string>(formatDate(defaultDate));
   const [showDate, setShowDate] = useState<boolean>(false);
+  const navigation = useNavigation<any>();
 
   const handleOnChange = (event: any, selectedDate?: Date) => {
     if (selectedDate) {
@@ -38,8 +41,30 @@ const DateModal = ({
     }
   };
 
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Added to your allotment",
+      `${plantName} added to your allotment`,
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            console.log("OK Pressed");
+          },
+          style: "cancel",
+        },
+        {
+          text: "Go to allotment",
+          onPress: () => navigation.navigate("My Allotment"),
+        },
+      ]
+    );
+
   const addToAllotment = () => {
-    addPlantToAllotment(currentUser.id, plant, date); // needs to change "Ryan to a user Id"
+    addPlantToAllotment(currentUser.id, plant, date);
+    setModalVisible(!modalVisible);
+    createTwoButtonAlert();
+    // needs to change "Ryan to a user Id"
   };
 
   return (
