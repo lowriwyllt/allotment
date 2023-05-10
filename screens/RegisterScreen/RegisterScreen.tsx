@@ -7,6 +7,7 @@ import {
   View,
   Image,
   Pressable,
+  TouchableHighlight,
 } from "react-native";
 import { useState, useEffect } from "react";
 import {
@@ -113,69 +114,71 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
 
   return (
     // <ScrollView>
-      <KeyboardAvoidingView
-        style={LoginStyle.registerContainer}
-        behavior="padding"
+    <KeyboardAvoidingView
+      style={LoginStyle.registerContainer}
+      behavior="padding"
+    >
+      <Text
+        style={{
+          color: theme.darkgreen,
+          paddingBottom: 0,
+          paddingTop: 0,
+          fontSize: 15,
+        }}
       >
-        <Text
-          style={{
-            color: theme.darkgreen,
-            paddingBottom: 0,
-            paddingTop: 0,
-            fontSize: 15,
-          }}
-        >
-          Choose an avatar:
-        </Text>
-        <View style={LoginStyle.avatarsContainer}>
-          {avatarsArr?.map((avatar) => {
-            return (
-              <Pressable
+        Choose an avatar:
+      </Text>
+      <View style={LoginStyle.avatarsContainer}>
+        {avatarsArr?.map((avatar) => {
+          return (
+            <TouchableHighlight
+              key={avatar}
+              underlayColor={"#EE5D1F"}
+              activeOpacity={20}
+              onPress={() => {
+                setAvatarUrl(avatar);
+              }}
+            >
+              <Image
+                style={LoginStyle.avatars}
                 key={avatar}
-                onPress={() => {
-                  setAvatarUrl(avatar);
-                }}
-              >
-                <Image
-                  style={LoginStyle.avatars}
-                  key={avatar}
-                  source={{ uri: avatar }}
-                ></Image>
-              </Pressable>
-            );
-          })}
-        </View>
-        <View style={LoginStyle.inputContainer}>
-          <TextInput
-            placeholder="Name"
-            value={name}
-            onChangeText={(text) => setName(text)}
-            style={LoginStyle.input}
-          />
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={(text) => {
-              setEmail(text);
-              setEmailLowerCase(text.toLowerCase());
-            }}
-            style={LoginStyle.input}
-          />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            style={LoginStyle.input}
-            secureTextEntry //changes what you type into dots
-          />
-        </View>
+                source={{ uri: avatar }}
+              ></Image>
+            </TouchableHighlight>
+          );
+        })}
+      </View>
+      <View style={LoginStyle.inputContainer}>
+        <TextInput
+          placeholder="Name"
+          value={name}
+          onChangeText={(text) => setName(text)}
+          style={LoginStyle.input}
+        />
+        <TextInput
+          placeholder="Email"
+          value={email}
+          onChangeText={(text) => {
+            setEmail(text);
+            setEmailLowerCase(text.toLowerCase());
+          }}
+          style={LoginStyle.input}
+        />
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          style={LoginStyle.input}
+          secureTextEntry //changes what you type into dots
+        />
+      </View>
 
-        <View style={LoginStyle.buttonContainer}>
-          <TouchableOpacity onPress={handleRegister} style={LoginStyle.button}>
-            <Text style={LoginStyle.buttonText}>Create Account</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+      <View style={LoginStyle.buttonContainer}>
+        <TouchableOpacity onPress={handleRegister} style={LoginStyle.button}>
+          <Text style={LoginStyle.buttonText}>Create Account</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
     // </ScrollView>
   );
 };
