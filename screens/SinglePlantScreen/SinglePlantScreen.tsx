@@ -1,14 +1,10 @@
 import {
-  Alert,
-  Modal,
   Image,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
@@ -17,13 +13,11 @@ import {
   deletePlantFromAllotment,
   getPlantsFromAllotment,
 } from "../../firebase/database";
-import { PlantType } from "../../types/Plants.types";
+import { AllotmentPlant, PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
-import { color } from "react-native-reanimated";
 import DateModal from "./components/DateModal";
-import { UserType } from "../../types/Users.types";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useIsFocused } from "@react-navigation/native";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
@@ -33,12 +27,14 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [plantKeys, setPlantKeys] = useState<any>([]);
   const [sowingInstructions, setSowingInstructions] = useState<any>([]);
+  const [allotmentPlants, setAllotmentPlants] = useState<AllotmentPlant[]>([]);
+  const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
   const { plantName } = route.params;
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    console.log("SinglePlantScreen inside useEffect");
     setIsLoading(true);
-    setError(false);
     getPlantByName(plantName)
       .then((response) => {
         //response type needs to be changed
@@ -58,35 +54,43 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         const { message, code } = error;
         setIsLoading(false);
         setError({ message, code });
       });
-  }, [plantName]);
+  }, [plantName, isFocused]);
+
+  useEffect(() => {
+    getPlantsFromAllotment(currentUser.id).then((response) => {
+      if (response && plant) {
+        setAllotmentPlants(response);
+        response.forEach((userPlant) => {
+          if (userPlant.id === plant.name) {
+            setExistsInAllotment(true);
+          } else {
+            setExistsInAllotment(false);
+          }
+        });
+      }
+    });
+  }, [plantName, existsInAllotment, isFocused]);
 
   const handleOnPressDelete = () => {
-    deletePlantFromAllotment("Rh2gty20wdtiEItYtcz2", plant);
+    deletePlantFromAllotment(currentUser.id, plant);
+    setExistsInAllotment(false);
   };
 
   const addPlant = () => {
     addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
     setModalVisible(true);
+    setExistsInAllotment(true);
   };
+  // console.log(error);
 
-  const handleGetPlantFromAllotment = () => {
-    getPlantsFromAllotment(currentUser.id);
-  };
-
-  console.log("SinglePlantScreen");
+  // console.log("SinglePlantScreen");
   return (
     <ScrollView>
-      <TouchableOpacity onPress={handleGetPlantFromAllotment}>
-        <Text>get plants from allotment</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleOnPressDelete}>
-        <Text>Delete this from your allotment</Text>
-      </TouchableOpacity>
       <View style={SinglePlantStyles.container}>
         <DateModal
           modalVisible={modalVisible}
@@ -105,9 +109,18 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
               style={SinglePlantStyles.plantImage}
               source={{ uri: plant.img }}
             ></Image>
-            <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
-              <Text style={SinglePlantStyles.buttonText}>+</Text>
-            </Pressable>
+            {existsInAllotment ? (
+              <Pressable
+                style={SinglePlantStyles.button}
+                onPress={handleOnPressDelete}
+              >
+                <Text style={SinglePlantStyles.buttonText}>-</Text>
+              </Pressable>
+            ) : (
+              <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
+                <Text style={SinglePlantStyles.buttonText}>+</Text>
+              </Pressable>
+            )}
             <Text>
               Minimum Temperature in Celcius: {plant.minTempCelcius}
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
@@ -129,10 +142,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
             </View>
           </>
         ) : (
-          <>
-            <Text>{error.code}</Text>
-            <Text>{error.message}</Text>
-          </>
+          <View>{error && <Text>Something went wrong...</Text>}</View>
         )}
       </View>
     </ScrollView>
