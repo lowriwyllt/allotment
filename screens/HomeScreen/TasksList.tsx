@@ -22,13 +22,11 @@ export default function TodaysTasks({
   const [todaysTasks, setTodaysTasks] = useState<TaskType[]>([]);
   const [todaysTaskListEmpty, setTodaysTaskListEmpty] =
     useState<boolean>(false);
-  const [allTasks, setAllTasks] = useState<TaskType[]>([]);
   const [loadMorePressed, setLoadMorePressed] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [checkboxChanged, setCheckboxChanged] = useState(false);
   const [taskListEmpty, setTaskListEmpty] = useState<boolean>(false);
   const [completedTasks, setCompletedTasks] = useState<boolean[]>([]);
-
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -54,8 +52,11 @@ export default function TodaysTasks({
               }
             });
             setTodaysTasks(todays);
+            console.log("todays->>>", todays);
             if (!todays.length) {
               setTodaysTaskListEmpty(true);
+            } else {
+              setTodaysTaskListEmpty(false);
             }
 
             setLoading(false);
