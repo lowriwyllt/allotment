@@ -54,17 +54,28 @@ export default function TodaysTasks({
             const today = new Date();
 
             const todays = tasks.filter((task: any) => {
-              if (!task.length) {
-                setTodaysTaskListEmpty(true);
-              }
+              console.log("TASK DATE", task.nextTaskDate);
+              console.log("TODAY DATE", today.toLocaleDateString("en-CA"));
+              console.log(
+                "boolean: ",
+                task.nextTaskDate === today.toLocaleDateString("en-CA")
+              );
+              // if (!task.length) {
+              //   //????????????????????????????????????
+              //   setTodaysTaskListEmpty(true);
+              // }
               if (
                 // task.date.toLocaleDateString() === today.toLocaleDateString()
                 task.nextTaskDate === today.toLocaleDateString("en-CA")
               ) {
+                console.log(task);
                 return task;
               }
             });
             setTodaysTasks(todays);
+            if (!todays.length) {
+              setTodaysTaskListEmpty(true);
+            }
 
             setLoading(false);
 
@@ -83,9 +94,18 @@ export default function TodaysTasks({
 
   const handleLoadMore = () => {
     console.log("inside handleLoadMore");
+    console.log(tasks);
 
     const today = new Date();
-    const all = tasks.map((task: any) => {
+    // const all = tasks.map((task: any) => {
+    //   if (
+    //     // task.date.toLocaleDateString() !== today.toLocaleDateString()
+    //     task.nextTaskDate !== today.toLocaleDateString("en-CA")
+    //   ) {
+    //     return task;
+    //   }
+    // });
+    const all = tasks.filter((task: any) => {
       if (
         // task.date.toLocaleDateString() !== today.toLocaleDateString()
         task.nextTaskDate !== today.toLocaleDateString("en-CA")
