@@ -96,34 +96,44 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
           plant={plant}
           currentUser={currentUser}
         />
-        <Text style={SinglePlantStyles.header}>{plantName}</Text>
         {isLoading ? (
-          <Text>Loading...</Text>
+          <Text style={SinglePlantStyles.loading}>Loading...</Text>
         ) : plant && !error ? (
           <>
-            <Text>{plant.scientificName}</Text>
-            <Image
-              style={SinglePlantStyles.plantImage}
-              source={{ uri: plant.img }}
-            ></Image>
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <View style={SinglePlantStyles.imgContainer}>
+                <Image
+                  style={SinglePlantStyles.plantImage}
+                  source={{ uri: plant.img }}
+                ></Image>
+              </View>
+              <View>
+                <Text style={SinglePlantStyles.header}>{plantName}</Text>
+                <Text>{plant.scientificName}</Text>
+              </View>
+            </View>
             {existsInAllotment ? (
               <Pressable
-                style={SinglePlantStyles.button}
+                style={SinglePlantStyles.deleteButton}
                 onPress={handleOnPressDelete}
               >
-                <Text style={SinglePlantStyles.buttonText}>-</Text>
+                <Text style={SinglePlantStyles.buttonText}>
+                  remove from my allotment
+                </Text>
               </Pressable>
             ) : (
-              <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
-                <Text style={SinglePlantStyles.buttonText}>+</Text>
+              <Pressable style={SinglePlantStyles.addButton} onPress={addPlant}>
+                <Text style={SinglePlantStyles.buttonText}>
+                  add to my allotment
+                </Text>
               </Pressable>
             )}
             <Text>
-              Minimum Temperature in Celcius: {plant.minTempCelcius}
+              Preferred temperature: {plant.minTempCelcius}
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
             </Text>
-            <Text>Sunlight needed: {plant.sunLight}</Text>
-            <Text>Watering needed: {plant.wateringFrequencyInDays}</Text>
+            <Text>Sunlight: {plant.sunLight}</Text>
+            <Text>Water every: {plant.wateringFrequencyInDays} days</Text>
             <CalendarSinglePlant plant={plant} />
             {plant.sowingInstructions.map((instruction) => {
               <Text>{instruction}</Text>;
@@ -147,4 +157,3 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
 };
 
 export default SinglePlantScreen;
-
