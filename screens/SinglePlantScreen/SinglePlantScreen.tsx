@@ -21,6 +21,7 @@ import theme from "../../styles/theme.style";
 import { color } from "react-native-reanimated";
 import DateModal from "./components/DateModal";
 import { UserType } from "../../types/Users.types";
+import { useIsFocused } from "@react-navigation/native";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
@@ -30,6 +31,8 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { plantName } = route.params;
 
+  const isFocused = useIsFocused();
+  
   useEffect(() => {
     console.log("SinglePlantScreen inside useEffect");
     setIsLoading(true);

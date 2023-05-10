@@ -6,6 +6,7 @@ import LoginStyle from "../LoginScreen/Login.component.style";
 import { TaskType, UserType } from "../../types/Users.types";
 import theme from "../../styles/theme.style";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function TodaysTasks({
   currentUser,
@@ -27,6 +28,8 @@ export default function TodaysTasks({
   const [checkboxChanged, setCheckboxChanged] = useState(false);
   const [taskListEmpty, setTaskListEmpty] = useState<boolean>(false);
   const [completedTasks, setCompletedTasks] = useState<boolean[]>([]);
+
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     if (currentUser) {
@@ -68,27 +71,15 @@ export default function TodaysTasks({
           console.log("getTasks error", err);
         });
     }
-  }, [currentUser?.id, taskAdded]);
+  }, [currentUser?.id, taskAdded, isFocused]);
 
   const handleLoadMore = () => {
-    console.log("inside handleLoadMore");
-    console.log(tasks);
-
-    const today = new Date();
-
-    const all = tasks.filter((task: any) => {
-      if (task.nextTaskDate !== today.toLocaleDateString("en-CA")) {
-        return task;
-      }
-    });
-    setAllTasks(all);
     setLoadMorePressed(true);
-    console.log(allTasks);
   };
 
   useEffect(() => {
     setCompletedTasks(completedTasks);
-  }, [checkboxChanged]);
+  }, [checkboxChanged, isFocused]);
 
   return loading ? (
     <View>
@@ -96,13 +87,16 @@ export default function TodaysTasks({
     </View>
   ) : (
     <View style={taskStyles.container}>
+      <Text style={taskStyles.subheading}>
+        {loadMorePressed ? "all tasks:" : "tasks:"}
+      </Text>
       {todaysTaskListEmpty ? (
         <View style={taskStyles.msgContainer}>
           <Text style={taskStyles.msg}>No tasks today!</Text>
         </View>
       ) : (
         <FlatList
-          data={todaysTasks}
+          data={loadMorePressed ? tasks : todaysTasks}
           renderItem={({ item, index }) => (
             <View style={taskStyles.individualTask}>
               <Image
@@ -125,6 +119,7 @@ export default function TodaysTasks({
                 <Checkbox
                   style={taskStyles.checkbox}
                   value={Boolean(completedTasks[index])}
+                  color={completedTasks[index] ? theme.orange : undefined}
                   onValueChange={() => {
                     setTaskCompleted(currentUser?.id, item);
                     setCheckboxChanged(!checkboxChanged);
@@ -139,50 +134,13 @@ export default function TodaysTasks({
           )}
         ></FlatList>
       )}
-      {!loadMorePressed ? (
+      {!loadMorePressed && (
         <TouchableOpacity onPress={handleLoadMore}>
           <Text style={taskStyles.loadMore}>Load more...</Text>
         </TouchableOpacity>
-      ) : loadMorePressed && allTasks.length ? (
-        <FlatList
-          data={allTasks}
-          renderItem={({ item, index }) => (
-            <View style={taskStyles.individualTask}>
-              <Image
-                style={taskStyles.taskImg}
-                source={
-                  item.img
-                    ? { uri: item.img }
-                    : {
-                        uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
-                      }
-                }
-              ></Image>
-              <View style={taskStyles.taskContainer}>
-                <Text style={taskStyles.body}>{item.body}</Text>
-                <Text style={taskStyles.date}>
-                  {/* {item.date} */}
-                  {item.nextTaskDate}
-                </Text>
-              </View>
-              <View>
-                <Checkbox
-                  style={taskStyles.checkbox}
-                  value={Boolean(completedTasks[index])}
-                  onValueChange={() => {
-                    setTaskCompleted(currentUser?.id, item);
-                    setCheckboxChanged(!checkboxChanged);
-                    const oppositeOfCurrentValue = !completedTasks[index];
-                    completedTasks.splice(index, 1, oppositeOfCurrentValue);
-                    setCompletedTasks(completedTasks);
-                  }}
-                />
-              </View>
-              {/* <Text>Completed</Text> */}
-            </View>
-          )}
-        ></FlatList>
-      ) : (
+      )}
+
+      {loadMorePressed && !tasks.length && (
         <View style={taskStyles.msgContainer}>
           <Text style={taskStyles.msg}>No future tasks!</Text>
           <Text style={taskStyles.msg}>
@@ -205,7 +163,7 @@ const taskStyles = StyleSheet.create({
   individualTask: {
     borderRadius: 50,
     alignItems: "center",
-    backgroundColor: theme.skyblue,
+    backgroundColor: theme.cream,
     display: "flex",
     flexDirection: "row",
     // borderWidth: 1,
@@ -217,6 +175,12 @@ const taskStyles = StyleSheet.create({
     // borderWidth: 1,
     borderColor: theme.lightcream,
     width: "78%",
+  },
+  subheading: {
+    fontSize: 17,
+    color: theme.lightcream,
+    fontWeight: "800",
+    textAlign: "left",
   },
   taskImg: {
     marginLeft: 5,
@@ -234,6 +198,7 @@ const taskStyles = StyleSheet.create({
   date: {
     color: theme.brown,
     fontSize: 10,
+    fontWeight: "500",
   },
   checkbox: {
     borderWidth: 1,

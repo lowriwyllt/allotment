@@ -73,12 +73,6 @@ export const homeStyles = StyleSheet.create({
     // backgroundColor: theme.mainheader,
     padding: 15,
   },
-  subheading: {
-    fontSize: 17,
-    color: theme.lightcream,
-    fontWeight: "800",
-    textAlign: "left",
-  },
   buttonText: {
     color: "white",
     fontWeight: "700",

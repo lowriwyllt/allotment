@@ -52,7 +52,6 @@ export default function HomeScreen({
       </View>
       <Text style={homeStyles.header}>Welcome, Peter!</Text>
       <View style={homeStyles.bodyContainer}>
-        <Text style={homeStyles.subheading}>tasks:</Text>
         <TasksList
           currentUser={currentUser}
           tasks={tasks}
