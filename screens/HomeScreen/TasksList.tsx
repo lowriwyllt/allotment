@@ -87,6 +87,13 @@ export default function TodaysTasks({
     setCompletedTasks(completedTasks);
   }, [checkboxChanged, isFocused]);
 
+  // Get the current date
+  let today = new Date();
+
+  // Create a new Date object for yesterday's date
+  let yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
   return loading ? (
     <View>
       <Text>Loading...</Text>
@@ -116,7 +123,15 @@ export default function TodaysTasks({
                 }
               ></Image>
               <View style={taskStyles.taskContainer}>
-                <Text style={taskStyles.body}>{item.body}</Text>
+                <Text
+                  style={
+                    new Date(item.nextTaskDate) < yesterday
+                      ? taskStyles.bodyLate
+                      : taskStyles.body
+                  }
+                >
+                  {item.body}
+                </Text>
                 <Text style={taskStyles.date}>
                   {item.nextTaskDate.toLocaleString()}
                 </Text>
@@ -196,6 +211,10 @@ const taskStyles = StyleSheet.create({
     resizeMode: "cover",
     // borderColor: theme.brown,
     // borderWidth: 1,
+  },
+  bodyLate: {
+    color: theme.orange,
+    fontWeight: "600",
   },
   body: {
     color: theme.darkgreen,
