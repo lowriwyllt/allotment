@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Platform,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -46,14 +47,20 @@ export default function LoginScreen(): JSX.Element {
   return (
     // <ScrollView>
     <>
-      <KeyboardAvoidingView style={LoginStyle.container} behavior="padding">
-      <Image
-        source={require("../../crops/farm.png")}
-        style={LoginStyle.background}
-      />
-      {/* <Text style={LoginStyle.header}>allotment</Text> */}
-      <Image source={require('../../crops/allotment.png')} style={LoginStyle.allotmentimg}/>
-      {/* <Text style={LoginStyle.subheading}>Start your journey today [insert message here] by logging in or registering...</Text> */}
+      <KeyboardAvoidingView
+        style={LoginStyle.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <Image
+          source={require("../../crops/farm.png")}
+          style={LoginStyle.background}
+        />
+        {/* <Text style={LoginStyle.header}>allotment</Text> */}
+        <Image
+          source={require("../../crops/allotment.png")}
+          style={LoginStyle.allotmentimg}
+        />
+        {/* <Text style={LoginStyle.subheading}>Start your journey today [insert message here] by logging in or registering...</Text> */}
         <View style={LoginStyle.inputContainer}>
           <TextInput
             placeholder="Email"
@@ -76,7 +83,17 @@ export default function LoginScreen(): JSX.Element {
           <TouchableOpacity onPress={handleLogin} style={LoginStyle.button}>
             <Text style={LoginStyle.buttonText}>Login</Text>
           </TouchableOpacity>
-          <Text style={{fontSize:12, fontWeight: "bold", color: "#fff", paddingTop:5, paddingBottom: 0}}>OR</Text>
+          <Text
+            style={{
+              fontSize: 12,
+              fontWeight: "bold",
+              color: "#fff",
+              paddingTop: 5,
+              paddingBottom: 0,
+            }}
+          >
+            OR
+          </Text>
           <TouchableOpacity
             onPress={handleRegister}
             style={[LoginStyle.button, LoginStyle.buttonOutline]}
@@ -86,10 +103,9 @@ export default function LoginScreen(): JSX.Element {
         </View>
       </KeyboardAvoidingView>
     </>
-    // </ScrollView>
+    // {/* </ScrollView> */}
   );
 }
-function useFonts(arg0: { munro: any; }): [any] {
+function useFonts(arg0: { munro: any }): [any] {
   throw new Error("Function not implemented.");
 }
-

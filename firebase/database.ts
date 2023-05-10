@@ -13,7 +13,11 @@ import {
   arrayUnion,
   getDoc,
 } from "firebase/firestore";
-import { PlantType, PlantTypeForAll } from "../types/Plants.types";
+import {
+  AllotmentPlants,
+  PlantType,
+  PlantTypeForAll,
+} from "../types/Plants.types";
 import { UserType, createUserProps, TaskType } from "../types/Users.types";
 import genUniqueId from "./utils/utils";
 const db = getFirestore(app);
@@ -79,6 +83,21 @@ export const deletePlantFromAllotment = async (
   }
 };
 
+export const getPlantsFromAllotment = async (userId: string) => {
+  const result: any[] = []
+  try {
+    const allotmentPlants = await getDocs(
+      collection(db, "users", userId, "allotment")
+    );
+    allotmentPlants.forEach((doc) => {
+      result.push(doc.data())
+    });
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // allotment [{plantName: Carrot, sown: false, dateSowed: 2023-05-03},{plantName: Onion, sown: false, dateSowed: 2023-05-03}]
 
 // GET AVATARS - A list of themed avatars which the user can chose from to use as their profile pic/avatar
@@ -101,14 +120,14 @@ export const getAvatars = async () => {
 export const getUserByEmail = async (email: string | null) => {
   console.log("inside getUserByEmail");
   try {
-    console.log("getUserByEmail try")
+    console.log("getUserByEmail try");
     const q = query(collection(db, "users"), where("email", "==", email));
     const querySnapshot = await getDocs(q);
     let result: UserType | {} = {};
     querySnapshot.forEach((doc) => {
       result = doc.data();
     });
-    console.log("result", result)
+    console.log("result", result);
     return result as UserType;
   } catch (err) {
     console.log(err);
