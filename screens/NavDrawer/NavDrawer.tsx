@@ -71,13 +71,8 @@ export const NavDrawer = ({
         name="plant"
         // component={SinglePlantScreen}
         options={{
-          drawerItemStyle: { display: "none" },
-          headerStyle: {
-            backgroundColor: theme.cream,
-            borderBottomWidth: 0,
-          },
-          headerTintColor: theme.darkgreen,
-          headerTitleAlign: "center",
+          headerStyle: { backgroundColor: theme.cream },
+          headerShadowVisible: false,
         }}
       >
         {(props) => <SinglePlantScreen {...props} currentUser={currentUser} />}
