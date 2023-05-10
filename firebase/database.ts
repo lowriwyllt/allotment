@@ -79,15 +79,17 @@ export const addPlantToAllotment = async (
         ...plant,
       });
 
-      const taskEndDate = new Date(date);
-      taskEndDate.setDate(taskEndDate.getDate() + plant.maxDaysUntilHarvest);
+      const wateringTaskEndDate = new Date(date);
+      wateringTaskEndDate.setDate(
+        wateringTaskEndDate.getDate() + plant.maxDaysUntilHarvest
+      );
       const wateringTask = {
         img: "", //maybe this should be water icon
         completed: false,
         body: `Water your ${plant?.name}`,
         repeatsInDays: plant?.wateringFrequencyInDays,
         startingDate: date, //datePlanted
-        endingDate: taskEndDate.toLocaleDateString("en-CA"), //end of harvesting period (max)
+        endingDate: wateringTaskEndDate.toLocaleDateString("en-CA"), //end of harvesting period (max)
         plant: plant?.name,
         category: "watering",
         nextTaskDate:
@@ -96,6 +98,31 @@ export const addPlantToAllotment = async (
             : date, //I want the date if planting date is greater than todays date then
       } as TaskType;
       await addTask(userId, wateringTask);
+
+      const HarvestingtaskStartDate = new Date(date);
+      HarvestingtaskStartDate.setDate(
+        HarvestingtaskStartDate.getDate() + plant.minDaysUntilHarvest
+      );
+      const HarvestingtaskEndDate = new Date(date);
+      HarvestingtaskEndDate.setDate(
+        HarvestingtaskEndDate.getDate() + plant.maxDaysUntilHarvest
+      );
+      const harvestingTask = {
+        img: "", //maybe this should be spade icon
+        completed: false,
+        body: `Harvest your ${plant?.name}`,
+        repeatsInDays: 0, //never
+        startingDate: HarvestingtaskStartDate.toLocaleDateString("en-CA"), //start of harvesting period
+        endingDate: HarvestingtaskEndDate.toLocaleDateString("en-CA"), //end of harvesting period (max)
+        plant: plant?.name,
+        category: "harvesting",
+        nextTaskDate:
+          new Date().toLocaleDateString("en-CA") >
+          HarvestingtaskStartDate.toLocaleDateString("en-CA")
+            ? new Date().toLocaleDateString("en-CA")
+            : HarvestingtaskStartDate.toLocaleDateString("en-CA"),
+      } as TaskType;
+      await addTask(userId, harvestingTask);
     }
   } catch (err) {
     console.log(err);
