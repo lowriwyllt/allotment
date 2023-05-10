@@ -57,6 +57,24 @@ export const addPlantToAllotment = async (
         datePlanted: date,
         ...plant,
       });
+
+      const taskEndDate = new Date(date);
+      taskEndDate.setDate(taskEndDate.getDate() + plant.maxDaysUntilHarvest);
+      const wateringTask = {
+        img: "", //maybe this should be water icon
+        completed: false,
+        body: `Water your ${plant?.name}`,
+        repeatsInDays: plant?.wateringFrequencyInDays,
+        startingDate: date, //datePlanted
+        endingDate: taskEndDate.toLocaleDateString("en-CA"), //end of harvesting period (max)
+        plant: plant?.name,
+        category: "watering",
+        nextTaskDate:
+          new Date().toLocaleDateString("en-CA") > date
+            ? new Date().toLocaleDateString("en-CA")
+            : date, //I want the date if planting date is greater than todays date then
+      } as TaskType;
+      await addTask(userId, wateringTask);
     }
   } catch (err) {
     console.log(err);
@@ -101,14 +119,14 @@ export const getAvatars = async () => {
 export const getUserByEmail = async (email: string | null) => {
   console.log("inside getUserByEmail");
   try {
-    console.log("getUserByEmail try")
+    console.log("getUserByEmail try");
     const q = query(collection(db, "users"), where("email", "==", email));
     const querySnapshot = await getDocs(q);
     let result: UserType | {} = {};
     querySnapshot.forEach((doc) => {
       result = doc.data();
     });
-    console.log("result", result)
+    console.log("result", result);
     return result as UserType;
   } catch (err) {
     console.log(err);
@@ -187,17 +205,10 @@ export const getUserById = async (id: string) => {
 
 // Add a new task to a users task collection (array)
 export const addTask = async (userId: string, task: TaskType | undefined) => {
-  console.log("inside addTask");
-
   try {
     if (task) {
       const taskPath = doc(db, "users", userId, "tasks", task.body);
-      await setDoc(taskPath, {
-        body: task.body,
-        img: task.img,
-        complete: task.complete,
-        date: task.date,
-      });
+      await setDoc(taskPath, task);
     }
   } catch (err) {
     console.log(err);
@@ -230,7 +241,7 @@ export const setTaskCompleted = async (
     try {
       const userRef = doc(db, "users", userId, "tasks", task.body);
       await updateDoc(userRef, {
-        complete: Boolean(task.complete) ? false : true,
+        complete: Boolean(task.completed) ? false : true,
       });
     } catch (error) {
       console.log(error);
