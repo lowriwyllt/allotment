@@ -12,6 +12,7 @@ import {
   addDoc,
   arrayUnion,
   getDoc,
+  
 } from "firebase/firestore";
 import {
   PlantType,
@@ -256,3 +257,19 @@ export const setTaskCompleted = async (
     }
   }
 };
+
+// export const getPlantsFromUsersAllotment = async (
+//   userId: any,
+// ) => {
+//   const result: any = [];
+//   try {
+//     console.log('inside getPlantsFromUsersAllotment')
+//     const allotment = await getDocs(collection(db, "users", userId, 'allotment'));
+//     allotment.forEach((plantDoc) => {
+//       result.push({ img: plantDoc.data().img, name: plantDoc.data().id });
+//     });
+//     return result; 
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }

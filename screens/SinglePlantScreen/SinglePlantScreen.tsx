@@ -132,9 +132,9 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
               <Text>{instruction}</Text>;
             })}
             <View>
-              {sowingInstructions.map((instruction: string) => {
+              {sowingInstructions.map((instruction: string, index: number) => {
                 return (
-                  <View key={instruction}>
+                  <View key={plantKeys[index]}>
                     <Text>{instruction}</Text>
                   </View>
                 );

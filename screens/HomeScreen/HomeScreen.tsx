@@ -1,20 +1,25 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 import CalendarSinglePlant from "../SinglePlantScreen/components/Calendar";
-import { addTask } from "../../firebase/database";
+import { addTask, getPlantsFromAllotment } from "../../firebase/database";
 import TasksList from "./TasksList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UserType } from "../../types/Users.types";
+import { TouchableHighlight } from "react-native-gesture-handler";
+import { PlantType } from "../../types/Plants.types";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function HomeScreen({
   currentUser,
   tasks,
   setTasks,
+
 }: {
   currentUser: UserType | undefined;
   tasks: any;
   setTasks: any;
+
 }): JSX.Element {
   const navigation = useNavigation<any>();
   const [task, setTask] = useState({
@@ -24,11 +29,26 @@ export default function HomeScreen({
     complete: false,
   });
   const [taskAdded, setTaskAdded] = useState(false);
+  const [allotment, setAllotment] = useState([]);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+
+    getPlantsFromAllotment(currentUser?.id).then((response: any) => {
+      console.log('plants', response);
+      setAllotment(response);
+    })
+  }, [isFocused])
 
   const handleAddTask = () => {
     addTask(currentUser?.id, task); //neeeds a task to be added
     setTaskAdded(!taskAdded);
   };
+
+  const handleClickPlant = () => {
+    navigation.navigate("plant", { plantName: 'Broad Beans' });
+  }
 
   return (
     <View style={homeStyles.container}>
@@ -37,7 +57,7 @@ export default function HomeScreen({
         style={homeStyles.background}
       />
       <View style={homeStyles.allotmentButtonContainer}>
-        <Image
+        {/* <Image
           source={require("../../crops/carrot/3.png")}
           style={homeStyles.carrot}
         />
@@ -48,7 +68,28 @@ export default function HomeScreen({
         <Image
           source={require("../../crops/beans/5.png")}
           style={homeStyles.beans}
-        />
+        /> */}
+        {allotment?.map((plant: any) => {
+          return (<TouchableOpacity style={homeStyles.touchableOpacity}>
+
+          <Image style={homeStyles.crop} source={{uri: plant.img}}/>
+          </TouchableOpacity>
+          )
+        })}
+
+      
+
+        
+        {/* <Image style={homeStyles.crop} source={require('../../crops/broccoli/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/cabbage/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/carrot/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/corn/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/cucumber/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/onion/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/peas/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/potato/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/pumpkin/5.png')}/>
+        <Image style={homeStyles.crop} source={require('../../crops/tomato/5.png')}/> */}
       </View>
       <Text style={homeStyles.header}>Welcome, Peter!</Text>
       <View style={homeStyles.bodyContainer}>

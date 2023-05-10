@@ -1,10 +1,14 @@
+import { PlantType } from "./Plants.types";
+
+
 export type UserType = {
   name: string;
   email: string | null;
   avatarUrl?: string;
   displayName?: string;
-  allotment: Array<Object>;
+  allotment: Array<Object>; //should we delete this?
   id: any;
+  usersPlants: any;
 };
 
 export type createUserProps = {
@@ -19,3 +23,5 @@ export type TaskType = {
   date: Object,
   body: string
 };
+
+// export type UsersAllotment = PlantType[];
