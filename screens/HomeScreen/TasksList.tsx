@@ -41,6 +41,11 @@ export default function TodaysTasks({
             setLoading(false);
           } else {
             setTaskListEmpty(false);
+            tasks.sort(
+              (a: TaskType, b: TaskType) =>
+                new Date(a.nextTaskDate).getTime() -
+                new Date(b.nextTaskDate).getTime()
+            );
             setTasks(tasks);
 
             const today = new Date();
