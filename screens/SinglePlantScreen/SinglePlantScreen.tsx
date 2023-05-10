@@ -32,7 +32,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
   const { plantName } = route.params;
   const isFocused = useIsFocused();
-  
+
   useEffect(() => {
     setIsLoading(true);
     getPlantByName(plantName)
@@ -74,7 +74,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         });
       }
     });
-  }, [plantName, existsInAllotment, isFocused]);
+  }, [isFocused]);
 
   const handleOnPressDelete = () => {
     deletePlantFromAllotment(currentUser.id, plant);
