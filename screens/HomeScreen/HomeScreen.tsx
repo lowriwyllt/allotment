@@ -9,6 +9,7 @@ import { UserType } from "../../types/Users.types";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { PlantType } from "../../types/Plants.types";
 import { useIsFocused } from "@react-navigation/native";
+import AllotmentPlantButton from "./AllotmentPlantButton";
 
 export default function HomeScreen({
   currentUser,
@@ -46,9 +47,10 @@ export default function HomeScreen({
     setTaskAdded(!taskAdded);
   };
 
-  const handleClickPlant = () => {
-    navigation.navigate("plant", { plantName: 'Broad Beans' });
-  }
+  // const handleClickPlant = () => {
+
+  //   navigation.navigate("plant", { plantName:plant.id });
+  // }
 
   return (
     <View style={homeStyles.container}>
@@ -70,10 +72,12 @@ export default function HomeScreen({
           style={homeStyles.beans}
         /> */}
         {allotment?.map((plant: any) => {
-          return (<TouchableOpacity style={homeStyles.touchableOpacity}>
+          return (
+            <AllotmentPlantButton key={plant.name} plant={plant} />
+          // <TouchableOpacity onPress={handleClickPlant} style={homeStyles.touchableOpacity}>
 
-          <Image style={homeStyles.crop} source={{uri: plant.img}}/>
-          </TouchableOpacity>
+          // <Image style={homeStyles.crop} source={{uri: plant.img}}/>
+          // </TouchableOpacity>
           )
         })}
 
