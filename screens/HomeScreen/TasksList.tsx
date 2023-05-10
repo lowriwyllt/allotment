@@ -35,39 +35,17 @@ export default function TodaysTasks({
         .then((tasks) => {
           if (tasks.length === 0) {
             console.log("inside if statement for no tasks");
-            setTaskListEmpty(true);
+            setTodaysTaskListEmpty(true);
             console.log(taskListEmpty);
+            setLoading(false);
           } else {
             setTaskListEmpty(false);
-
-            // const formattedDateTasks = tasks.map((task: any) => {
-            //   task.date = new Date(
-            //     task.date.seconds * 1000 + task.date.nanoseconds / 1000000
-            //   );
-
-            //   return task;
-            // });
-
-            // setTasks(formattedDateTasks);
             setTasks(tasks);
 
             const today = new Date();
 
             const todays = tasks.filter((task: any) => {
-              console.log("TASK DATE", task.nextTaskDate);
-              console.log("TODAY DATE", today.toLocaleDateString("en-CA"));
-              console.log(
-                "boolean: ",
-                task.nextTaskDate === today.toLocaleDateString("en-CA")
-              );
-              // if (!task.length) {
-              //   //????????????????????????????????????
-              //   setTodaysTaskListEmpty(true);
-              // }
-              if (
-                // task.date.toLocaleDateString() === today.toLocaleDateString()
-                task.nextTaskDate === today.toLocaleDateString("en-CA")
-              ) {
+              if (task.nextTaskDate === today.toLocaleDateString("en-CA")) {
                 console.log(task);
                 return task;
               }
@@ -97,19 +75,9 @@ export default function TodaysTasks({
     console.log(tasks);
 
     const today = new Date();
-    // const all = tasks.map((task: any) => {
-    //   if (
-    //     // task.date.toLocaleDateString() !== today.toLocaleDateString()
-    //     task.nextTaskDate !== today.toLocaleDateString("en-CA")
-    //   ) {
-    //     return task;
-    //   }
-    // });
+
     const all = tasks.filter((task: any) => {
-      if (
-        // task.date.toLocaleDateString() !== today.toLocaleDateString()
-        task.nextTaskDate !== today.toLocaleDateString("en-CA")
-      ) {
+      if (task.nextTaskDate !== today.toLocaleDateString("en-CA")) {
         return task;
       }
     });
@@ -129,7 +97,9 @@ export default function TodaysTasks({
   ) : (
     <View style={taskStyles.container}>
       {todaysTaskListEmpty ? (
-        <Text style={taskStyles.msg}>No tasks today!</Text>
+        <View style={taskStyles.msgContainer}>
+          <Text style={taskStyles.msg}>No tasks today!</Text>
+        </View>
       ) : (
         <FlatList
           data={todaysTasks}
@@ -169,13 +139,11 @@ export default function TodaysTasks({
           )}
         ></FlatList>
       )}
-      {!loadMorePressed && (
+      {!loadMorePressed ? (
         <TouchableOpacity onPress={handleLoadMore}>
           <Text style={taskStyles.loadMore}>Load more...</Text>
         </TouchableOpacity>
-      )}
-
-      {loadMorePressed && (
+      ) : loadMorePressed && allTasks.length ? (
         <FlatList
           data={allTasks}
           renderItem={({ item, index }) => (
@@ -214,6 +182,13 @@ export default function TodaysTasks({
             </View>
           )}
         ></FlatList>
+      ) : (
+        <View style={taskStyles.msgContainer}>
+          <Text style={taskStyles.msg}>No future tasks!</Text>
+          <Text style={taskStyles.msg}>
+            Maybe try adding some plants to your allotment...
+          </Text>
+        </View>
       )}
     </View>
   );
@@ -264,13 +239,17 @@ const taskStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.green,
   },
-  msg: {
+  msgContainer: {
     marginTop: 10,
-    height: 90,
-    padding: 35,
+    justifyContent: "center", //Centered horizontally
+    alignItems: "center", //Centered vertically
     borderRadius: 20,
-    borderWidth: 1.5,
-    borderColor: theme.lightcream,
+    borderWidth: 1,
+    borderColor: theme.cream,
+    height: 90,
+  },
+  msg: {
+    // margin: 30,
     textAlign: "center",
     color: theme.cream,
     fontWeight: "600",
