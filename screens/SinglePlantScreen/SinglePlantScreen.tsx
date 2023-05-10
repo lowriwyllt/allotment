@@ -1,10 +1,13 @@
 import {
+  Alert,
+  Modal,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,18 +16,22 @@ import {
   deletePlantFromAllotment,
 } from "../../firebase/database";
 import { PlantType } from "../../types/Plants.types";
-import CalendarSinglePlant from "../Calendar";
+import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
 import { color } from "react-native-reanimated";
+import DateModal from "./components/DateModal";
+import { UserType } from "../../types/Users.types";
 
 //--------------------------------need to change any----------------------------------------
-const SinglePlantScreen = ({ route }: any) => {
+const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [error, setError] = useState<any>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const { plantName } = route.params;
 
   useEffect(() => {
+    console.log("SinglePlantScreen inside useEffect");
     setIsLoading(true);
     setError(false);
     getPlantByName(plantName)
@@ -41,27 +48,43 @@ const SinglePlantScreen = ({ route }: any) => {
       });
   }, [plantName]);
 
-  const handleOnPress = () => {
-    addPlantToAllotment("Rh2gty20wdtiEItYtcz2", plant);
-  };
-
   const handleOnPressDelete = () => {
     deletePlantFromAllotment("Rh2gty20wdtiEItYtcz2", plant);
   };
 
+  const addPlant = () => {
+    addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
+    setModalVisible(true);
+  };
+
+  console.log("SinglePlantScreen");
+
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.header}>{plantName}</Text>
+      <TouchableOpacity onPress={handleOnPressDelete}>
+        <Text>Delete this from your allotment</Text>
+      </TouchableOpacity>
+      <View style={SinglePlantStyles.container}>
+        <DateModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          plantName={plantName}
+          plant={plant}
+          currentUser={currentUser}
+        />
+        <Text style={SinglePlantStyles.header}>{plantName}</Text>
         {isLoading ? (
           <Text>Loading...</Text>
         ) : plant && !error ? (
           <>
             <Text>{plant.scientificName}</Text>
             <Image
-              style={styles.plantImage}
+              style={SinglePlantStyles.plantImage}
               source={{ uri: plant.img }}
             ></Image>
+            <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
+              <Text style={SinglePlantStyles.buttonText}>+</Text>
+            </Pressable>
             <Text>
               Minimum Temperature in Celcius: {plant.minTempCelcius}
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
@@ -87,7 +110,7 @@ const SinglePlantScreen = ({ route }: any) => {
 
 export default SinglePlantScreen;
 
-const styles = StyleSheet.create({
+export const SinglePlantStyles = StyleSheet.create({
   header: {
     fontSize: theme.mainheader,
     fontWeight: "700",
@@ -106,4 +129,52 @@ const styles = StyleSheet.create({
     backgroundColor: theme.lightcream,
     // padding: 50,
   },
+  button: {
+    backgroundColor: theme.green, // chose green as original was feature which doesnt exist
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    borderRadius: 20,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    width: "80%",
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  // buttonClose: {
+  //   backgroundColor: "#2196F3",
+  // },
 });

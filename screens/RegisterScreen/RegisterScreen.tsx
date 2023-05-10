@@ -112,15 +112,26 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
   };
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView style={LoginStyle.container} behavior="padding">
-        <Text style={{ color: theme.feature, paddingBottom: 10 }}>
+    // <ScrollView>
+      <KeyboardAvoidingView
+        style={LoginStyle.registerContainer}
+        behavior="padding"
+      >
+        <Text
+          style={{
+            color: theme.darkgreen,
+            paddingBottom: 0,
+            paddingTop: 0,
+            fontSize: 15,
+          }}
+        >
           Choose an avatar:
         </Text>
         <View style={LoginStyle.avatarsContainer}>
           {avatarsArr?.map((avatar) => {
             return (
-              <Pressable key={avatar}
+              <Pressable
+                key={avatar}
                 onPress={() => {
                   setAvatarUrl(avatar);
                 }}
@@ -165,6 +176,6 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </ScrollView>
+    // </ScrollView>
   );
 };

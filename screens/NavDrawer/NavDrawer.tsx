@@ -69,7 +69,7 @@ export const NavDrawer = ({
 
       <Drawer.Screen
         name="plant"
-        component={SinglePlantScreen}
+        // component={SinglePlantScreen}
         options={{
           drawerItemStyle: { display: "none" },
           headerStyle: {
@@ -79,7 +79,10 @@ export const NavDrawer = ({
           headerTintColor: theme.darkgreen,
           headerTitleAlign: "center",
         }}
-      />
+      >
+        {(props) => <SinglePlantScreen {...props} currentUser={currentUser} />}
+      </Drawer.Screen>
+
       <Drawer.Screen
         name="editAccount"
         options={{

@@ -5,9 +5,10 @@ import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
 import "react-native-gesture-handler";
 import Loggedin from "./screens/LOGGEDIN/Loggedin";
 import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
-import UserType from "./types/Users.types";
+import {UserType} from "./types/Users.types";
 import theme from "./styles/theme.style";
 
 export default function App(): JSX.Element {
@@ -17,17 +18,18 @@ export default function App(): JSX.Element {
   const auth = getAuth();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log('authstatechanged');
       if (user) {
+        console.log("this is the problem");
         getUserByEmail(user.email).then((response) => {
+          console.log("this is the problem response");
           if (response) {
+            console.log("this is the problem response if statement");
             setCurrentUser(response);
           }
         });
       }
     });
   }, [])
-  
 
   return (
     <>
@@ -41,7 +43,10 @@ export default function App(): JSX.Element {
               headerShadowVisible: false,
             }}
           />
-          <Stack.Screen name="register">
+          <Stack.Screen name="register"         options={{
+          headerStyle: { backgroundColor: theme.cream },
+          headerShadowVisible: false
+        }}>
             {(props) => (
               <RegisterScreen {...props} setCurrentUser={setCurrentUser} />
             )}
