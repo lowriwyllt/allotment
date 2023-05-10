@@ -17,7 +17,7 @@ import {
   deletePlantFromAllotment,
   getPlantsFromAllotment,
 } from "../../firebase/database";
-import { PlantType } from "../../types/Plants.types";
+import { AllotmentPlant, PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
 import { color } from "react-native-reanimated";
@@ -33,6 +33,8 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [plantKeys, setPlantKeys] = useState<any>([]);
   const [sowingInstructions, setSowingInstructions] = useState<any>([]);
+  const [allotmentPlants, setAllotmentPlants] = useState<AllotmentPlant[]>([]);
+  const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
   const { plantName } = route.params;
 
   useEffect(() => {
@@ -65,8 +67,35 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
       });
   }, [plantName]);
 
+  useEffect(() => {
+    getPlantsFromAllotment(currentUser.id)
+      .then((response) => {
+        const result: any = response?.forEach((usersPlant: any) => {
+          if (usersPlant.id === plant?.name) {
+            console.log("1");
+            console.log(usersPlant.id, "usersPlant");
+            console.log(plant?.name, "screenPlant");
+            return usersPlant as AllotmentPlant;
+          }
+
+          console.log(allotmentPlants);
+
+          return result as AllotmentPlant[];
+        });
+      })
+      .then((result) => {
+        console.log(result, "result");
+        setAllotmentPlants(result);
+        console.log("2");
+        if (allotmentPlants?.length > 0) {
+          console.log("3");
+          setExistsInAllotment(true);
+        }
+      });
+  }, [plantName, setExistsInAllotment]);
+
   const handleOnPressDelete = () => {
-    deletePlantFromAllotment("Rh2gty20wdtiEItYtcz2", plant);
+    deletePlantFromAllotment(currentUser.id, plant);
   };
 
   const addPlant = () => {
@@ -74,19 +103,9 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
     setModalVisible(true);
   };
 
-  const handleGetPlantFromAllotment = () => {
-    getPlantsFromAllotment(currentUser.id);
-  };
-
   console.log("SinglePlantScreen");
   return (
     <ScrollView>
-      <TouchableOpacity onPress={handleGetPlantFromAllotment}>
-        <Text>get plants from allotment</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleOnPressDelete}>
-        <Text>Delete this from your allotment</Text>
-      </TouchableOpacity>
       <View style={SinglePlantStyles.container}>
         <DateModal
           modalVisible={modalVisible}
@@ -105,9 +124,18 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
               style={SinglePlantStyles.plantImage}
               source={{ uri: plant.img }}
             ></Image>
-            <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
-              <Text style={SinglePlantStyles.buttonText}>+</Text>
-            </Pressable>
+            {existsInAllotment ? (
+              <Pressable
+                style={SinglePlantStyles.button}
+                onPress={handleOnPressDelete}
+              >
+                <Text style={SinglePlantStyles.buttonText}>-</Text>
+              </Pressable>
+            ) : (
+              <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
+                <Text style={SinglePlantStyles.buttonText}>+</Text>
+              </Pressable>
+            )}
             <Text>
               Minimum Temperature in Celcius: {plant.minTempCelcius}
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
