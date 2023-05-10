@@ -1,14 +1,10 @@
 import {
-  Alert,
-  Modal,
   Image,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
@@ -20,10 +16,8 @@ import {
 import { AllotmentPlant, PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
 import theme from "../../styles/theme.style";
-import { color } from "react-native-reanimated";
 import DateModal from "./components/DateModal";
-import { UserType } from "../../types/Users.types";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useIsFocused } from "@react-navigation/native";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
@@ -37,10 +31,10 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
   const { plantName } = route.params;
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    console.log("SinglePlantScreen inside useEffect");
     setIsLoading(true);
-    setError(false);
     getPlantByName(plantName)
       .then((response) => {
         //response type needs to be changed
@@ -60,50 +54,41 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         const { message, code } = error;
         setIsLoading(false);
         setError({ message, code });
       });
-  }, [plantName]);
+  }, [plantName, isFocused]);
 
   useEffect(() => {
-    getPlantsFromAllotment(currentUser.id)
-      .then((response) => {
-        const result: any = response?.forEach((usersPlant: any) => {
-          if (usersPlant.id === plant?.name) {
-            console.log("1");
-            console.log(usersPlant.id, "usersPlant");
-            console.log(plant?.name, "screenPlant");
-            return usersPlant as AllotmentPlant;
+    getPlantsFromAllotment(currentUser.id).then((response) => {
+      if (response && plant) {
+        setAllotmentPlants(response);
+        response.forEach((userPlant) => {
+          if (userPlant.id === plant.name) {
+            setExistsInAllotment(true);
+          } else {
+            setExistsInAllotment(false);
           }
-
-          console.log(allotmentPlants);
-
-          return result as AllotmentPlant[];
         });
-      })
-      .then((result) => {
-        console.log(result, "result");
-        setAllotmentPlants(result);
-        console.log("2");
-        if (allotmentPlants?.length > 0) {
-          console.log("3");
-          setExistsInAllotment(true);
-        }
-      });
-  }, [plantName, setExistsInAllotment]);
+      }
+    });
+  }, [plantName, existsInAllotment, isFocused]);
 
   const handleOnPressDelete = () => {
     deletePlantFromAllotment(currentUser.id, plant);
+    setExistsInAllotment(false);
   };
 
   const addPlant = () => {
     addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
     setModalVisible(true);
+    setExistsInAllotment(true);
   };
+  // console.log(error);
 
-  console.log("SinglePlantScreen");
+  // console.log("SinglePlantScreen");
   return (
     <ScrollView>
       <View style={SinglePlantStyles.container}>
@@ -157,10 +142,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
             </View>
           </>
         ) : (
-          <>
-            <Text>{error.code}</Text>
-            <Text>{error.message}</Text>
-          </>
+          <View>{error && <Text>Something went wrong...</Text>}</View>
         )}
       </View>
     </ScrollView>
