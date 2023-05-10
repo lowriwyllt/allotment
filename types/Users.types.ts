@@ -15,13 +15,7 @@ export type createUserProps = {
 
 export type TaskType = {
   img: string;
-  completed: boolean;
-  // date: Object;
-  body: string;
-  repeatsInDays: number;
-  startingDate: string;
-  endingDate: string;
-  plant: string;
-  category: string;
-  nextTaskDate: string;
+  complete: boolean;
+  date: Object,
+  body: string
 };
