@@ -14,6 +14,7 @@ import { formatDate } from "../../utils/utils";
 import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
 import { useNavigation } from "@react-navigation/native";
+import theme from "../../../styles/theme.style";
 
 const DateModal = ({
   modalVisible,
@@ -87,6 +88,7 @@ const DateModal = ({
               value={new Date(date)}
               mode="date"
               display="spinner"
+              textColor="#000000"
               onChange={handleOnChange}
             />
           ) : (
