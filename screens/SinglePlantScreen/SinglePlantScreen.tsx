@@ -87,7 +87,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={SinglePlantStyles.page}>
       <View style={SinglePlantStyles.container}>
         <DateModal
           modalVisible={modalVisible}
