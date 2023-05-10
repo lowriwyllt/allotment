@@ -100,6 +100,7 @@ export default function EditAccount({
                       key={avatar}
                       onPress={() => {
                         setNewAvatarUrl(avatar);
+                        setModalVisible(!modalVisible);
                       }}
                     >
                       <Image
