@@ -9,9 +9,11 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
 import {UserType} from "./types/Users.types";
 import theme from "./styles/theme.style";
+import HomeScreen from "./screens/HomeScreen/HomeScreen";
 
 export default function App(): JSX.Element {
   const [currentUser, setCurrentUser] = useState<UserType | undefined>();
+
 
   const Stack = createNativeStackNavigator();
   const auth = getAuth();
