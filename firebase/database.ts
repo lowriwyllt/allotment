@@ -289,7 +289,7 @@ export const setTaskCompleted = async (
     try {
       const userRef = doc(db, "users", userId, "tasks", task.body);
       await updateDoc(userRef, {
-        complete: Boolean(task.completed) ? false : true,
+        completed: Boolean(task.completed) ? false : true,
       });
     } catch (error) {
       console.log(error);
