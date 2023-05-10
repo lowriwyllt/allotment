@@ -12,7 +12,9 @@ const PlantButton = ({ plant }: PlantProps) => {
 
   return (
     <Pressable style={styles.button} onPress={handlePress} key={plant.name}>
-      <Image style={styles.plantImages} source={{ uri: plant.img }}></Image>
+      <View>
+        <Image style={styles.plantImages} source={{ uri: plant.img }}></Image>
+      </View>
       <Text style={styles.name}>{plant.name}</Text>
     </Pressable>
   );
@@ -22,16 +24,21 @@ export default PlantButton;
 
 const styles = StyleSheet.create({
   plantImages: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-    resizeMode: "cover",
+    width: 42.5,
+    height: 42.5,
+    margin: 22.5,
+
+    resizeMode: "contain",
     // borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: theme.brown,
   },
   button: {
-    margin: 10,
+    margin: 15,
+    borderWidth: 1,
+    borderColor: theme.brown,
+    borderRadius: 50,
+
+    width: 85,
+    height: 85,
   },
   name: {
     textAlign: "center",

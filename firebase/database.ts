@@ -12,8 +12,12 @@ import {
   addDoc,
   arrayUnion,
   getDoc,
+  
 } from "firebase/firestore";
-import { PlantType, PlantTypeForAll } from "../types/Plants.types";
+import {
+  PlantType,
+  PlantTypeForAll,
+} from "../types/Plants.types";
 import { UserType, createUserProps, TaskType } from "../types/Users.types";
 import genUniqueId from "./utils/utils";
 const db = getFirestore(app);
@@ -142,6 +146,22 @@ export const deletePlantFromAllotment = async (
     } catch (error) {
       console.log(error);
     }
+  }
+};
+
+export const getPlantsFromAllotment = async (userId: string) => {
+  console.log("getPlantsFromAllotment")
+  const result: any[] = []
+  try {
+    const allotmentPlants = await getDocs(
+      collection(db, "users", userId, "allotment")
+    );
+    allotmentPlants.forEach((doc) => {
+      result.push(doc.data())
+    });
+    return result;
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -296,3 +316,19 @@ export const setTaskCompleted = async (
     }
   }
 };
+
+// export const getPlantsFromUsersAllotment = async (
+//   userId: any,
+// ) => {
+//   const result: any = [];
+//   try {
+//     console.log('inside getPlantsFromUsersAllotment')
+//     const allotment = await getDocs(collection(db, "users", userId, 'allotment'));
+//     allotment.forEach((plantDoc) => {
+//       result.push({ img: plantDoc.data().img, name: plantDoc.data().id });
+//     });
+//     return result; 
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }

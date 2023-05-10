@@ -16,29 +16,43 @@ export const homeStyles = StyleSheet.create({
     // top: 0,
     position: "absolute",
   },
-  carrot: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    margin: 30,
-    // height: "30%",
-    // resizeMode: "contain",
+  // carrot: {
+  //   width: 40,
+  //   height: 40,
+  //   resizeMode: "contain",
+  //   margin: 30,
+  //   // height: "30%",
+  //   // resizeMode: "contain",
+  // },
+  // beetroot: {
+  //   width: 40,
+  //   height: 40,
+  //   resizeMode: "contain"
+  //   // height: "30%",
+  //   // resizeMode: "contain",
+  // },
+  // beans: {
+  //   width: 50,
+  //   height: 50,
+  //   resizeMode: "contain",
+  //   margin: 60,
+  //   // height: "30%",
+  //   // resizeMode: "contain",
+  // },
+
+  touchableOpacity: {
+    width: '25%',
+    height: '25%',
   },
-  beetroot: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    // height: "30%",
-    // resizeMode: "contain",
+
+  crop: {
+    width: "100%",
+    height: "100%",
+    marginTop: 5,
+    marginBottom: 5,
+    resizeMode: 'contain',
   },
-  beans: {
-    width: 50,
-    height: 50,
-    resizeMode: "contain",
-    margin: 60,
-    // height: "30%",
-    // resizeMode: "contain",
-  },
+
   header: {
     fontWeight: "700",
     marginTop: 50,
