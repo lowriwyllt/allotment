@@ -2,7 +2,7 @@ import { Image, Text, TouchableOpacity, View} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 import CalendarSinglePlant from "../SinglePlantScreen/components/Calendar";
-import { addTask, getPlantsFromUsersAllotment } from "../../firebase/database";
+import { addTask, getPlantsFromAllotment } from "../../firebase/database";
 import TasksList from "./TasksList";
 import { useState, useEffect } from "react";
 import { UserType } from "../../types/Users.types";
@@ -13,6 +13,7 @@ export default function HomeScreen({
   currentUser,
   tasks,
   setTasks,
+  usersPlants
 }: {
   currentUser: UserType | undefined;
   tasks: any;
@@ -29,7 +30,9 @@ export default function HomeScreen({
   const [allotment, setAllotment] = useState([]);
 
   useEffect(() => {
-    getPlantsFromUsersAllotment(currentUser?.id).then((response) => {
+
+    getPlantsFromAllotment(currentUser?.id).then((response: any) => {
+      console.log('plants', response);
       setAllotment(response);
     })
   }, [])
@@ -63,12 +66,16 @@ export default function HomeScreen({
           style={homeStyles.beans}
         /> */}
         {allotment?.map((plant: any) => {
-          return <TouchableOpacity key={plant.name}>
-            <Image style={homeStyles.crop} source={plant.img}/>
-          </TouchableOpacity>;
+          return (<TouchableOpacity style={homeStyles.touchableOpacity}>
+
+          <Image style={homeStyles.crop} source={{uri: plant.img}}/>
+          </TouchableOpacity>
+          )
         })}
 
-        {/* <Image style={homeStyles.crop} source={require('../../crops/beetroot/5.png')}/> */}
+      
+
+        
         {/* <Image style={homeStyles.crop} source={require('../../crops/broccoli/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/cabbage/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/carrot/5.png')}/>
