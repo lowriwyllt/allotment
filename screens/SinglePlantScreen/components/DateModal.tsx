@@ -13,13 +13,13 @@ import { useState } from "react";
 import { formatDate } from "../../utils/utils";
 import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
-
+import theme from "../../../styles/theme.style";
 const DateModal = ({
   modalVisible,
   setModalVisible,
   plantName,
   plant,
-  currentUser
+  currentUser,
 }: {
   modalVisible: boolean;
   setModalVisible: (bool: boolean) => void;
@@ -63,6 +63,7 @@ const DateModal = ({
               value={new Date(date)}
               mode="date"
               display="spinner"
+              textColor="#000000"
               onChange={handleOnChange}
             />
           ) : (
