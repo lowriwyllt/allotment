@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SinglePlantStyles } from "../SinglePlantScreen";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { formatDate } from "../../utils/utils";
@@ -15,6 +14,7 @@ import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
 import { useNavigation } from "@react-navigation/native";
 import theme from "../../../styles/theme.style";
+import { SinglePlantStyles } from "../SinglePlantScreen.style";
 
 const DateModal = ({
   modalVisible,
