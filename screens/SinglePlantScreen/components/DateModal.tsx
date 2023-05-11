@@ -13,9 +13,7 @@ import { formatDate } from "../../utils/utils";
 import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
 import { useNavigation } from "@react-navigation/native";
-import theme from "../../../styles/theme.style";
-import { SinglePlantStyles } from "../../../styles/singlePlantsScreen.style";
-
+import { SinglePlantStyles } from "../SinglePlantScreen.style";
 
 const DateModal = ({
   modalVisible,
@@ -101,7 +99,7 @@ const DateModal = ({
               <Text>Change Date</Text>
             </TouchableOpacity>
           )}
-          <View style={{display:"flex", width: "100%"}}>
+          <View style={{ display: "flex", width: "100%" }}>
             <TouchableOpacity
               style={SinglePlantStyles.cancel}
               onPress={() => setModalVisible(!modalVisible)}
