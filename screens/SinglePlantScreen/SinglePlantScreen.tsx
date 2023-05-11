@@ -62,10 +62,12 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
 
   useEffect(() => {
     getPlantsFromAllotment(currentUser.id).then((response) => {
-      if (response && plant) {
+      if (response && plantName) {
         setAllotmentPlants(response);
-        response.filter((userPlant) => userPlant.id === plant.name);
-        if (response.length > 0) {
+        const currentPlantInAllotment = response.filter(
+          (userPlant) => userPlant.id === plantName
+        );
+        if (currentPlantInAllotment.length > 0) {
           setExistsInAllotment(true);
         } else {
           setExistsInAllotment(false);
@@ -80,7 +82,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         // });
       }
     });
-  }, [isFocused]);
+  }, [isFocused, plantName]);
 
   const handleOnPressDelete = () => {
     deletePlantFromAllotment(currentUser.id, plant);
