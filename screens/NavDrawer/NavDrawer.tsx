@@ -34,6 +34,7 @@ export const NavDrawer = ({
         options={{
           headerStyle: { backgroundColor: theme.skyblue },
           headerShadowVisible: false,
+          headerTitleAlign: "center",
         }}
       >
         {(props) => (
@@ -51,6 +52,7 @@ export const NavDrawer = ({
         options={{
           headerStyle: { backgroundColor: theme.cream },
           headerShadowVisible: false,
+          headerTitleAlign: "center",
         }}
       />
       <Drawer.Screen
@@ -69,10 +71,13 @@ export const NavDrawer = ({
 
       <Drawer.Screen
         name="plant"
-        // component={SinglePlantScreen}
         options={{
-          headerStyle: { backgroundColor: theme.cream },
+          drawerItemStyle: { display: "none" },
+          headerTitle: "",
+          headerStyle: { backgroundColor: theme.cream, borderBottomWidth: 0 },
           headerShadowVisible: false,
+          headerTintColor: theme.darkgreen,
+          headerTitleAlign: "center",
         }}
       >
         {(props) => <SinglePlantScreen {...props} currentUser={currentUser} />}
