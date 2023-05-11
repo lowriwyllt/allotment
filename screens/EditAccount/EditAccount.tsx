@@ -97,20 +97,22 @@ export default function EditAccount({
               <View style={EditProfileStyles.avatarsContainer}>
                 {avatarsArr?.map((avatar) => {
                   return (
-                    <TouchableHighlight
+                    <TouchableOpacity
                       key={avatar}
-                      underlayColor={"#EE5D1F"}
-                      activeOpacity={20}
                       onPress={() => {
                         setNewAvatarUrl(avatar);
                         setModalVisible(!modalVisible);
                       }}
                     >
                       <Image
-                        style={EditProfileStyles.avatars}
+                        style={
+                          newAvatarUrl === avatar
+                            ? EditProfileStyles.avatarsActive
+                            : EditProfileStyles.avatars
+                        }
                         source={{ uri: avatar }}
                       ></Image>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   );
                 })}
               </View>

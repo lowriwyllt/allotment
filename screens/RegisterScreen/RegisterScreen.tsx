@@ -132,20 +132,22 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
       <View style={LoginStyle.avatarsContainer}>
         {avatarsArr?.map((avatar) => {
           return (
-            <TouchableHighlight
+            <TouchableOpacity
               key={avatar}
-              underlayColor={"#EE5D1F"}
-              activeOpacity={20}
               onPress={() => {
                 setAvatarUrl(avatar);
               }}
             >
               <Image
-                style={LoginStyle.avatars}
+                style={
+                  avatarUrl === avatar
+                    ? LoginStyle.avatarsActive
+                    : LoginStyle.avatars
+                }
                 key={avatar}
                 source={{ uri: avatar }}
               ></Image>
-            </TouchableHighlight>
+            </TouchableOpacity>
           );
         })}
       </View>
