@@ -19,7 +19,8 @@ import theme from "../../styles/theme.style";
 import DateModal from "./components/DateModal";
 import { UserType } from "../../types/Users.types";
 import { useIsFocused } from "@react-navigation/native";
-import { SinglePlantStyles } from "./SinglePlantScreen.style";
+import { SinglePlantStyles } from "../../styles/singlePlantsScreen.style";
+
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
@@ -141,7 +142,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
             <View>
               {sowingInstructions.map((instruction: string, index: number) => {
                 return (
-                  <View key={plantKeys[index]}>
+                  <View key={instruction}>
                     <Text>{instruction}</Text>
                   </View>
                 );
