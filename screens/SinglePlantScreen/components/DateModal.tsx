@@ -14,7 +14,8 @@ import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
 import { useNavigation } from "@react-navigation/native";
 import theme from "../../../styles/theme.style";
-import { SinglePlantStyles } from "../SinglePlantScreen.style";
+import { SinglePlantStyles } from "../../../styles/singlePlantsScreen.style";
+
 
 const DateModal = ({
   modalVisible,
