@@ -7,13 +7,12 @@ import Loggedin from "./screens/LOGGEDIN/Loggedin";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
-import {UserType} from "./types/Users.types";
+import { UserType } from "./types/Users.types";
 import theme from "./styles/theme.style";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 
 export default function App(): JSX.Element {
   const [currentUser, setCurrentUser] = useState<UserType | undefined>();
-
 
   const Stack = createNativeStackNavigator();
   const auth = getAuth();
@@ -30,7 +29,7 @@ export default function App(): JSX.Element {
         });
       }
     });
-  }, [])
+  }, []);
 
   return (
     <>
@@ -44,10 +43,13 @@ export default function App(): JSX.Element {
               headerShadowVisible: false,
             }}
           />
-          <Stack.Screen name="register"         options={{
-          headerStyle: { backgroundColor: theme.cream },
-          headerShadowVisible: false
-        }}>
+          <Stack.Screen
+            name="register"
+            options={{
+              headerStyle: { backgroundColor: theme.cream },
+              headerShadowVisible: false,
+            }}
+          >
             {(props) => (
               <RegisterScreen {...props} setCurrentUser={setCurrentUser} />
             )}

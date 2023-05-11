@@ -3,6 +3,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavDrawer } from "../NavDrawer/NavDrawer";
 import { UserType } from "../../types/Users.types";
+import PushNotification from "../../notifications/PushNotifications";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,11 +18,14 @@ const Loggedin = ({
     <Stack.Navigator>
       <Stack.Screen name="Root" options={{ headerShown: false }}>
         {(props) => (
-          <NavDrawer
-            {...props}
-            setCurrentUser={setCurrentUser}
-            currentUser={currentUser}
-          />
+          <>
+            <PushNotification />
+            <NavDrawer
+              {...props}
+              setCurrentUser={setCurrentUser}
+              currentUser={currentUser}
+            />
+          </>
         )}
       </Stack.Screen>
     </Stack.Navigator>
