@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { AllPlantProps } from "../../../types/Plants.types";
+import theme from "../../../styles/theme.style";
 
 type Marked = {
   [date: string]: {
@@ -118,6 +119,23 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
         <View style={styles.harvesting}></View>
       </View>
       <Calendar
+        style={{
+          borderWidth: 1,
+          borderColor: theme.cream,
+          height: 440,
+          backfaceVisibility: "hidden",
+        }}
+        theme={{
+          todayTextColor: theme.orange,
+          textDayFontWeight: "500",
+          textDayHeaderFontWeight: "400",
+          backgroundColor: theme.cream,
+          calendarBackground: theme.cream,
+          dayTextColor: theme.brown,
+          textSectionTitleColor: theme.green,
+          textDisabledColor: "#B0B0B0",
+          arrowColor: theme.orange,
+        }}
         onMonthChange={handleChangedMonth}
         initialDate={`${currentYear}-${currentMonth}-01`}
         markingType="multi-period"
@@ -126,11 +144,6 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
         maxDate={maxDate}
         disableArrowLeft={edge === "min" ? true : false}
         disableArrowRight={edge === "max" ? true : false}
-        style={{
-          borderWidth: 1,
-          borderColor: "grey",
-          height: 440,
-        }}
       />
     </SafeAreaView>
   );
@@ -139,7 +152,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    width: "90%",
+    width: "100%",
   },
   sowing: {
     marginLeft: 10,

@@ -21,6 +21,7 @@ import { UserType } from "../../types/Users.types";
 import { useIsFocused } from "@react-navigation/native";
 import { SinglePlantStyles } from "../../styles/singlePlantsScreen.style";
 
+
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
@@ -33,12 +34,11 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
   const { plantName } = route.params;
   const isFocused = useIsFocused();
-  
+
   useEffect(() => {
     setIsLoading(true);
     getPlantByName(plantName)
       .then((response) => {
-        //response type needs to be changed
         setPlant(response);
         if (response) {
           const plantKeys = response.sowingInstructions.map((instruction) => {
@@ -55,7 +55,6 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        // console.log(error);
         const { message, code } = error;
         setIsLoading(false);
         setError({ message, code });
@@ -75,7 +74,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         });
       }
     });
-  }, [plantName, existsInAllotment, isFocused]);
+  }, [isFocused]);
 
   const handleOnPressDelete = () => {
     deletePlantFromAllotment(currentUser.id, plant);
@@ -87,11 +86,9 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
     setModalVisible(true);
     setExistsInAllotment(true);
   };
-  // console.log(error);
 
-  // console.log("SinglePlantScreen");
   return (
-    <ScrollView>
+    <ScrollView style={SinglePlantStyles.page}>
       <View style={SinglePlantStyles.container}>
         <DateModal
           modalVisible={modalVisible}
@@ -100,36 +97,44 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
           plant={plant}
           currentUser={currentUser}
         />
-        <Text style={SinglePlantStyles.header}>{plantName}</Text>
         {isLoading ? (
-          <Text>Loading...</Text>
+          <Text style={SinglePlantStyles.loading}>Loading...</Text>
         ) : plant && !error ? (
           <>
-            <Text>{plant.scientificName}</Text>
-            <View style={SinglePlantStyles.imgContainer}>
-              <Image
-                style={SinglePlantStyles.plantImage}
-                source={{ uri: plant.img }}
-              ></Image>
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <View style={SinglePlantStyles.imgContainer}>
+                <Image
+                  style={SinglePlantStyles.plantImage}
+                  source={{ uri: plant.img }}
+                ></Image>
+              </View>
+              <View>
+                <Text style={SinglePlantStyles.header}>{plantName}</Text>
+                <Text>{plant.scientificName}</Text>
+              </View>
             </View>
             {existsInAllotment ? (
               <Pressable
-                style={SinglePlantStyles.button}
+                style={SinglePlantStyles.deleteButton}
                 onPress={handleOnPressDelete}
               >
-                <Text style={SinglePlantStyles.buttonText}>-</Text>
+                <Text style={SinglePlantStyles.buttonText}>
+                  remove from my allotment
+                </Text>
               </Pressable>
             ) : (
-              <Pressable style={SinglePlantStyles.button} onPress={addPlant}>
-                <Text style={SinglePlantStyles.buttonText}>+</Text>
+              <Pressable style={SinglePlantStyles.addButton} onPress={addPlant}>
+                <Text style={SinglePlantStyles.buttonText}>
+                  add to my allotment
+                </Text>
               </Pressable>
             )}
             <Text>
-              Minimum Temperature in Celcius: {plant.minTempCelcius}
+              Preferred temperature: {plant.minTempCelcius}
               {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
             </Text>
-            <Text>Sunlight needed: {plant.sunLight}</Text>
-            <Text>Watering needed: {plant.wateringFrequencyInDays}</Text>
+            <Text>Sunlight: {plant.sunLight}</Text>
+            <Text>Water every: {plant.wateringFrequencyInDays} days</Text>
             <CalendarSinglePlant plant={plant} />
             {plant.sowingInstructions.map((instruction) => {
               <Text>{instruction}</Text>;
