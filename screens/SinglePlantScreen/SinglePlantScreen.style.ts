@@ -6,7 +6,6 @@ export const SinglePlantStyles = StyleSheet.create({
     fontSize: theme.mainheader,
     fontWeight: "700",
     textAlign: "center",
-    marginTop: 20,
   },
   imgContainer: {
     width: 60,
@@ -16,6 +15,13 @@ export const SinglePlantStyles = StyleSheet.create({
     borderColor: theme.green,
     justifyContent: "center",
     alignItems: "center",
+},
+titleContainer: {
+    justifyContent: "center",
+    // alignItems: "center",
+    // borderWidth: 1,
+    height: 60,
+    padding: 0,
   },
   plantImage: {
     width: 40,
@@ -41,7 +47,7 @@ export const SinglePlantStyles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 10,
   },
   subheader: {
     fontSize: 20,
@@ -62,7 +68,7 @@ export const SinglePlantStyles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 10,
   },
   cancel: {
     backgroundColor: "lightgrey", // chose green as original was feature which doesnt exist

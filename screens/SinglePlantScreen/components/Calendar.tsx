@@ -122,6 +122,7 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
         style={{
           borderWidth: 1,
           borderColor: theme.cream,
+          borderRadius: 10,
           height: 440,
           backfaceVisibility: "hidden",
         }}
@@ -129,7 +130,7 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
           todayTextColor: theme.orange,
           textDayFontWeight: "500",
           textDayHeaderFontWeight: "400",
-          backgroundColor: theme.cream,
+          backgroundColor: theme.lightcream,
           calendarBackground: theme.cream,
           dayTextColor: theme.brown,
           textSectionTitleColor: theme.green,

@@ -100,14 +100,14 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
           <Text style={SinglePlantStyles.loading}>Loading...</Text>
         ) : plant && !error ? (
           <>
-            <View style={{ display: "flex", flexDirection: "row" }}>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10, marginBottom: 10}}>
               <View style={SinglePlantStyles.imgContainer}>
                 <Image
                   style={SinglePlantStyles.plantImage}
                   source={{ uri: plant.img }}
                 ></Image>
               </View>
-              <View>
+              <View style={SinglePlantStyles.titleContainer}>
                 <Text style={SinglePlantStyles.header}>{plantName}</Text>
                 <Text>{plant.scientificName}</Text>
               </View>
