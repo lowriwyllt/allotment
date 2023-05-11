@@ -7,6 +7,7 @@ import { TaskType, UserType } from "../../types/Users.types";
 import theme from "../../styles/theme.style";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from "@react-navigation/native";
+import PushNotification from "../../notifications/PushNotifications";
 
 export default function TodaysTasks({
   currentUser,
@@ -116,6 +117,11 @@ export default function TodaysTasks({
           data={loadMorePressed ? tasks : todaysTasks}
           renderItem={({ item, index }) => (
             <View style={taskStyles.individualTask}>
+              <PushNotification
+                date={item.nextTaskDate}
+                notiBody={item.body}
+                notiTitle={`${item.plant} time!`}
+              />
               {item.img ? (
                 <View style={taskStyles.taskImgContainer}>
                   <Image
