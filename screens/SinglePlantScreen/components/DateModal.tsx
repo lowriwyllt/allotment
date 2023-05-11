@@ -79,7 +79,8 @@ const DateModal = ({
       <View style={SinglePlantStyles.centeredView}>
         <View style={SinglePlantStyles.modalView}>
           <Text style={SinglePlantStyles.modalText}>
-            {plantName} have been added to your allotment! ✅
+            What day did you sow {plantName} to your allotment? 🌱
+            {/* {plantName} have been added to your allotment! ✅ */}
           </Text>
           <Text>Date planted: {date.toLocaleString()}</Text>
           {showDate ? (

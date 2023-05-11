@@ -90,9 +90,9 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   };
 
   const addPlant = () => {
-    addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
+    // addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
     setModalVisible(true);
-    setExistsInAllotment(true);
+    // setExistsInAllotment(true);
   };
 
   return (
