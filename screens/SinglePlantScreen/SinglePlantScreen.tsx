@@ -112,6 +112,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
                 <Text>{plant.scientificName}</Text>
               </View>
             </View>
+            <CalendarSinglePlant plant={plant} />
             {existsInAllotment ? (
               <Pressable
                 style={SinglePlantStyles.deleteButton}
@@ -128,21 +129,25 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
                 </Text>
               </Pressable>
             )}
-            <Text>
-              Preferred temperature: {plant.minTempCelcius}
-              {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
-            </Text>
-            <Text>Sunlight: {plant.sunLight}</Text>
-            <Text>Water every: {plant.wateringFrequencyInDays} days</Text>
-            <CalendarSinglePlant plant={plant} />
+            <View style={SinglePlantStyles.infoContainer}>
+              <Text style={SinglePlantStyles.temp}>
+                Preferred temperature: {plant.minTempCelcius}
+                {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
+              </Text>
+              <Text style={SinglePlantStyles.sun}>Preferred weather: {plant.sunLight} sunlight</Text>
+              <Text style={ SinglePlantStyles.water}>Watering schedule: every {plant.wateringFrequencyInDays} days</Text>
+            </View>
             {plant.sowingInstructions.map((instruction) => {
               <Text>{instruction}</Text>;
             })}
             <View>
+              <Text style={SinglePlantStyles.subheader}>
+                Sowing Instructions
+              </Text>
               {sowingInstructions.map((instruction: string, index: number) => {
                 return (
                   <View key={plantKeys[index]}>
-                    <Text>{instruction}</Text>
+                    <Text style={SinglePlantStyles.body}>{instruction}</Text>
                   </View>
                 );
               })}
