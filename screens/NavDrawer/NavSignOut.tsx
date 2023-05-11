@@ -5,8 +5,10 @@ import {
 } from "@react-navigation/drawer";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import theme from "../../styles/theme.style";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const NavSignOut = (props: any): JSX.Element => {
   const navigation = useNavigation<any>();
@@ -21,40 +23,54 @@ const NavSignOut = (props: any): JSX.Element => {
   };
 
   return (
-    <DrawerContentScrollView
-      {...props}
-      contentContainerStyle={styles.container}
-    >
-      <>
+    <SafeAreaView style={styles.container}>
+      <View>
         <DrawerItemList {...props} />
-        <DrawerItem
-          label="Sign out"
-          labelStyle={styles.label}
-          onPress={handleSignOut}
-          style={styles.button}
-        />
-      </>
-    </DrawerContentScrollView>
+      </View>
+      <View style={styles.signOutButtonContainer}>
+        <TouchableOpacity onPress={handleSignOut}>
+          <Text style={styles.signOutButton}>Sign Out</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+    // <DrawerContentScrollView
+    //   {...props}
+    //   contentContainerStyle={styles.container}
+    // >
+    //   <>
+    //     <DrawerItemList {...props} />
+    //     <DrawerItem
+    //       label="Sign out"
+    //       labelStyle={styles.label}
+    //       onPress={handleSignOut}
+    //       style={styles.button}
+    //     />
+    //   </>
+    // </DrawerContentScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: theme.green,
-    width: "50%",
+  signOutButtonContainer: {
     position: "absolute",
     bottom: 20,
+    backgroundColor: theme.green,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
     alignSelf: "center",
   },
-  label: {
+  signOutButton: {
     color: "white",
     fontWeight: "700",
     textAlign: "center",
   },
   container: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
+    flex: 1,
   },
 });
 export default NavSignOut;
