@@ -55,7 +55,16 @@ const EditProfileStyles = StyleSheet.create({
     height: 70,
     borderRadius: 50,
     resizeMode: "cover",
-    marginTop: 20,
+    borderColor: theme.brown,
+    borderWidth: 1,
+  },
+  avatarsActive: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    resizeMode: "cover",
+    borderColor: theme.orange,
+    borderWidth: 4,
   },
   textButton: {
     fontWeight: "bold",

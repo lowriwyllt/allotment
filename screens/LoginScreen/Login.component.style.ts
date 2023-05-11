@@ -14,7 +14,7 @@ const LoginStyle = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.cream,
-    height: "100%"
+    height: "100%",
   },
   background: {
     width: "100%",
@@ -101,6 +101,14 @@ const LoginStyle = StyleSheet.create({
     resizeMode: "cover",
     borderColor: theme.brown,
     borderWidth: 1,
+  },
+  avatarsActive: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    resizeMode: "cover",
+    borderColor: theme.orange,
+    borderWidth: 4,
   },
 });
 
