@@ -37,7 +37,7 @@ export default function HomeScreen({
       console.log("plants", response);
       setAllotment(response);
     });
-  }, [isFocused]);
+  }, [isFocused, currentUser?.id]);
 
   // const handleAddTask = () => {
   //   addTask(currentUser?.id, task); //neeeds a task to be added
