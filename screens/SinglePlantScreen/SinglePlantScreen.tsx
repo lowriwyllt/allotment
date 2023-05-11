@@ -32,7 +32,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
   const { plantName } = route.params;
   const isFocused = useIsFocused();
-  
+
   useEffect(() => {
     setIsLoading(true);
     getPlantByName(plantName)
@@ -65,13 +65,20 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
     getPlantsFromAllotment(currentUser.id).then((response) => {
       if (response && plant) {
         setAllotmentPlants(response);
-        response.forEach((userPlant) => {
-          if (userPlant.id === plant.name) {
-            setExistsInAllotment(true);
-          } else {
-            setExistsInAllotment(false);
-          }
-        });
+        response.filter((userPlant) => userPlant.id === plant.name);
+        if (response.length > 0) {
+          setExistsInAllotment(true);
+        } else {
+          setExistsInAllotment(false);
+        }
+
+        // response.forEach((userPlant) => {
+        //   if (userPlant.id === plant.name) {
+        //     setExistsInAllotment(true);
+        //   } else {
+        //     setExistsInAllotment(false);
+        //   }
+        // });
       }
     });
   }, [plantName, existsInAllotment, isFocused]);
