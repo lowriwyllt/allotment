@@ -104,6 +104,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
           plantName={plantName}
           plant={plant}
           currentUser={currentUser}
+          setExistsInAllotment={setExistsInAllotment}
         />
         {isLoading ? (
           <Text style={SinglePlantStyles.loading}>Loading...</Text>

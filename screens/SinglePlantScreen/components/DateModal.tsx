@@ -21,12 +21,14 @@ const DateModal = ({
   plantName,
   plant,
   currentUser,
+  setExistsInAllotment,
 }: {
   modalVisible: boolean;
   setModalVisible: (bool: boolean) => void;
   plantName: string;
   plant: PlantType | undefined;
   currentUser: any;
+  setExistsInAllotment: (bool: boolean) => void;
 }) => {
   const defaultDate = new Date();
   const [date, setDate] = useState<string>(formatDate(defaultDate));
@@ -63,6 +65,7 @@ const DateModal = ({
     addPlantToAllotment(currentUser.id, plant, date);
     setModalVisible(!modalVisible);
     createTwoButtonAlert();
+    setExistsInAllotment(true);
     // needs to change "Ryan to a user Id"
   };
 
