@@ -8,6 +8,7 @@ import {
   Image,
   Pressable,
   TouchableHighlight,
+  Platform,
 } from "react-native";
 import { useState, useEffect } from "react";
 import {
@@ -116,7 +117,7 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
     // <ScrollView>
     <KeyboardAvoidingView
       style={LoginStyle.registerContainer}
-      behavior="padding"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <Text
         style={{
