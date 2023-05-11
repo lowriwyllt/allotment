@@ -1,4 +1,11 @@
-import { Pressable, Image, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { getAllPlantImages } from "../../firebase/database";
 import { useEffect, useState } from "react";
@@ -17,14 +24,16 @@ const AllPlantsScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.subheading}>Tap a plant to see more details</Text>
-      <View style={styles.buttons}>
-        {plants?.map((plant) => {
-          return <PlantButton key={plant.name} plant={plant} />;
-        })}
+    <ScrollView style={{ backgroundColor: theme.cream }}>
+      <View style={styles.container}>
+        <Text style={styles.subheading}>Tap a plant to see more details</Text>
+        <View style={styles.buttons}>
+          {plants?.map((plant) => {
+            return <PlantButton key={plant.name} plant={plant} />;
+          })}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -42,13 +51,14 @@ const styles = StyleSheet.create({
     color: theme.lightcream,
     fontSize: 17,
     fontWeight: "600",
-    backgroundColor: theme.orange
+    backgroundColor: theme.orange,
   },
   container: {
     width: "100%",
     flex: 1,
     alignItems: "center",
     backgroundColor: theme.cream,
+    marginBottom: 40,
   },
   buttons: {
     paddingTop: 20,
