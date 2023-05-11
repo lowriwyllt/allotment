@@ -6,7 +6,6 @@ export const SinglePlantStyles = StyleSheet.create({
     fontSize: theme.mainheader,
     fontWeight: "700",
     textAlign: "center",
-    marginTop: 20,
   },
   imgContainer: {
     width: 60,
@@ -16,6 +15,13 @@ export const SinglePlantStyles = StyleSheet.create({
     borderColor: theme.green,
     justifyContent: "center",
     alignItems: "center",
+},
+titleContainer: {
+    justifyContent: "center",
+    // alignItems: "center",
+    // borderWidth: 1,
+    height: 60,
+    padding: 0,
   },
   plantImage: {
     width: 40,
@@ -41,7 +47,19 @@ export const SinglePlantStyles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 10,
+  },
+  subheader: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: theme.green,
+    padding: 10,
+    textAlign: "center",
+  },
+  body: {
+    color: theme.brown,
+    padding: 10,
+    fontWeight: "600"
   },
   deleteButton: {
     backgroundColor: theme.orange, // chose green as original was feature which doesnt exist
@@ -50,7 +68,7 @@ export const SinglePlantStyles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 10,
   },
   cancel: {
     backgroundColor: "lightgrey", // chose green as original was feature which doesnt exist
@@ -117,4 +135,44 @@ export const SinglePlantStyles = StyleSheet.create({
   loading: {
     alignSelf: "center",
   },
+  infoContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
+    paddingTop:10,
+    paddingBottom:10,
+  },
+  temp: {
+    borderWidth:1,
+    width: "32%",
+    borderRadius: 10,
+    borderColor: theme.green,
+    padding: 4,
+    textAlign: "center",
+    fontSize: 12,
+    fontWeight: "600",
+    color: theme.green,
+},
+sun: {
+    borderWidth: 1,
+    width: "32%",
+    borderRadius: 10,
+    borderColor: theme.green,
+    padding: 4,
+    textAlign: "center",
+    fontSize: 12,
+    fontWeight: "600",
+    color: theme.green
+},
+water: {
+    borderWidth: 1,
+    width: "32%",
+    borderRadius: 10,
+    borderColor: theme.green,
+    padding: 4,
+    textAlign: "center",
+    fontSize: 12,
+    fontWeight: "600",
+    color: theme.green
+}
 });
