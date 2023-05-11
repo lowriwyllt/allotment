@@ -12,12 +12,8 @@ import {
   addDoc,
   arrayUnion,
   getDoc,
-  
 } from "firebase/firestore";
-import {
-  PlantType,
-  PlantTypeForAll,
-} from "../types/Plants.types";
+import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 import { UserType, createUserProps, TaskType } from "../types/Users.types";
 import genUniqueId from "./utils/utils";
 const db = getFirestore(app);
@@ -88,7 +84,7 @@ export const addPlantToAllotment = async (
         wateringTaskEndDate.getDate() + plant.maxDaysUntilHarvest
       );
       const wateringTask = {
-        img: "", //maybe this should be water icon
+        img: "https://firebasestorage.googleapis.com/v0/b/allotment-cc7dd.appspot.com/o/tasks%2Fwatering-can.png?alt=media&token=85e577a3-2a79-4553-8dd2-2bec67a62c7b", //maybe this should be water icon
         completed: false,
         body: `Water your ${plant?.name}`,
         repeatsInDays: plant?.wateringFrequencyInDays,
@@ -112,7 +108,7 @@ export const addPlantToAllotment = async (
         HarvestingtaskEndDate.getDate() + plant.maxDaysUntilHarvest
       );
       const harvestingTask = {
-        img: "", //maybe this should be spade icon
+        img: "https://firebasestorage.googleapis.com/v0/b/allotment-cc7dd.appspot.com/o/tasks%2Fharvesting.png?alt=media&token=d04789e6-99a3-41c7-9595-ad0c68eb50a3", //maybe this should be spade icon
         completed: false,
         body: `Harvest your ${plant?.name}`,
         repeatsInDays: 0, //never
@@ -150,14 +146,14 @@ export const deletePlantFromAllotment = async (
 };
 
 export const getPlantsFromAllotment = async (userId: string) => {
-  console.log("getPlantsFromAllotment")
-  const result: any[] = []
+  console.log("getPlantsFromAllotment");
+  const result: any[] = [];
   try {
     const allotmentPlants = await getDocs(
       collection(db, "users", userId, "allotment")
     );
     allotmentPlants.forEach((doc) => {
-      result.push(doc.data())
+      result.push(doc.data());
     });
     return result;
   } catch (err) {
@@ -327,7 +323,7 @@ export const setTaskCompleted = async (
 //     allotment.forEach((plantDoc) => {
 //       result.push({ img: plantDoc.data().img, name: plantDoc.data().id });
 //     });
-//     return result; 
+//     return result;
 //   } catch (err) {
 //     console.log(err);
 //   }

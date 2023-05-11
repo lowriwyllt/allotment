@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View} from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { homeStyles } from "./Home.component.style";
 import CalendarSinglePlant from "../SinglePlantScreen/components/Calendar";
@@ -15,12 +15,10 @@ export default function HomeScreen({
   currentUser,
   tasks,
   setTasks,
-
 }: {
   currentUser: UserType | undefined;
   tasks: any;
   setTasks: any;
-
 }): JSX.Element {
   const navigation = useNavigation<any>();
   const [task, setTask] = useState({
@@ -35,12 +33,11 @@ export default function HomeScreen({
   const isFocused = useIsFocused();
 
   useEffect(() => {
-
     getPlantsFromAllotment(currentUser?.id).then((response: any) => {
-      console.log('plants', response);
+      console.log("plants", response);
       setAllotment(response);
-    })
-  }, [isFocused])
+    });
+  }, [isFocused, currentUser?.id]);
 
   // const handleAddTask = () => {
   //   addTask(currentUser?.id, task); //neeeds a task to be added
@@ -74,16 +71,13 @@ export default function HomeScreen({
         {allotment?.map((plant: any) => {
           return (
             <AllotmentPlantButton key={plant.name} plant={plant} />
-          // <TouchableOpacity onPress={handleClickPlant} style={homeStyles.touchableOpacity}>
+            // <TouchableOpacity onPress={handleClickPlant} style={homeStyles.touchableOpacity}>
 
-          // <Image style={homeStyles.crop} source={{uri: plant.img}}/>
-          // </TouchableOpacity>
-          )
+            // <Image style={homeStyles.crop} source={{uri: plant.img}}/>
+            // </TouchableOpacity>
+          );
         })}
 
-      
-
-        
         {/* <Image style={homeStyles.crop} source={require('../../crops/broccoli/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/cabbage/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/carrot/5.png')}/>
@@ -95,7 +89,7 @@ export default function HomeScreen({
         <Image style={homeStyles.crop} source={require('../../crops/pumpkin/5.png')}/>
         <Image style={homeStyles.crop} source={require('../../crops/tomato/5.png')}/> */}
       </View>
-      <Text style={homeStyles.header}>Welcome, Peter!</Text>
+      <Text style={homeStyles.header}>Welcome, {currentUser?.name}!</Text>
       <View style={homeStyles.bodyContainer}>
         <TasksList
           currentUser={currentUser}

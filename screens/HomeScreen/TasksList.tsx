@@ -116,16 +116,26 @@ export default function TodaysTasks({
           data={loadMorePressed ? tasks : todaysTasks}
           renderItem={({ item, index }) => (
             <View style={taskStyles.individualTask}>
-              <Image
-                style={taskStyles.taskImg}
-                source={
-                  item.img
-                    ? { uri: item.img }
-                    : {
-                        uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
-                      }
-                }
-              ></Image>
+              {item.img ? (
+                <View style={taskStyles.taskImgContainer}>
+                  <Image
+                    style={
+                      item.category === "watering"
+                        ? taskStyles.wateringTaskImg
+                        : taskStyles.harvestingTaskImg
+                    }
+                    source={{ uri: item.img }}
+                  ></Image>
+                </View>
+              ) : (
+                <Image
+                  style={taskStyles.taskImgContainer}
+                  source={{
+                    uri: "https://upload.wikimedia.org/wikipedia/commons/3/3b/PlaceholderRoss.png",
+                  }}
+                ></Image>
+              )}
+
               <View style={taskStyles.taskContainer}>
                 <Text
                   style={
@@ -208,14 +218,29 @@ const taskStyles = StyleSheet.create({
     fontWeight: "800",
     textAlign: "left",
   },
-  taskImg: {
+  taskImgContainer: {
     marginLeft: 5,
     width: 40,
     height: 40,
     borderRadius: 50,
     resizeMode: "cover",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     // borderColor: theme.brown,
     // borderWidth: 1,
+  },
+  wateringTaskImg: {
+    margin: 5,
+    width: 30,
+    height: 30,
+    resizeMode: "cover",
+  },
+  harvestingTaskImg: {
+    margin: 5,
+    width: 22,
+    height: 30,
+    resizeMode: "cover",
   },
   bodyLate: {
     color: theme.orange,

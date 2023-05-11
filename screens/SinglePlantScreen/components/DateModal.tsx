@@ -13,9 +13,7 @@ import { formatDate } from "../../utils/utils";
 import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
 import { useNavigation } from "@react-navigation/native";
-import theme from "../../../styles/theme.style";
-import { SinglePlantStyles } from "../../../styles/singlePlantsScreen.style";
-
+import { SinglePlantStyles } from "../SinglePlantScreen.style";
 
 const DateModal = ({
   modalVisible,
@@ -81,7 +79,8 @@ const DateModal = ({
       <View style={SinglePlantStyles.centeredView}>
         <View style={SinglePlantStyles.modalView}>
           <Text style={SinglePlantStyles.modalText}>
-            {plantName} have been added to your allotment! ✅
+            What day did you sow {plantName} to your allotment? 🌱
+            {/* {plantName} have been added to your allotment! ✅ */}
           </Text>
           <Text>Date planted: {date.toLocaleString()}</Text>
           {showDate ? (
@@ -101,7 +100,7 @@ const DateModal = ({
               <Text>Change Date</Text>
             </TouchableOpacity>
           )}
-          <View style={{display:"flex", width: "100%"}}>
+          <View style={{ display: "flex", width: "100%" }}>
             <TouchableOpacity
               style={SinglePlantStyles.cancel}
               onPress={() => setModalVisible(!modalVisible)}

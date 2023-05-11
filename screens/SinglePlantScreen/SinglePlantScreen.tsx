@@ -19,8 +19,7 @@ import theme from "../../styles/theme.style";
 import DateModal from "./components/DateModal";
 import { UserType } from "../../types/Users.types";
 import { useIsFocused } from "@react-navigation/native";
-import { SinglePlantStyles } from "../../styles/singlePlantsScreen.style";
-
+import { SinglePlantStyles } from "./SinglePlantScreen.style";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
@@ -63,10 +62,12 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
 
   useEffect(() => {
     getPlantsFromAllotment(currentUser.id).then((response) => {
-      if (response && plant) {
+      if (response && plantName) {
         setAllotmentPlants(response);
-        response.filter((userPlant) => userPlant.id === plant.name);
-        if (response.length > 0) {
+        const currentPlantInAllotment = response.filter(
+          (userPlant) => userPlant.id === plantName
+        );
+        if (currentPlantInAllotment.length > 0) {
           setExistsInAllotment(true);
         } else {
           setExistsInAllotment(false);
@@ -81,7 +82,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         // });
       }
     });
-  }, [isFocused]);
+  }, [isFocused, plantName]);
 
   const handleOnPressDelete = () => {
     deletePlantFromAllotment(currentUser.id, plant);
@@ -89,9 +90,9 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   };
 
   const addPlant = () => {
-    addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
+    // addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
     setModalVisible(true);
-    setExistsInAllotment(true);
+    // setExistsInAllotment(true);
   };
 
   return (
@@ -108,7 +109,14 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
           <Text style={SinglePlantStyles.loading}>Loading...</Text>
         ) : plant && !error ? (
           <>
-            <View style={{ display: "flex", flexDirection: "row", gap: 10, marginBottom: 10}}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 10,
+                marginBottom: 10,
+              }}
+            >
               <View style={SinglePlantStyles.imgContainer}>
                 <Image
                   style={SinglePlantStyles.plantImage}
@@ -142,8 +150,12 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
                 Preferred temperature: {plant.minTempCelcius}
                 {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
               </Text>
-              <Text style={SinglePlantStyles.sun}>Preferred weather: {plant.sunLight} sunlight</Text>
-              <Text style={ SinglePlantStyles.water}>Watering schedule: every {plant.wateringFrequencyInDays} days</Text>
+              <Text style={SinglePlantStyles.sun}>
+                Preferred weather: {plant.sunLight} sunlight
+              </Text>
+              <Text style={SinglePlantStyles.water}>
+                Watering schedule: every {plant.wateringFrequencyInDays} days
+              </Text>
             </View>
             {plant.sowingInstructions.map((instruction) => {
               <Text>{instruction}</Text>;
