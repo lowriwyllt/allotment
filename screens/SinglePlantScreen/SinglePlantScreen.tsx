@@ -19,8 +19,7 @@ import theme from "../../styles/theme.style";
 import DateModal from "./components/DateModal";
 import { UserType } from "../../types/Users.types";
 import { useIsFocused } from "@react-navigation/native";
-import { SinglePlantStyles } from "../../styles/singlePlantsScreen.style";
-
+import { SinglePlantStyles } from "./SinglePlantScreen.style";
 
 //--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
@@ -108,7 +107,14 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
           <Text style={SinglePlantStyles.loading}>Loading...</Text>
         ) : plant && !error ? (
           <>
-            <View style={{ display: "flex", flexDirection: "row", gap: 10, marginBottom: 10}}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 10,
+                marginBottom: 10,
+              }}
+            >
               <View style={SinglePlantStyles.imgContainer}>
                 <Image
                   style={SinglePlantStyles.plantImage}
@@ -142,8 +148,12 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
                 Preferred temperature: {plant.minTempCelcius}
                 {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
               </Text>
-              <Text style={SinglePlantStyles.sun}>Preferred weather: {plant.sunLight} sunlight</Text>
-              <Text style={ SinglePlantStyles.water}>Watering schedule: every {plant.wateringFrequencyInDays} days</Text>
+              <Text style={SinglePlantStyles.sun}>
+                Preferred weather: {plant.sunLight} sunlight
+              </Text>
+              <Text style={SinglePlantStyles.water}>
+                Watering schedule: every {plant.wateringFrequencyInDays} days
+              </Text>
             </View>
             {plant.sowingInstructions.map((instruction) => {
               <Text>{instruction}</Text>;
