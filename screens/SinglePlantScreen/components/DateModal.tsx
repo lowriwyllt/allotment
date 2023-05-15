@@ -1,11 +1,15 @@
 import { Alert, Modal, Text, TouchableOpacity, View } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useState } from "react";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
+import { ChangeEvent, useState } from "react";
 import { formatDate } from "../../utils/utils";
 import { addPlantToAllotment } from "../../../firebase/database";
 import { PlantType } from "../../../types/Plants.types";
 import { useNavigation } from "@react-navigation/native";
 import { SinglePlantStyles } from "../SinglePlantScreen.style";
+import { UserType } from "../../../types/Users.types";
+import { DrawerNavigationType } from "../../../types/Navigation.types";
 
 const DateModal = ({
   modalVisible,
@@ -19,15 +23,15 @@ const DateModal = ({
   setModalVisible: (bool: boolean) => void;
   plantName: string;
   plant: PlantType | undefined;
-  currentUser: any;
+  currentUser: UserType;
   setExistsInAllotment: (bool: boolean) => void;
 }) => {
   const defaultDate = new Date();
   const [date, setDate] = useState<string>(formatDate(defaultDate));
   const [showDate, setShowDate] = useState<boolean>(false);
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<DrawerNavigationType>();
 
-  const handleOnChange = (event: any, selectedDate?: Date) => {
+  const handleOnChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
       setDate(formatDate(selectedDate));
       setShowDate(false);

@@ -17,8 +17,14 @@ import theme from "../../styles/theme.style";
 import { collection, addDoc, DocumentReference } from "firebase/firestore";
 import { app } from "../../firebaseConfig";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { UserType } from "../../types/Users.types";
+import { DrawerNavigationType } from "../../types/Navigation.types";
 
-export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
+export const RegisterScreen = ({
+  setCurrentUser,
+}: {
+  setCurrentUser: (user: UserType) => void;
+}): JSX.Element => {
   const [name, setName] = useState<string>("");
   const [allotment, setAllotment] = useState<Array<Object>>([]);
   const [email, setEmail] = useState<string>("");
@@ -29,7 +35,7 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
   const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
   const [emailLowerCase, setEmailLowerCase] = useState<string>("");
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<DrawerNavigationType>();
 
   const db = getFirestore(app);
 
@@ -42,7 +48,7 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("home");
+        navigation.navigate("home");
       }
     });
     return unsubscribe;
@@ -68,7 +74,7 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
       };
       await setDoc(userRef, userData);
 
-      navigation.replace("home");
+      navigation.navigate("home");
     } catch (error: any) {
       alert(error.message);
     }

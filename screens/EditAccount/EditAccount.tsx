@@ -14,29 +14,35 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import EditProfileStyles from "./EditAccount.component.style";
 import { useNavigation } from "@react-navigation/native";
 import { patchUser, getAvatars } from "../../firebase/database";
-import { getAuth, updateEmail, sendPasswordResetEmail } from "firebase/auth";
+import {
+  getAuth,
+  updateEmail,
+  sendPasswordResetEmail,
+  User,
+} from "firebase/auth";
 import { UserType } from "../../types/Users.types";
 import theme from "../../styles/theme.style";
+import { DrawerNavigationType } from "../../types/Navigation.types";
 
 export default function EditAccount({
   currentUser,
   setCurrentUser,
 }: {
-  currentUser: UserType | undefined;
-  setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
+  currentUser: UserType;
+  setCurrentUser: Dispatch<SetStateAction<UserType>>;
 }): JSX.Element {
-  const [newAvatarUrl, setNewAvatarUrl] = useState<string | undefined>(
-    currentUser?.avatarUrl
+  const [newAvatarUrl, setNewAvatarUrl] = useState<string>(
+    currentUser?.avatarUrl as string
   );
-  const [newName, setNewName] = useState<string | undefined>(currentUser?.name);
-  const [newEmail, setNewEmail] = useState<string | null | undefined>(
-    currentUser?.email
+  const [newName, setNewName] = useState<string>(currentUser?.name as string);
+  const [newEmail, setNewEmail] = useState<string>(
+    currentUser?.email as string
   );
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [avatarsArr, setAvatarsArr] = useState<string[] | undefined>([]);
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<DrawerNavigationType>();
   const auth = getAuth();
 
   useEffect(() => {
@@ -45,12 +51,8 @@ export default function EditAccount({
     });
   }, []);
 
-  const handleSubmit = (
-    name: string | undefined,
-    email: string | null | undefined,
-    avatarUrl: string | undefined
-  ) => {
-    const user: any = auth.currentUser;
+  const handleSubmit = (name: string, email: string, avatarUrl: string) => {
+    const user: User | null = auth.currentUser;
 
     if (email === currentUser?.email) {
       patchUser(currentUser?.id, name, email, avatarUrl).then(() => {
@@ -60,7 +62,7 @@ export default function EditAccount({
       });
       navigation.navigate("Account");
     } else {
-      updateEmail(user, email as string).catch((err) => {
+      updateEmail(user as User, email as string).catch((err) => {
         console.log(err);
       });
       patchUser(currentUser?.id, name, email, avatarUrl).then(() => {
@@ -71,7 +73,7 @@ export default function EditAccount({
       auth
         .signOut()
         .then(() => {
-          navigation.replace("login");
+          navigation.navigate("login");
         })
         .catch((err) => alert(err.message));
     }
@@ -154,7 +156,11 @@ export default function EditAccount({
           </View>
           <TouchableOpacity
             onPress={() =>
-              handleSubmit(newName, currentUser?.email, newAvatarUrl || "")
+              handleSubmit(
+                newName,
+                currentUser?.email as string,
+                newAvatarUrl || ""
+              )
             }
           >
             <Text
@@ -182,7 +188,7 @@ export default function EditAccount({
               handleSubmit(
                 currentUser?.name,
                 newEmail || "",
-                currentUser?.avatarUrl
+                currentUser?.avatarUrl as string
               )
             }
           >

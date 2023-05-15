@@ -1,6 +1,5 @@
 import {
-  DrawerContentScrollView,
-  DrawerItem,
+  DrawerContentComponentProps,
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { auth } from "../../firebaseConfig";
@@ -9,15 +8,16 @@ import { StyleSheet, Text, View } from "react-native";
 import theme from "../../styles/theme.style";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { DrawerNavigationType } from "../../types/Navigation.types";
 
-const NavSignOut = (props: any): JSX.Element => {
-  const navigation = useNavigation<any>();
+const NavSignOut = (props: DrawerContentComponentProps): JSX.Element => {
+  const navigation = useNavigation<DrawerNavigationType>();
 
   const handleSignOut = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("login");
+        navigation.navigate("login");
       })
       .catch((err) => alert(err.message));
   };

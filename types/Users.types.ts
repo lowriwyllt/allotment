@@ -1,11 +1,13 @@
+import { AllotmentPlant } from "./Plants.types";
+
 export type UserType = {
   name: string;
   email: string | null;
   avatarUrl?: string;
   displayName?: string;
   allotment: Array<Object>;
-  id: any;
-  usersPlants: any;
+  id: string;
+  usersPlants: AllotmentPlant[];
 };
 
 export type createUserProps = {

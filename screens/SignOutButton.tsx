@@ -2,15 +2,16 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { auth } from "../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import theme from "../styles/theme.style";
+import { DrawerNavigationType } from "../types/Navigation.types";
 
 const SignOutButton = (): JSX.Element => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<DrawerNavigationType>();
 
   const handleSignOut = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("login");
+        navigation.navigate("login");
       })
       .catch((err) => alert(err.message));
   };

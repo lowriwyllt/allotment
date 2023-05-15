@@ -14,12 +14,14 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import LoginStyle from "./Login.component.style";
+import { DrawerNavigationType } from "../../types/Navigation.types";
+import { FirebaseError } from "firebase/app";
 
 export default function LoginScreen(): JSX.Element {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<DrawerNavigationType>();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -101,7 +103,4 @@ export default function LoginScreen(): JSX.Element {
       </KeyboardAvoidingView>
     </>
   );
-}
-function useFonts(arg0: { munro: any }): [any] {
-  throw new Error("Function not implemented.");
 }

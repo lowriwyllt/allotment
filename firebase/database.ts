@@ -10,7 +10,11 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { PlantType, PlantTypeForAll } from "../types/Plants.types";
+import {
+  AllotmentPlant,
+  PlantType,
+  PlantTypeForAll,
+} from "../types/Plants.types";
 import { UserType, createUserProps, TaskType } from "../types/Users.types";
 const db = getFirestore(app);
 
@@ -172,13 +176,13 @@ export const deletePlantFromAllotment = async (
 
 export const getPlantsFromAllotment = async (userId: string) => {
   console.log("getPlantsFromAllotment");
-  const result: any[] = [];
+  const result: AllotmentPlant[] = [];
   try {
     const allotmentPlants = await getDocs(
       collection(db, "users", userId, "allotment")
     );
     allotmentPlants.forEach((doc) => {
-      result.push(doc.data());
+      result.push(doc.data() as AllotmentPlant);
     });
     return result;
   } catch (err) {
@@ -198,16 +202,16 @@ export const addTask = async (userId: string, task: TaskType | undefined) => {
   }
 };
 
-export const getTasks = async (userId: any) => {
+export const getTasks = async (userId: string) => {
   console.log("inside getTasks");
 
   try {
-    const tasks: any = [];
+    const tasks: TaskType[] = [];
     const q = query(collection(db, "users", userId, "tasks"));
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      tasks.push(doc.data());
+      tasks.push(doc.data() as TaskType);
     });
     return tasks;
   } catch (err) {
@@ -240,7 +244,7 @@ export const getAvatars = async () => {
 
     const avatars = await getDocs(collection(db, "avatars"));
     avatars.forEach((doc) => {
-      result.push(doc.data().URL);
+      result.push(doc.data().URL as string);
     });
     return result;
   } catch (err) {
@@ -256,7 +260,10 @@ export const getAllPlantImages = async () => {
   try {
     const plants = await getDocs(collection(db, "plants"));
     plants.forEach((plantDoc) => {
-      result.push({ img: plantDoc.data().img, name: plantDoc.data().name });
+      result.push({
+        img: plantDoc.data().img,
+        name: plantDoc.data().name,
+      } as PlantTypeForAll);
     });
     return result;
   } catch (err) {

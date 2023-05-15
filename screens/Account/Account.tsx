@@ -3,13 +3,14 @@ import { useNavigation } from "@react-navigation/native";
 import { UserType } from "../../types/Users.types";
 import { AccountStyles } from "./Account.component.style";
 import theme from "../../styles/theme.style";
+import { DrawerNavigationType } from "../../types/Navigation.types";
 
 export default function Account({
   currentUser,
 }: {
-  currentUser: UserType | undefined;
+  currentUser: UserType;
 }): JSX.Element {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<DrawerNavigationType>();
 
   return (
     <ScrollView style={{ backgroundColor: theme.lightcream }}>

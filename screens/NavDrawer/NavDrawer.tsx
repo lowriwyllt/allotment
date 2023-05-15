@@ -5,7 +5,7 @@ import SinglePlantScreen from "../SinglePlantScreen/SinglePlantScreen";
 import NavSignOut from "./NavSignOut";
 import Account from "../Account/Account";
 import EditAccount from "../EditAccount/EditAccount";
-import { UserType } from "../../types/Users.types";
+import { TaskType, UserType } from "../../types/Users.types";
 import { Dispatch, SetStateAction, useState } from "react";
 import theme from "../../styles/theme.style";
 
@@ -15,10 +15,10 @@ export const NavDrawer = ({
   currentUser,
   setCurrentUser,
 }: {
-  currentUser: UserType | undefined;
-  setCurrentUser: Dispatch<SetStateAction<UserType | undefined>>;
+  currentUser: UserType;
+  setCurrentUser: Dispatch<SetStateAction<UserType>>;
 }): JSX.Element => {
-  const [tasks, setTasks] = useState<any>([]);
+  const [tasks, setTasks] = useState<TaskType[]>([]);
   return (
     <Drawer.Navigator
       screenOptions={{

@@ -3,9 +3,10 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { PlantProps } from "../../../types/Plants.types";
 import theme from "../../../styles/theme.style";
+import { DrawerNavigationType } from "../../../types/Navigation.types";
 
 const PlantButton = ({ plant }: PlantProps) => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<DrawerNavigationType>();
   const handlePress = () => {
     navigation.navigate("plant", { plantName: plant.name });
   };

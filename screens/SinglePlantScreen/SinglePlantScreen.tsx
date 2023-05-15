@@ -8,36 +8,55 @@ import {
 import { AllotmentPlant, PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
 import DateModal from "./components/DateModal";
-import { useIsFocused } from "@react-navigation/native";
+import {
+  ParamListBase,
+  RouteProp,
+  useIsFocused,
+} from "@react-navigation/native";
 import { SinglePlantStyles } from "./SinglePlantScreen.style";
+import { UserType } from "../../types/Users.types";
 
-const SinglePlantScreen = ({ route, currentUser }: any) => {
+type SinglePlantScreenParams = { plantName?: string };
+
+// type SinglePlantScreenParams = {
+//   route: RouteProp<ParamListBase, "plant">;
+//   currentUser: UserType;
+// };
+
+type PlantScreenRouteProp = RouteProp<ParamListBase, "plant">;
+
+interface SinglePlantScreenProps {
+  currentUser: UserType;
+  route: PlantScreenRouteProp & {
+    params?: SinglePlantScreenParams;
+  };
+  navigation: any;
+}
+
+const SinglePlantScreen = ({ route, currentUser }: SinglePlantScreenProps) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const [error, setError] = useState<any>(false);
+  const [error, setError] = useState<
+    boolean | { message: string; code: string }
+  >(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [plantKeys, setPlantKeys] = useState<any>([]);
-  const [sowingInstructions, setSowingInstructions] = useState<any>([]);
+  const [sowingInstructions, setSowingInstructions] = useState<string[]>([]);
   const [allotmentPlants, setAllotmentPlants] = useState<AllotmentPlant[]>([]);
   const [existsInAllotment, setExistsInAllotment] = useState<boolean>(false);
-  const { plantName } = route.params;
+  const { plantName = "" } = route.params || {};
   const isFocused = useIsFocused();
 
   useEffect(() => {
     setIsLoading(true);
-    getPlantByName(plantName)
+    getPlantByName(plantName as string)
       .then((response) => {
         setPlant(response);
         if (response) {
-          const plantKeys = response.sowingInstructions.map((instruction) => {
-            return instruction.slice(0, 2);
-          });
           const sowingInstructions = response.sowingInstructions.map(
             (instruction) => {
               return instruction;
             }
           );
-          setPlantKeys(plantKeys);
           setSowingInstructions(sowingInstructions);
         }
         setIsLoading(false);
@@ -80,7 +99,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         <DateModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          plantName={plantName}
+          plantName={plantName as string}
           plant={plant}
           currentUser={currentUser}
           setExistsInAllotment={setExistsInAllotment}

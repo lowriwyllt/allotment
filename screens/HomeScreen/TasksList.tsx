@@ -14,10 +14,10 @@ export default function TodaysTasks({
   setTasks,
   taskAdded,
 }: {
-  currentUser: UserType | undefined;
-  tasks: any;
-  setTasks: any;
-  taskAdded: any;
+  currentUser: UserType;
+  tasks: TaskType[];
+  setTasks: (tasks: TaskType[]) => void;
+  taskAdded: boolean;
 }): JSX.Element {
   const [todaysTasks, setTodaysTasks] = useState<TaskType[]>([]);
   const [todaysTaskListEmpty, setTodaysTaskListEmpty] =
@@ -34,31 +34,31 @@ export default function TodaysTasks({
       setLoading(true);
       getTasks(currentUser?.id)
         .then((tasks) => {
-          if (tasks.length === 0) {
+          if (tasks?.length === 0) {
             console.log("inside if statement for no tasks");
             setTodaysTaskListEmpty(true);
             console.log(taskListEmpty);
             setLoading(false);
           } else {
             setTaskListEmpty(false);
-            tasks.sort(
+            tasks?.sort(
               (a: TaskType, b: TaskType) =>
                 new Date(a.nextTaskDate).getTime() -
                 new Date(b.nextTaskDate).getTime()
             );
-            setTasks(tasks);
+            setTasks(tasks as TaskType[]);
 
             const today = new Date();
 
-            const todays = tasks.filter((task: any) => {
+            const todays = tasks?.filter((task: TaskType) => {
               if (task.nextTaskDate === today.toLocaleDateString("en-CA")) {
                 console.log(task);
                 return task;
               }
             });
-            setTodaysTasks(todays);
+            setTodaysTasks(todays as TaskType[]);
             console.log("todays->>>", todays);
-            if (!todays.length) {
+            if (!todays?.length) {
               setTodaysTaskListEmpty(true);
             } else {
               setTodaysTaskListEmpty(false);
@@ -66,10 +66,10 @@ export default function TodaysTasks({
 
             setLoading(false);
 
-            const completedTasks = tasks.map((task: any) => {
+            const completedTasks = tasks?.map((task: TaskType) => {
               return task.completed;
             });
-            setCompletedTasks(completedTasks);
+            setCompletedTasks(completedTasks as boolean[]);
           }
         })
         .catch((err) => {
