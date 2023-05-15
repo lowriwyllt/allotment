@@ -9,9 +9,6 @@ import {
   where,
   updateDoc,
   deleteDoc,
-  addDoc,
-  arrayUnion,
-  getDoc,
 } from "firebase/firestore";
 import { PlantType, PlantTypeForAll } from "../types/Plants.types";
 import { UserType, createUserProps, TaskType } from "../types/Users.types";

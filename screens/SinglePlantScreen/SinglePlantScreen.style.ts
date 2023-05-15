@@ -15,18 +15,15 @@ export const SinglePlantStyles = StyleSheet.create({
     borderColor: theme.green,
     justifyContent: "center",
     alignItems: "center",
-},
-titleContainer: {
+  },
+  titleContainer: {
     justifyContent: "center",
-    // alignItems: "center",
-    // borderWidth: 1,
     height: 60,
     padding: 0,
   },
   plantImage: {
     width: 40,
     height: 50,
-    // borderRadius: 50,
     resizeMode: "contain",
   },
   page: {
@@ -38,10 +35,9 @@ titleContainer: {
     minHeight: "100%",
     width: "95%",
     alignSelf: "center",
-    // padding: 50,
   },
   addButton: {
-    backgroundColor: theme.green, // chose green as original was feature which doesnt exist
+    backgroundColor: theme.green,
     width: "100%",
     height: 40,
     justifyContent: "center",
@@ -59,10 +55,10 @@ titleContainer: {
   body: {
     color: theme.brown,
     padding: 10,
-    fontWeight: "600"
+    fontWeight: "600",
   },
   deleteButton: {
-    backgroundColor: theme.orange, // chose green as original was feature which doesnt exist
+    backgroundColor: theme.orange,
     width: "100%",
     height: 40,
     justifyContent: "center",
@@ -71,7 +67,7 @@ titleContainer: {
     marginTop: 10,
   },
   cancel: {
-    backgroundColor: "lightgrey", // chose green as original was feature which doesnt exist
+    backgroundColor: "lightgrey",
     width: "100%",
     height: 40,
     justifyContent: "center",
@@ -80,7 +76,7 @@ titleContainer: {
     marginTop: 15,
   },
   confirm: {
-    backgroundColor: theme.orange, // chose green as original was feature which doesnt exist
+    backgroundColor: theme.orange,
     width: "100%",
     height: 40,
     justifyContent: "center",
@@ -97,7 +93,6 @@ titleContainer: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    //   marginTop: 22,
     marginBottom: 20,
   },
   modalView: {
@@ -129,9 +124,6 @@ titleContainer: {
     color: theme.green,
     maxWidth: "80%",
   },
-  // buttonClose: {
-  //   backgroundColor: "#2196F3",
-  // },
   loading: {
     alignSelf: "center",
   },
@@ -139,11 +131,11 @@ titleContainer: {
     display: "flex",
     flexDirection: "row",
     gap: 5,
-    paddingTop:10,
-    paddingBottom:10,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   temp: {
-    borderWidth:1,
+    borderWidth: 1,
     width: "32%",
     borderRadius: 10,
     borderColor: theme.green,
@@ -152,8 +144,8 @@ titleContainer: {
     fontSize: 12,
     fontWeight: "600",
     color: theme.green,
-},
-sun: {
+  },
+  sun: {
     borderWidth: 1,
     width: "32%",
     borderRadius: 10,
@@ -162,9 +154,9 @@ sun: {
     textAlign: "center",
     fontSize: 12,
     fontWeight: "600",
-    color: theme.green
-},
-water: {
+    color: theme.green,
+  },
+  water: {
     borderWidth: 1,
     width: "32%",
     borderRadius: 10,
@@ -173,6 +165,6 @@ water: {
     textAlign: "center",
     fontSize: 12,
     fontWeight: "600",
-    color: theme.green
-}
+    color: theme.green,
+  },
 });

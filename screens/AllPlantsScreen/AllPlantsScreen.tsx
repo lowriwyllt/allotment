@@ -1,18 +1,10 @@
-import {
-  Pressable,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React from "react";
 import { getAllPlantImages } from "../../firebase/database";
 import { useEffect, useState } from "react";
 import PlantButton from "./Component/PlantButton";
 import { PlantTypeForAll } from "../../types/Plants.types";
 import theme from "../../styles/theme.style";
-import { UserType } from "../../types/Users.types";
 
 const AllPlantsScreen = () => {
   const [plants, setPlants] = useState<PlantTypeForAll[] | undefined>([]);

@@ -4,13 +4,11 @@ import theme from "../../styles/theme.style";
 const LoginStyle = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: theme.brown,
   },
   registerContainer: {
     flex: 1,
-    // justifyContent: "flex-start",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.cream,
@@ -19,13 +17,10 @@ const LoginStyle = StyleSheet.create({
   background: {
     width: "100%",
     height: 400,
-    // resizeMode: "contain",
     zIndex: -99999,
-    // top: 0,
     position: "absolute",
   },
   header: {
-    // fontWeight: "bold",
     fontSize: 40,
     fontWeight: "bold",
     paddingTop: 20,
@@ -42,7 +37,6 @@ const LoginStyle = StyleSheet.create({
   allotmentimg: {
     width: "80%",
     resizeMode: "contain",
-    // marginTop: 50
   },
   inputContainer: {
     width: "80%",

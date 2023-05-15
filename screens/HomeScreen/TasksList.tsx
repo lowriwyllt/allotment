@@ -2,7 +2,6 @@ import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import { getTasks, setTaskCompleted } from "../../firebase/database";
 import { useEffect, useState } from "react";
 import Checkbox from "expo-checkbox";
-import LoginStyle from "../LoginScreen/Login.component.style";
 import { TaskType, UserType } from "../../types/Users.types";
 import theme from "../../styles/theme.style";
 import { TouchableOpacity } from "react-native-gesture-handler";

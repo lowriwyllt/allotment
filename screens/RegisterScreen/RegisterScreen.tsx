@@ -1,26 +1,18 @@
 import {
   KeyboardAvoidingView,
   Text,
-  ScrollView,
   TextInput,
   TouchableOpacity,
   View,
   Image,
-  Pressable,
-  TouchableHighlight,
   Platform,
 } from "react-native";
 import { useState, useEffect } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-  User,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, User } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import LoginStyle from "../LoginScreen/Login.component.style";
-import { createUser, getAvatars } from "../../firebase/database";
+import { getAvatars } from "../../firebase/database";
 import theme from "../../styles/theme.style";
 import { collection, addDoc, DocumentReference } from "firebase/firestore";
 import { app } from "../../firebaseConfig";
@@ -73,37 +65,10 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
         email: emailLowerCase,
         avatarUrl: avatarUrl,
         allotment: allotment,
-      }; // insert the id among the data
-      await setDoc(userRef, userData); // create the document
-
-      // setEmail(email.toLowerCase());
-      // try {
-      //   const { user }: { user: User } = await createUserWithEmailAndPassword(
-      //     auth,
-      //     email.toLowerCase(),
-      //     password
-      //   );
-
-      //   const docRef = await addDoc(collection(db, "users"), {
-      //     name: name,
-      //     email: emailLowerCase,
-      //     avatarUrl: avatarUrl,
-      //     allotment: allotment
-      //   });
-
-      //   await updateProfile(user, { displayName: name });
-      //   await createUser(docRef);
-      //   setCurrentUser(docRef.id);
+      };
+      await setDoc(userRef, userData);
 
       navigation.replace("home");
-    } catch (error: any) {
-      alert(error.message);
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       alert(error.message);
     }
@@ -114,7 +79,6 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
   };
 
   return (
-    // <ScrollView>
     <KeyboardAvoidingView
       style={LoginStyle.registerContainer}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -172,7 +136,7 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
           value={password}
           onChangeText={(text) => setPassword(text)}
           style={LoginStyle.input}
-          secureTextEntry //changes what you type into dots
+          secureTextEntry
         />
       </View>
 
@@ -182,6 +146,5 @@ export const RegisterScreen = ({ setCurrentUser }: any): JSX.Element => {
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
-    // </ScrollView>
   );
 };

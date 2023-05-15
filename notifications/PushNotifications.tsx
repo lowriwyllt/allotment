@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { Text, View, Button, Platform } from "react-native";
+import { Platform } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+
 const PushNotification = ({ date, notiTitle, notiBody }: any) => {
   const [expoPushToken, setExpoPushToken] = useState<String | undefined>("");
   const [notification, setNotification] = useState<Boolean>(false);
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
-  const carrotDate = new Date(`${date}T11:32:30`);
+  const carrotDate = new Date(`${date}T14:26:00`);
   const startTimer = (countDownDate: any, notificationObj: any) => {
     //var countDownDate: any = carrotDate;
     var x = setInterval(function () {

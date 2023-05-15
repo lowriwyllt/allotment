@@ -33,20 +33,6 @@ const NavSignOut = (props: any): JSX.Element => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-    // <DrawerContentScrollView
-    //   {...props}
-    //   contentContainerStyle={styles.container}
-    // >
-    //   <>
-    //     <DrawerItemList {...props} />
-    //     <DrawerItem
-    //       label="Sign out"
-    //       labelStyle={styles.label}
-    //       onPress={handleSignOut}
-    //       style={styles.button}
-    //     />
-    //   </>
-    // </DrawerContentScrollView>
   );
 };
 

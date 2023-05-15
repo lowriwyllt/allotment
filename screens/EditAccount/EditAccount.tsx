@@ -9,7 +9,6 @@ import {
   Modal,
   Pressable,
   Alert,
-  TouchableHighlight,
 } from "react-native";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import EditProfileStyles from "./EditAccount.component.style";

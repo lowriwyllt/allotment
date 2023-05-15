@@ -1,27 +1,16 @@
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
-  addPlantToAllotment,
   getPlantByName,
   deletePlantFromAllotment,
   getPlantsFromAllotment,
 } from "../../firebase/database";
 import { AllotmentPlant, PlantType } from "../../types/Plants.types";
 import CalendarSinglePlant from "./components/Calendar";
-import theme from "../../styles/theme.style";
 import DateModal from "./components/DateModal";
-import { UserType } from "../../types/Users.types";
 import { useIsFocused } from "@react-navigation/native";
 import { SinglePlantStyles } from "./SinglePlantScreen.style";
 
-//--------------------------------need to change any----------------------------------------
 const SinglePlantScreen = ({ route, currentUser }: any) => {
   const [plant, setPlant] = useState<PlantType | undefined>();
   const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -72,14 +61,6 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
         } else {
           setExistsInAllotment(false);
         }
-
-        // response.forEach((userPlant) => {
-        //   if (userPlant.id === plant.name) {
-        //     setExistsInAllotment(true);
-        //   } else {
-        //     setExistsInAllotment(false);
-        //   }
-        // });
       }
     });
   }, [isFocused, plantName]);
@@ -90,9 +71,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
   };
 
   const addPlant = () => {
-    // addPlantToAllotment(currentUser.id, plant, "TBC"); // needs to change "Ryan to a user Id"
     setModalVisible(true);
-    // setExistsInAllotment(true);
   };
 
   return (
@@ -149,7 +128,7 @@ const SinglePlantScreen = ({ route, currentUser }: any) => {
             <View style={SinglePlantStyles.infoContainer}>
               <Text style={SinglePlantStyles.temp}>
                 Preferred temperature: {plant.minTempCelcius}
-                {"\u00B0"}C{/*  "\u00B0" is the symbol for degrees */}
+                {"\u00B0"}C
               </Text>
               <Text style={SinglePlantStyles.sun}>
                 Preferred weather: {plant.sunLight} sunlight

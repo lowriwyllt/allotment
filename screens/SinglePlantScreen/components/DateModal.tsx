@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Modal,
-  Pressable,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Modal, Text, TouchableOpacity, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { formatDate } from "../../utils/utils";
@@ -66,7 +58,6 @@ const DateModal = ({
     setModalVisible(!modalVisible);
     createTwoButtonAlert();
     setExistsInAllotment(true);
-    // needs to change "Ryan to a user Id"
   };
 
   return (
@@ -83,7 +74,6 @@ const DateModal = ({
         <View style={SinglePlantStyles.modalView}>
           <Text style={SinglePlantStyles.modalText}>
             What day did you sow {plantName} to your allotment? 🌱
-            {/* {plantName} have been added to your allotment! ✅ */}
           </Text>
           <Text>Date planted: {date.toLocaleString()}</Text>
           {showDate ? (

@@ -23,17 +23,15 @@ export const SinglePlantStyles = StyleSheet.create({
   plantImage: {
     width: 50,
     height: 50,
-    //   borderRadius: 50,
     resizeMode: "cover",
   },
   container: {
     flex: 1,
     alignItems: "center",
     backgroundColor: theme.lightcream,
-    // padding: 50,
   },
   button: {
-    backgroundColor: theme.green, // chose green as original was feature which doesnt exist
+    backgroundColor: theme.green,
     width: 40,
     height: 40,
     justifyContent: "center",
@@ -77,7 +75,4 @@ export const SinglePlantStyles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
   },
-  // buttonClose: {
-  //   backgroundColor: "#2196F3",
-  // },
 });

@@ -45,7 +45,6 @@ export default function LoginScreen(): JSX.Element {
   };
 
   return (
-    // <ScrollView>
     <>
       <KeyboardAvoidingView
         style={LoginStyle.container}
@@ -55,12 +54,10 @@ export default function LoginScreen(): JSX.Element {
           source={require("../../crops/farm.png")}
           style={LoginStyle.background}
         />
-        {/* <Text style={LoginStyle.header}>allotment</Text> */}
         <Image
           source={require("../../crops/allotment.png")}
           style={LoginStyle.allotmentimg}
         />
-        {/* <Text style={LoginStyle.subheading}>Start your journey today [insert message here] by logging in or registering...</Text> */}
         <View style={LoginStyle.inputContainer}>
           <TextInput
             placeholder="Email"
@@ -75,7 +72,7 @@ export default function LoginScreen(): JSX.Element {
             value={password}
             onChangeText={(text) => setPassword(text)}
             style={LoginStyle.input}
-            secureTextEntry //changes what you type into dots
+            secureTextEntry
           />
         </View>
 
@@ -103,7 +100,6 @@ export default function LoginScreen(): JSX.Element {
         </View>
       </KeyboardAvoidingView>
     </>
-    // {/* </ScrollView> */}
   );
 }
 function useFonts(arg0: { munro: any }): [any] {
