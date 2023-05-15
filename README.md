@@ -22,11 +22,27 @@ Our allotment app is an app that allows you to add which vegtables you have grow
 ### Plants
 There is a plants page where you can click on a plant to take you to the single plant page for that specific plant.  Here you will see more details about the plant such as how often they need to be watered, how much sunlight they require and minimum temperature they prefer.  Also, on this page is a calendar showing the sowing window and the harvesting window.  From this page you can add the plant to your virtual allotment, or remove them if you have already added them to your virtual allotment.
 
+<div>
+  <img src="assets/PlantPage.jpg" alt="Screenshot of Single Plant page for Cabbage in the allotment app" width= "300"/>
+<img src="assets/AddPlant.jpg" alt="Screenshot of Single Plant page for Cucumber in the allotment app, while adding a plant to the allotment with the modal open" width= "300"/>
+</div>
+  
 ### My Virtual Allotment
 My allotment is the first page you get to when logged in / registered, this page shows the plants you have growing in your virtual allotment and the tasks you need to complete today to keep your plants happy.  You can click on any of the plants in your allotment to take you to the single plant page for that plant to see all their details.  You can also tick tasks you have completed from this page as well as see tasks from future days by clicking "load more..."
 
+<div>
+
+<img src="assets/Allotment.jpg" alt="Screenshot of My Allotment page in the allotment app" width= "300"/>
+  <img src="assets/MoreTasks.jpg" alt="Screenshot of My Allotment page in the allotment app, with more tasks been loaded and a task being ticked off" width= "300"/>
+</div>
+
 ### Account
 When you register you should register with an email, name, avatar of your choosing and a password.  These can all be changed from within the app on the "Edit Account" from within the "Account" screen.
+<div>
+<img src="assets/Login.jpg" alt="Screenshot of Login page in the allotment app" width= "300"/>
+<img src="assets/Account.jpg" alt="Screenshot of Account page in the allotment app" width= "300"/>
+  <img src="assets/EditAccount.jpg" alt="Screenshot of Edit Account page in the allotment app" width= "300"/>
+</div>
 
 ## Technologies
 ### Planning and originisation
