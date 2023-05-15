@@ -8,20 +8,21 @@ const PushNotification = ({ date, notiTitle, notiBody }: any) => {
   const [notification, setNotification] = useState<Boolean>(false);
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
-  const carrotDate = new Date(`${date}T14:26:00`);
+
+  const notificationDate = new Date(`${date}T14:26:00`);
+
   const startTimer = (countDownDate: any, notificationObj: any) => {
-    //var countDownDate: any = carrotDate;
-    var x = setInterval(function () {
-      var now = new Date().getTime();
-      var distance = countDownDate - now;
-      // console.log(distance);
-      if (distance < 1000 && distance > -500) {
+    let x = setInterval(function () {
+      let now = new Date().getTime();
+      let timeUntilNotification = countDownDate - now;
+      if (timeUntilNotification < 1000 && timeUntilNotification > -500) {
         clearInterval(x);
-        CarrotTime(notificationObj);
+        NotificationTime(notificationObj);
       }
     }, 1000);
   };
-  startTimer(carrotDate, {
+
+  startTimer(notificationDate, {
     content: {
       title: notiTitle,
       body: notiBody,
@@ -29,7 +30,7 @@ const PushNotification = ({ date, notiTitle, notiBody }: any) => {
     },
     trigger: { seconds: 2 },
   });
-  // handles the notification
+
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
@@ -37,7 +38,7 @@ const PushNotification = ({ date, notiTitle, notiBody }: any) => {
       shouldSetBadge: false,
     }),
   });
-  //useEffect to render token
+
   useEffect(() => {
     registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token))
@@ -63,7 +64,7 @@ const PushNotification = ({ date, notiTitle, notiBody }: any) => {
 };
 
 // actual notifications that we will see
-async function CarrotTime(NotifiObj: any) {
+async function NotificationTime(NotifiObj: any) {
   await Notifications.scheduleNotificationAsync(NotifiObj);
 }
 
