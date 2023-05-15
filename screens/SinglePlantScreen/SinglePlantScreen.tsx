@@ -15,13 +15,9 @@ import {
 } from "@react-navigation/native";
 import { SinglePlantStyles } from "./SinglePlantScreen.style";
 import { UserType } from "../../types/Users.types";
+import { DrawerNavigationType } from "../../types/Navigation.types";
 
 type SinglePlantScreenParams = { plantName?: string };
-
-// type SinglePlantScreenParams = {
-//   route: RouteProp<ParamListBase, "plant">;
-//   currentUser: UserType;
-// };
 
 type PlantScreenRouteProp = RouteProp<ParamListBase, "plant">;
 
@@ -30,7 +26,7 @@ interface SinglePlantScreenProps {
   route: PlantScreenRouteProp & {
     params?: SinglePlantScreenParams;
   };
-  navigation: any;
+  navigation: DrawerNavigationType;
 }
 
 const SinglePlantScreen = ({ route, currentUser }: SinglePlantScreenProps) => {
