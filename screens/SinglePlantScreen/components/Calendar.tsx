@@ -3,12 +3,7 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { AllPlantProps } from "../../../types/Plants.types";
 import theme from "../../../styles/theme.style";
-
-type Marked = {
-  [date: string]: {
-    periods: { startingDay: boolean; endingDay: boolean; color: string }[];
-  };
-};
+import { CalenderDateType, Marked } from "../../../types/Calendar.types";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = String(new Date().getMonth() + 1).padStart(2, "0");
@@ -88,14 +83,6 @@ const CalendarSinglePlant = ({ plant }: AllPlantProps): JSX.Element => {
       }
     });
     return marked;
-  };
-
-  type CalenderDateType = {
-    dateString: string;
-    day: number;
-    month: number;
-    timestamp: number;
-    year: number;
   };
 
   const handleChangedMonth = (calenderDate: CalenderDateType) => {

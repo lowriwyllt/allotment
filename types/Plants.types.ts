@@ -43,16 +43,17 @@ export type AllPlantProps = {
 };
 
 export type AllotmentPlant = {
-    datePlanted: string;
-    img: string;
-    maxDaysUntilHarvest: number;
-    minDaysUntilHarvest: number;
-    minTempCelcius: number;
-    name: string;
-    scientificName: string;
-    sowingInstructions: string[];
-    sowingStartDate: string;
-    sowingWindowInDays: number;
-    sunLight: string;
-    wateringFrequencyInDays: number;
+  id: string;
+  datePlanted: string;
+  img: string;
+  maxDaysUntilHarvest: number;
+  minDaysUntilHarvest: number;
+  minTempCelcius: number;
+  name: string;
+  scientificName: string;
+  sowingInstructions: string[];
+  sowingStartDate: string;
+  sowingWindowInDays: number;
+  sunLight: string;
+  wateringFrequencyInDays: number;
 };

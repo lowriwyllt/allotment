@@ -4,7 +4,7 @@ import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
 import "react-native-gesture-handler";
 import Loggedin from "./screens/LOGGEDIN/Loggedin";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserByEmail } from "./firebase/database";
 import { UserType } from "./types/Users.types";
@@ -24,7 +24,7 @@ export default function App(): JSX.Element {
           console.log("this is the problem response");
           if (response) {
             console.log("this is the problem response if statement");
-            setCurrentUser(response);
+            setCurrentUser(response as UserType);
           }
         });
       }
@@ -61,8 +61,10 @@ export default function App(): JSX.Element {
             {(props) => (
               <Loggedin
                 {...props}
-                setCurrentUser={setCurrentUser}
-                currentUser={currentUser}
+                setCurrentUser={
+                  setCurrentUser as Dispatch<SetStateAction<UserType>>
+                }
+                currentUser={currentUser as UserType}
               />
             )}
           </Stack.Screen>

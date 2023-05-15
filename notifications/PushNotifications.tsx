@@ -2,26 +2,34 @@ import { useState, useEffect, useRef } from "react";
 import { Platform } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import {
+  NotificationObjType,
+  notificationProps,
+} from "../types/Notification.types";
 
-const PushNotification = ({ date, notiTitle, notiBody }: any) => {
+const PushNotification = ({ date, notiTitle, notiBody }: notificationProps) => {
   const [expoPushToken, setExpoPushToken] = useState<String | undefined>("");
   const [notification, setNotification] = useState<Boolean>(false);
-  const notificationListener = useRef<any>();
-  const responseListener = useRef<any>();
-  const carrotDate = new Date(`${date}T14:26:00`);
-  const startTimer = (countDownDate: any, notificationObj: any) => {
-    //var countDownDate: any = carrotDate;
-    var x = setInterval(function () {
-      var now = new Date().getTime();
-      var distance = countDownDate - now;
-      // console.log(distance);
-      if (distance < 1000 && distance > -500) {
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
+
+  const notificationDate = new Date(`${date}T14:26:00`);
+
+  const startTimer = (
+    countDownDate: Date,
+    notificationObj: NotificationObjType
+  ) => {
+    let x = setInterval(function () {
+      let now = new Date().getTime();
+      let timeUntilNotification = countDownDate.getTime() - now;
+      if (timeUntilNotification < 1000 && timeUntilNotification > -500) {
         clearInterval(x);
-        CarrotTime(notificationObj);
+        NotificationTime(notificationObj);
       }
     }, 1000);
   };
-  startTimer(carrotDate, {
+
+  startTimer(notificationDate, {
     content: {
       title: notiTitle,
       body: notiBody,
@@ -29,7 +37,7 @@ const PushNotification = ({ date, notiTitle, notiBody }: any) => {
     },
     trigger: { seconds: 2 },
   });
-  // handles the notification
+
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
@@ -37,7 +45,7 @@ const PushNotification = ({ date, notiTitle, notiBody }: any) => {
       shouldSetBadge: false,
     }),
   });
-  //useEffect to render token
+
   useEffect(() => {
     registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token))
@@ -45,25 +53,29 @@ const PushNotification = ({ date, notiTitle, notiBody }: any) => {
         console.log(err);
       });
     notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification: any) => {
-        setNotification(notification);
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(true);
       });
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
       });
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
+      if (notificationListener.current) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      }
+      if (responseListener.current) {
+        Notifications.removeNotificationSubscription(responseListener.current);
+      }
     };
   }, []);
   return <></>;
 };
 
 // actual notifications that we will see
-async function CarrotTime(NotifiObj: any) {
+async function NotificationTime(NotifiObj: NotificationObjType) {
   await Notifications.scheduleNotificationAsync(NotifiObj);
 }
 
