@@ -1,6 +1,6 @@
 # Allotment
 
-Welcome to the Allotment app repository! This app is designed to help people who want to grow their own vegetables but don't know where to start. By bringing together various resources, our app aims to make it easier for you to begin your gardening journey. Allotment allows you to grow virtual vegetables alongside the ones in your physical allotment, providing you with a list of tasks to keep your plants happy and thriving.
+Welcome to the Allotment app repository! This app is designed to help people who want to grow their own vegetables but don't know where to start. By bringing together various resources, our app aims to make it easier for you to begin your gardening journey. Allotment allows you to grow virtual vegetables alongside the ones in your physical allotment, providing you with a list of tasks to keep your plants happy and thriving.  For more details go to : https://northcoders.com/projects/may-2023/allotment .
 
 This was my final project at Northcoders (05/2023). This was made by my team [Peter Matthews](https://github.com/PeterM24), [Lily Levin](https://github.com/LpgLevin), [Connor Smith](https://github.com/connorwriter), [Ryan Karakoc](https://github.com/RyanKarakoc) and [Ross Hamilton](https://github.com/HamRoss).
 
